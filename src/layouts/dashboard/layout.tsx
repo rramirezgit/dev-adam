@@ -28,6 +28,7 @@ import { HeaderBase } from '../core/header-base';
 import { _workspaces } from '../config-nav-workspace';
 import { LayoutSection } from '../core/layout-section';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
+import { Searchbar } from '../components/searchbar/index';
 
 // ----------------------------------------------------------------------
 
@@ -94,6 +95,11 @@ export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
               signIn: false,
               purchase: false,
               helpLink: false,
+              localization: false,
+              contacts: false,
+              workspaces: false,
+              notifications: false,
+              searchbar: false,
             }}
             slots={{
               topArea: (
