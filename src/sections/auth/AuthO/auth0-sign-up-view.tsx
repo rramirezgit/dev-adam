@@ -19,11 +19,12 @@ import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import useAuth0Store from 'src/store/auth0Store';
+
 import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
 import { signUp } from 'src/auth/context/jwt';
-import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -44,9 +45,7 @@ export const SignUpSchema = zod.object({
 
 // ----------------------------------------------------------------------
 
-export function JwtSignUpView() {
-  const { checkUserSession } = useAuthContext();
-
+export function AtuhOSignUpView() {
   const router = useRouter();
 
   const password = useBoolean();
@@ -70,6 +69,8 @@ export function JwtSignUpView() {
     formState: { isSubmitting },
   } = methods;
 
+  const { register } = useAuth0Store();
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       await signUp({
@@ -78,7 +79,8 @@ export function JwtSignUpView() {
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      await checkUserSession?.();
+      await register(data.email, data.password);
+      // await checkUserSession?.();
 
       router.refresh();
     } catch (error) {
@@ -96,7 +98,7 @@ export function JwtSignUpView() {
           Already have an account?
         </Typography>
 
-        <Link component={RouterLink} href={paths.auth.jwt.signIn} variant="subtitle2">
+        <Link component={RouterLink} href={paths.auth.auth0.signIn} variant="subtitle2">
           Sign in
         </Link>
       </Stack>

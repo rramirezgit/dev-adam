@@ -31,6 +31,7 @@ export const paths = {
     },
     auth0: {
       signIn: `${ROOTS.AUTH}/auth0/sign-in`,
+      signUp: `${ROOTS.AUTH}/auth0/sign-up`,
     },
     supabase: {
       signIn: `${ROOTS.AUTH}/supabase/sign-in`,

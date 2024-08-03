@@ -6,10 +6,9 @@ import { paths } from 'src/routes/paths';
 import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
+import useAuth0Store from 'src/store/auth0Store';
 
 import { SplashScreen } from 'src/components/loading-screen';
-
-import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
 
@@ -24,13 +23,13 @@ export function AuthGuard({ children }: Props) {
 
   const searchParams = useSearchParams();
 
-  const { authenticated, loading } = useAuthContext();
+  const { isAuthenticated, isLoading } = useAuth0Store();
 
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString() || '');
       params.set(name, value);
 
       return params.toString();
@@ -39,11 +38,11 @@ export function AuthGuard({ children }: Props) {
   );
 
   const checkPermissions = async (): Promise<void> => {
-    if (loading) {
+    if (isLoading) {
       return;
     }
 
-    if (!authenticated) {
+    if (!isAuthenticated) {
       const { method } = CONFIG.auth;
 
       const signInPath = {
@@ -54,7 +53,7 @@ export function AuthGuard({ children }: Props) {
         supabase: paths.auth.supabase.signIn,
       }[method];
 
-      const href = `${signInPath}?${createQueryString('returnTo', pathname)}`;
+      const href = `${signInPath}?${createQueryString('returnTo', pathname || '/')}`;
 
       router.replace(href);
       return;
@@ -66,7 +65,7 @@ export function AuthGuard({ children }: Props) {
   useEffect(() => {
     checkPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated, loading]);
+  }, [isAuthenticated, isLoading]);
 
   if (isChecking) {
     return <SplashScreen />;

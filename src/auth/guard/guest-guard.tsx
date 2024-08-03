@@ -2,13 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
-import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { useRouter } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
+import useAuth0Store from 'src/store/auth0Store';
 
 import { SplashScreen } from 'src/components/loading-screen';
-
-import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
 
@@ -19,20 +18,18 @@ type Props = {
 export function GuestGuard({ children }: Props) {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-
-  const { loading, authenticated } = useAuthContext();
+  const { isAuthenticated, isLoading } = useAuth0Store();
 
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
-  const returnTo = searchParams.get('returnTo') || CONFIG.auth.redirectPath;
+  const returnTo = CONFIG.auth.redirectPath;
 
   const checkPermissions = async (): Promise<void> => {
-    if (loading) {
+    if (isLoading) {
       return;
     }
 
-    if (authenticated) {
+    if (isAuthenticated) {
       router.replace(returnTo);
       return;
     }
@@ -43,7 +40,7 @@ export function GuestGuard({ children }: Props) {
   useEffect(() => {
     checkPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated, loading]);
+  }, [isAuthenticated, isLoading]);
 
   if (isChecking) {
     return <SplashScreen />;

@@ -31,7 +31,7 @@ export type ConfigValue = {
     messagingSenderId: string;
   };
   amplify: { userPoolId: string; userPoolWebClientId: string; region: string };
-  auth0: { clientId: string; domain: string; callbackUrl: string };
+  auth0: { clientId: string; domain: string; callbackUrl: string; audience: string };
   supabase: { url: string; key: string };
 };
 
@@ -39,7 +39,7 @@ export type ConfigValue = {
 
 export const CONFIG: ConfigValue = {
   site: {
-    name: 'Minimals',
+    name: 'ADAM',
     serverUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? '',
     assetURL: process.env.NEXT_PUBLIC_ASSET_URL ?? '',
     basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? '',
@@ -51,7 +51,7 @@ export const CONFIG: ConfigValue = {
    * @method jwt | amplify | firebase | supabase | auth0
    */
   auth: {
-    method: 'jwt',
+    method: 'auth0',
     skip: false,
     redirectPath: paths.dashboard.root,
   },
@@ -88,6 +88,7 @@ export const CONFIG: ConfigValue = {
     clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID ?? '',
     domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN ?? '',
     callbackUrl: process.env.NEXT_PUBLIC_AUTH0_CALLBACK_URL ?? '',
+    audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE ?? '',
   },
   /**
    * Supabase
