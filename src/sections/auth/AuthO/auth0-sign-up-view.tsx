@@ -19,12 +19,13 @@ import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import useAuth0Store from 'src/store/auth0Store';
-
 import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
 import { signUp } from 'src/auth/context/jwt';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'src/store';
+import { register } from 'src/store/slices/auth0Store';
 
 // ----------------------------------------------------------------------
 
@@ -48,6 +49,8 @@ export const SignUpSchema = zod.object({
 export function AtuhOSignUpView() {
   const router = useRouter();
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const password = useBoolean();
 
   const [errorMsg, setErrorMsg] = useState('');
@@ -69,8 +72,6 @@ export function AtuhOSignUpView() {
     formState: { isSubmitting },
   } = methods;
 
-  const { register } = useAuth0Store();
-
   const onSubmit = handleSubmit(async (data) => {
     try {
       await signUp({
@@ -79,7 +80,7 @@ export function AtuhOSignUpView() {
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      await register(data.email, data.password);
+      await dispatch(register(data));
       // await checkUserSession?.();
 
       router.refresh();

@@ -5,9 +5,10 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
-import useAuth0Store from 'src/store/auth0Store';
 
 import { SplashScreen } from 'src/components/loading-screen';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +19,7 @@ type Props = {
 export function GuestGuard({ children }: Props) {
   const router = useRouter();
 
-  const { isAuthenticated, isLoading } = useAuth0Store();
+  const { isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
 
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
@@ -28,7 +29,6 @@ export function GuestGuard({ children }: Props) {
     if (isLoading) {
       return;
     }
-
     if (isAuthenticated) {
       router.replace(returnTo);
       return;

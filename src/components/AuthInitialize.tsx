@@ -2,20 +2,23 @@
 
 import React, { useEffect } from 'react';
 
-import useAuth0Store from 'src/store/auth0Store';
-
 import { SplashScreen } from './loading-screen';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'src/store';
+import { initializeAuth } from 'src/store/slices/auth0Store';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const AuthInitialize = ({ children }: Props) => {
-  const { isLoading, initializeAuth, isAuthenticated } = useAuth0Store();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
 
   useEffect(() => {
-    initializeAuth();
-  }, [initializeAuth]);
+    dispatch(initializeAuth());
+  }, []);
 
   if (isLoading) {
     return <SplashScreen />;

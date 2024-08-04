@@ -6,9 +6,10 @@ import { paths } from 'src/routes/paths';
 import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
-import useAuth0Store from 'src/store/auth0Store';
 
 import { SplashScreen } from 'src/components/loading-screen';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,7 @@ export function AuthGuard({ children }: Props) {
 
   const searchParams = useSearchParams();
 
-  const { isAuthenticated, isLoading } = useAuth0Store();
+  const { isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
 
   const [isChecking, setIsChecking] = useState<boolean>(true);
 

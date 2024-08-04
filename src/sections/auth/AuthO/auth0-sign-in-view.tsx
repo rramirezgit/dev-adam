@@ -19,10 +19,11 @@ import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import useAuth0Store from 'src/store/auth0Store';
-
 import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'src/store';
+import { login } from 'src/store/slices/auth0Store';
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +53,9 @@ export function AuthOSignInView() {
     resolver: zodResolver(SignInSchema),
   });
 
-  const { login, error } = useAuth0Store();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { error } = useSelector((state: RootState) => state.auth);
 
   const {
     handleSubmit,
@@ -60,12 +63,14 @@ export function AuthOSignInView() {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    await login(data.email, data.password);
+    await dispatch(login(data));
     router.refresh();
   });
 
   useEffect(() => {
     if (error) {
+      if (error === 'No access token available') return;
+
       setErrorMsg(error);
     }
   }, [error]);

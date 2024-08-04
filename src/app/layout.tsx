@@ -14,6 +14,7 @@ import AuthInitialize from 'src/components/AuthInitialize';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
+import { ReduxProvider } from 'src/store/Provider';
 
 // ----------------------------------------------------------------------
 
@@ -34,19 +35,20 @@ export default async function RootLayout({ children }: Props) {
     <html lang="en" suppressHydrationWarning>
       <body>
         {getInitColorSchemeScript}
-
-        <SettingsProvider
-          settings={settings}
-          caches={CONFIG.isStaticExport ? 'localStorage' : 'cookie'}
-        >
-          <ThemeProvider>
-            <MotionLazy>
-              <ProgressBar />
-              <SettingsDrawer />
-              <AuthInitialize>{children}</AuthInitialize>
-            </MotionLazy>
-          </ThemeProvider>
-        </SettingsProvider>
+        <ReduxProvider>
+          <SettingsProvider
+            settings={settings}
+            caches={CONFIG.isStaticExport ? 'localStorage' : 'cookie'}
+          >
+            <ThemeProvider>
+              <MotionLazy>
+                <ProgressBar />
+                <SettingsDrawer />
+                <AuthInitialize>{children}</AuthInitialize>
+              </MotionLazy>
+            </ThemeProvider>
+          </SettingsProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
