@@ -13,10 +13,7 @@ import {
 } from '@mui/material';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Iconify from 'src/components/iconify';
 import { useResponsive } from 'src/hooks/use-responsive';
-import { HEADER } from 'src/layouts/config-layout';
-import { RootState } from 'src/store';
 import {
   setDataImageCrop,
   setDataImageCroped,
@@ -24,10 +21,12 @@ import {
   setMenu,
   setcurrentNewsletter,
   updateValueInputNewsletter,
-} from 'src/store/slices/newsletter';
+} from 'src/store/slices/newsletterStore';
 /* eslint-disable prefer-arrow-callback */
 import { TransitionProps } from '@mui/material/transitions';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { RootState } from 'src/store';
+import { Iconify } from 'src/components/iconify';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -60,7 +59,7 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
   const mdUp = useResponsive('up', 'md');
 
   const drawerWidth = mdUp ? 454 : '100%';
-  const drawerHeight = mdUp ? `calc(100vh - ${HEADER.H_DESKTOP * 2.6}px)` : '100vh';
+  const drawerHeight = mdUp ? `calc(100vh - ${40 * 2.6}px)` : '100vh';
 
   useEffect(() => {
     if (menu === 'none') {

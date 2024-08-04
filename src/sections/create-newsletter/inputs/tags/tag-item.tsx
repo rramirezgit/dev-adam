@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Iconify from 'src/components/iconify';
 import { alpha, useTheme } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import TextBubble from '../bubbles/bubble';
 import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
 import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteTagNewsletter, setErrors } from 'src/store/slices/newsletter';
-import TextBubble from '../bubbles/bubble';
+import { deleteTagNewsletter, setErrors } from 'src/store/slices/newsletterStore';
+import { Iconify } from 'src/components/iconify';
 
 interface ItemProps {
   color?: string;

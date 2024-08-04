@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOpenDrawer } from 'src/store/slices/post';
 import { newsletterItemList } from 'src/store/slices/types';
 import { RootState } from 'src/store';
-import { setShowEditor, setcurrentNewsletter } from 'src/store/slices/newsletter';
+import { setShowEditor, setcurrentNewsletter } from 'src/store/slices/newsletterStore';
 
 // ----------------------------------------------------------------------
 

@@ -2,10 +2,10 @@
 /* eslint-disable react/self-closing-comp */
 import { Button, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { Box } from '@mui/system';
-import { setMenu } from 'src/store/slices/newsletter';
+import { setMenu } from 'src/store/slices/newsletterStore';
 import TemplateView from './templates/template-view';
+import { RootState } from 'src/store';
 
 export default function NewsletterBody({ isEmail }: { isEmail?: boolean }) {
   const currentNesletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);

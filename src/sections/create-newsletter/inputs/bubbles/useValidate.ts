@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { setErrors, updateValueInputNewsletter } from 'src/store/slices/newsletter';
 import * as Yup from 'yup';
 import { TagsInput } from '../types';
+import { setErrors, updateValueInputNewsletter } from 'src/store/slices/newsletterStore';
+import { RootState } from 'src/store';
 
 interface IuseValidate {
   maxLength?: number;

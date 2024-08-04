@@ -3,8 +3,6 @@
 import { Box, alpha, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
-import Iconify from 'src/components/iconify';
 import {
   setDataImageCrop,
   setDataImageCroped,
@@ -13,9 +11,11 @@ import {
   setObjectFit,
   updateImageDataNewsletter,
   updateValueInputNewsletter,
-} from 'src/store/slices/newsletter';
-import { RootState } from 'src/store';
+} from 'src/store/slices/newsletterStore';
 import { ILayout, ImageInput } from '../types';
+import { RootState } from 'src/store';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { Iconify } from 'src/components/iconify';
 
 export interface Props extends ImageInput {
   placeholder?: string;

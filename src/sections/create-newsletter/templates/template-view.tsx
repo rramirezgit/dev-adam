@@ -1,13 +1,13 @@
 import { Draggable } from '@hello-pangea/dnd';
-import Iconify from 'src/components/iconify';
 import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { Box } from '@mui/material';
 import TemplateInputs from '../inputs/newsletter-templates-inputs';
 import LayoutTemplate from './template-layout';
 import { TypeTemplateContent } from '../inputs/types';
 import LayoutDragable from '../inputs/LayoutDragable';
+import { RootState } from 'src/store';
+import { Iconify } from 'src/components/iconify';
 
 const RenderInput = ({ isEmail, item, index, qtyInputs }: any) => {
   const isLast = qtyInputs && index === qtyInputs - 1;

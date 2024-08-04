@@ -4,19 +4,17 @@ import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stack, { StackProps } from '@mui/material/Stack';
+import { INewslettersFilters, NewslettersFilterValue } from 'src/types/newsletter';
+import { shortDateLabel } from 'src/components/custom-date-range-picker';
+import { Iconify } from 'src/components/iconify';
 // types
 // components
-import Iconify from 'src/components/iconify';
-import { shortDateLabel } from 'src/components/custom-date-range-picker';
-import { PostFilterValue } from 'src/types/post';
-import { useLocales } from 'src/locales';
-import { INewslettersFilters } from 'src/types/newsletter';
 
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
   filters: INewslettersFilters;
-  onFilters: (name: string, value: PostFilterValue) => void;
+  onFilters: (name: string, value: NewslettersFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
@@ -35,7 +33,6 @@ export default function NewsletterFiltersResult({
   ...other
 }: Props) {
   const shortLabel = shortDateLabel(filters.creationDate);
-  const { t } = useLocales();
 
   // const handleRemoveServices = (inputValue: string) => {
   //   const newValue = filters.services.filter((item) => item !== inputValue);
@@ -143,7 +140,7 @@ export default function NewsletterFiltersResult({
             onClick={onResetFilters}
             startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
           >
-            {t('Dashboard.Create_Newsletter.Create.filters.clear')}
+            Reset
           </Button>
         )}
         {/* <Box sx={{ typography: 'body2' }}>

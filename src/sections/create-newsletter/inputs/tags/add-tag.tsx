@@ -1,11 +1,11 @@
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import Iconify from 'src/components/iconify/iconify';
-import { addTagNewsletter, setErrors } from 'src/store/slices/newsletter';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import uuidv4 from 'src/utils/uuidv4';
 import { alpha } from '@mui/system';
 import { useTheme } from '@mui/material';
+import { RootState } from 'src/store';
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+import { addTagNewsletter, setErrors } from 'src/store/slices/newsletterStore';
+import uuidv4 from 'src/utils/uuidv4';
+import { Iconify } from 'src/components/iconify';
 
 interface ItemProps {
   color?: string;

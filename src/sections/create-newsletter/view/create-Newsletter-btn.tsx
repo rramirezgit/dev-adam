@@ -1,18 +1,15 @@
 import { Box, Button, Stack } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { useLocales } from 'src/locales';
 import {
   setShowEditor,
   setSubject,
   setcurrentNewsletter,
   setcurrentNewsletterID,
-} from 'src/store/slices/newsletter';
+} from 'src/store/slices/newsletterStore';
 import { headerContent } from '../templates/header/header-content';
 import { FooterContent } from '../templates/footer/footer-content';
 
 export default function CreateNewsletterButton() {
-  const { t } = useLocales();
-
   const dispatch = useDispatch();
   return (
     <Box>
@@ -34,7 +31,7 @@ export default function CreateNewsletterButton() {
             },
           }}
         >
-          {t('Dashboard.Create_Newsletter.btn_CreateNew')}
+          Crear Newsletter
         </Button>
       </Stack>
     </Box>

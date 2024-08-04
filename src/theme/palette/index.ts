@@ -1,0 +1,1 @@
+export const DEFAULT_COLOR_NESWLETTER = '#00C3C3';

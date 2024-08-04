@@ -1,6 +1,6 @@
 import { TypeTemplateContent } from 'src/sections/create-newsletter/inputs/types';
 
-export type NewslettersFilterValue = string | string[] | Date | null;
+export type NewslettersFilterValue = string | string[] | Date | null | undefined;
 
 export interface INewslettersItem {
   id: string;

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TDrawers } from 'src/store/slices/types';
 import { RootState } from 'src/store';
 import { useEffect } from 'react';
-import { setMenu } from 'src/store/slices/newsletter';
+import { setMenu } from 'src/store/slices/newsletterStore';
 import { Button, Dialog, DialogTitle, Typography, useTheme } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useBoolean } from 'src/hooks/use-boolean';

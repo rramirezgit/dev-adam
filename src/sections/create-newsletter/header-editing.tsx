@@ -11,27 +11,21 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import Iconify from 'src/components/iconify';
-import CustomPopover from 'src/components/custom-popover/custom-popover';
 import { renderToString } from 'react-dom/server';
-import { usePopover } from 'src/components/custom-popover';
+import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import newsletter, {
   setErrors,
   setNeswletterList,
   setShowEditor,
   setcurrentNewsletter,
   setcurrentNewsletterID,
-} from 'src/store/slices/newsletter';
+} from 'src/store/slices/newsletterStore';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { useEffect, useState } from 'react';
-import { RootState, store } from 'src/store';
 import { SmsSearch, SmsTracking } from 'iconsax-react';
-import ThemeProvider from 'src/theme';
-import { SettingsProvider } from 'src/components/settings';
 import { useRouter } from 'src/routes/hooks';
 import dayjs from 'dayjs';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
 import { useBoolean } from 'src/hooks/use-boolean';
 import NewsletterBody from './newsletter-body';
 import SendDialog from './send-dialog';
@@ -41,6 +35,12 @@ import SendDialogAprob from './send-dialog-aprob';
 import ScheduleDialog from './schedule-dialog';
 import SendDialogSubs from './send-dialog-subs';
 import { htmlWrap } from './htmlWrap';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import store, { RootState } from 'src/store';
+import { ThemeProvider } from 'src/theme/theme-provider';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
+import { CONFIG } from 'src/config-global';
+import { Iconify } from 'src/components/iconify';
 
 export default function SendNewsletter() {
   const Theme = useTheme();
@@ -78,17 +78,11 @@ export default function SendNewsletter() {
   const [openSchedule, setOpenSchedule] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const buildHtml = (option = '') => {
+  const buildHtml = async (option = '') => {
     const componenteComoString = renderToString(
       <SettingsProvider
-        defaultSettings={{
-          themeMode: 'light', // 'light' | 'dark'
-          themeDirection: 'ltr', //  'rtl' | 'ltr'
-          themeContrast: 'default', // 'default' | 'bold'
-          themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-          themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-          themeStretch: false,
-        }}
+        settings={defaultSettings}
+        caches={CONFIG.isStaticExport ? 'localStorage' : 'cookie'}
       >
         <ThemeProvider>
           <Provider store={store}>
@@ -97,7 +91,6 @@ export default function SendNewsletter() {
         </ThemeProvider>
       </SettingsProvider>
     );
-
     let body = componenteComoString;
     if (images.length > 0) {
       /// buscar todas la <img src="data: ... " id=`img-${props.inputId}` /> y reemplazarlas por la url de la imagen subida a s3
@@ -131,14 +124,14 @@ export default function SendNewsletter() {
   };
 
   const sendEmailPost = async (option = '') => {
-    const body = buildHtml(option);
+    const body = await buildHtml(option);
 
     const url =
       option === 'aprobar'
         ? `/newsletters/${currentNewsletterId}/request-approval`
         : option === 'subscriptores'
-        ? `/newsletters/${currentNewsletterId}/send`
-        : `/newsletters/${currentNewsletterId}/send-for-review`;
+          ? `/newsletters/${currentNewsletterId}/send`
+          : `/newsletters/${currentNewsletterId}/send-for-review`;
 
     const postData =
       option === 'aprobar'
@@ -149,17 +142,17 @@ export default function SendNewsletter() {
             approverEmails: emails,
           }
         : option === 'subscriptores'
-        ? {
-            subject: `${Subject}`,
-            content: body,
-            // objData: JSON.stringify(currentNewsletter),
-          }
-        : {
-            subject: Subject,
-            content: body,
-            // objData: JSON.stringify(currentNewsletter),
-            reviewerEmails: emails,
-          };
+          ? {
+              subject: `${Subject}`,
+              content: body,
+              // objData: JSON.stringify(currentNewsletter),
+            }
+          : {
+              subject: Subject,
+              content: body,
+              // objData: JSON.stringify(currentNewsletter),
+              reviewerEmails: emails,
+            };
 
     await axiosInstance
       .post(url, postData)
@@ -180,7 +173,7 @@ export default function SendNewsletter() {
                 dispatch(setcurrentNewsletterID(''));
                 dispatch(setErrors([]));
                 dispatch(setShowEditor(false));
-                router.push('/dashboard/create_newsletter');
+                router.push('/dashboard/create-newsletter');
               }
             });
         }
@@ -326,7 +319,7 @@ export default function SendNewsletter() {
 
       const postDataNewsletterPost = {
         subject: Subject,
-        content: buildHtml(),
+        content: await buildHtml(),
       };
 
       const postDataNewsletterPatch = {
@@ -390,7 +383,7 @@ export default function SendNewsletter() {
       const data = {
         scheduleDate: date,
         subject: Subject,
-        content: buildHtml(),
+        content: await buildHtml(),
         objData: JSON.stringify(currentNewsletter),
       };
       const res = await axiosInstance
@@ -416,14 +409,14 @@ export default function SendNewsletter() {
     if (newsletterSaveed) {
       axiosInstance.delete(`/newsletters/${currentNewsletterId}`).then((res) => {
         if (res.status === 200 || res.status === 201) {
-          router.push('/dashboard/create_newsletter');
+          router.push('/dashboard/create-newsletter');
           dispatch(setcurrentNewsletterID(''));
           dispatch(setErrors([]));
           dispatch(setShowEditor(false));
         }
       });
     } else {
-      router.push('/dashboard/create_newsletter');
+      router.push('/dashboard/create-newsletter');
       dispatch(setcurrentNewsletterID(''));
       dispatch(setErrors([]));
       dispatch(setShowEditor(false));
@@ -434,7 +427,7 @@ export default function SendNewsletter() {
     setLoading(true);
     const postDataNewsletter = {
       subject: Subject,
-      content: buildHtml(),
+      content: await buildHtml(),
       objData: JSON.stringify(currentNewsletter),
     };
 
@@ -449,7 +442,7 @@ export default function SendNewsletter() {
           .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletter)
           .then((res) => {
             if (res.status === 200 || res.status === 201) {
-              router.push('/dashboard/create_newsletter');
+              router.push('/dashboard/create-newsletter');
               dispatch(setcurrentNewsletterID(''));
               setSaving(false);
               dispatch(setErrors([]));
@@ -460,7 +453,7 @@ export default function SendNewsletter() {
       } else {
         await axiosInstance.post('/newsletters', postDataNewsletter).then((res) => {
           if (res.status === 200 || res.status === 201) {
-            router.push('/dashboard/create_newsletter');
+            router.push('/dashboard/create-newsletter');
             dispatch(setcurrentNewsletterID(''));
             setSaving(false);
             dispatch(setErrors([]));
@@ -472,7 +465,7 @@ export default function SendNewsletter() {
     } else {
       await axiosInstance.post('/newsletters', postDataNewsletter).then((res) => {
         if (res.status === 200 || res.status === 201) {
-          router.push('/dashboard/create_newsletter');
+          router.push('/dashboard/create-newsletter');
           dispatch(setcurrentNewsletterID(''));
           setSaving(false);
           dispatch(setErrors([]));
@@ -560,7 +553,7 @@ export default function SendNewsletter() {
           >
             <Button
               onClick={() => {
-                router.push('/dashboard/create_newsletter');
+                router.push('/dashboard/create-newsletter');
                 dispatch(setErrors([]));
                 dispatch(setShowEditor(false));
                 showPopup.onFalse();
@@ -621,7 +614,7 @@ export default function SendNewsletter() {
               if (!newsleterEsqual) {
                 showPopup.onTrue();
               } else {
-                router.push('/dashboard/create_newsletter');
+                router.push('/dashboard/create-newsletter');
                 dispatch(setErrors([]));
                 dispatch(setShowEditor(false));
               }
@@ -670,8 +663,8 @@ export default function SendNewsletter() {
                 saving
                   ? ''
                   : popover.open
-                  ? 'eva:arrow-ios-upward-fill'
-                  : 'eva:arrow-ios-downward-fill'
+                    ? 'eva:arrow-ios-upward-fill'
+                    : 'eva:arrow-ios-downward-fill'
               }
               width={15}
               height={15}
@@ -688,7 +681,7 @@ export default function SendNewsletter() {
           {saving ? 'Guardando...' : 'Enviar'}
         </Button>
       </Box>
-      <CustomPopover open={popover.open} onClose={popover.onClose} hiddenArrow>
+      <CustomPopover open={popover.open} onClose={popover.onClose}>
         <MenuItem disabled={disableOption('Prueba')} onClick={() => setOpen(true)}>
           <SmsTracking size="24" />
           <ListItemText>Prueba</ListItemText>

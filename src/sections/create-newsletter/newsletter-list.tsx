@@ -1,10 +1,10 @@
 // @mui
 import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
-import { newsletterItemList } from 'src/store/slices/types';
 // routes
 import { useState } from 'react';
 import NewsletterCardItem from './newsletter-card-item';
+import { newsletterItemList } from 'src/types/newsletter';
 //
 
 // ----------------------------------------------------------------------

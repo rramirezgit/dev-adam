@@ -13,10 +13,7 @@ import {
 } from '@mui/material';
 import Card from '@mui/material/Card';
 import { Box } from '@mui/system';
-import { useLocales } from 'src/locales';
-import { fDate } from 'src/utils/format-time';
 import { useDispatch } from 'react-redux';
-import { newsletterItemList } from 'src/store/slices/types';
 import { alpha } from '@mui/material/styles';
 import {
   setDeleted,
@@ -24,12 +21,14 @@ import {
   setSubject,
   setcurrentNewsletter,
   setcurrentNewsletterID,
-} from 'src/store/slices/newsletter';
-import Iconify from 'src/components/iconify/iconify';
+} from 'src/store/slices/newsletterStore';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
+import { newsletterItemList } from 'src/types/newsletter';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { Iconify } from 'src/components/iconify';
+import { fDate } from 'src/utils/format-time';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -38,7 +37,6 @@ type Props = {
 
 export default function NewsletterCardItem(props: Props) {
   const { newsletter } = props;
-  const { t } = useLocales();
   const theme = useTheme();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);

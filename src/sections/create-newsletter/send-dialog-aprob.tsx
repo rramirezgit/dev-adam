@@ -15,10 +15,10 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEmails } from 'src/store/slices/newsletter';
-import Iconify from 'src/components/iconify';
+import { setEmails } from 'src/store/slices/newsletterStore';
 import { LoadingButton } from '@mui/lab';
 import { RootState } from 'src/store';
+import { Iconify } from 'src/components/iconify';
 
 interface Props {
   open: boolean;

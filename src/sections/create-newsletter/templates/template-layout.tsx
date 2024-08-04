@@ -3,21 +3,21 @@ import { Box, Checkbox, IconButton, Menu, MenuItem, Stack, alpha, useTheme } fro
 import { MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
-import { RootState } from 'src/store';
 import {
   changeBGColorNewslettertemplate,
   changeColorNewslettertemplate,
   deleteNewsletterTemplate,
   moveTemplateNewsletter,
   setHeader,
-} from 'src/store/slices/newsletter';
+} from 'src/store/slices/newsletterStore';
 import { ArrowDown2, ArrowUp2, BrushSquare, Trash } from 'iconsax-react';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { useResponsive } from 'src/hooks/use-responsive';
-import Iconify from 'src/components/iconify';
 import { m } from 'framer-motion';
-import SvgColor from 'src/components/svg-color';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import { RootState } from 'src/store';
+import { SvgColor } from 'src/components/svg-color';
+import { Iconify } from 'src/components/iconify';
 
 export const COLORS_NEWSLETTER_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', 'black'];
 export const COLORS_BG_NEWSLETTER_TEMPLATES = [

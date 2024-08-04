@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { Box, useTheme } from '@mui/material';
-import Iconify from 'src/components/iconify/iconify';
 import { m } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-import { deleteInputNewsletter, reorderInputNewsletter } from 'src/store/slices/newsletter';
-import { setDeleteItem } from 'src/store/slices/note';
+// import { setDeleteItem } from 'src/store/slices/note';
+import { Iconify } from 'src/components/iconify';
+import { deleteInputNewsletter, reorderInputNewsletter } from 'src/store/slices/newsletterStore';
 
 interface LayoutDragableProps {
   templateId: string;
@@ -71,7 +71,7 @@ export default function LayoutDragable({ templateId, name, children }: LayoutDra
           >
             <Droppable droppableId="bin">
               {(provided, snapshot) => {
-                dispatch(setDeleteItem(snapshot.isDraggingOver));
+                // dispatch(setDeleteItem(snapshot.isDraggingOver));
                 return (
                   <div
                     ref={provided.innerRef}

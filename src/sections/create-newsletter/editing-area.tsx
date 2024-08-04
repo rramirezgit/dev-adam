@@ -1,7 +1,6 @@
 /* eslint-disable no-return-assign */
 import { Box } from '@mui/material';
 import { useResponsive } from 'src/hooks/use-responsive';
-import { HEADER } from 'src/layouts/config-layout';
 import NewsletterBody from './newsletter-body';
 
 export default function NewsletterEditingArea() {
@@ -11,7 +10,7 @@ export default function NewsletterEditingArea() {
       sx={(theme) => ({
         display: 'flex',
         flexDirection: 'column',
-        height: `calc(100vh - ${HEADER.H_DESKTOP * 2.6}px)`,
+        height: `calc(100vh - ${40 * 2.6}px)`,
         alignItems: 'center',
         border: !smUp ? 'none' : `1px solid ${theme.palette.divider}`,
         transition: theme.transitions.create('all', {

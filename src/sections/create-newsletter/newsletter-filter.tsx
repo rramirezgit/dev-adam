@@ -8,17 +8,13 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // types
-import { IPostFilters, ISocialnetworks, PostFilterValue } from 'src/types/post';
 
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ButtonBase } from '@mui/material';
-import { SOCIALNETWORKS } from 'src/const/post/redes';
 import { useCallback } from 'react';
-import { useLocales } from 'src/locales';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { INewslettersFilters } from 'src/types/newsletter';
+import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+import { INewslettersFilters, NewslettersFilterValue } from 'src/types/newsletter';
 
 // ----------------------------------------------------------------------
 
@@ -28,12 +24,11 @@ type Props = {
   onClose: VoidFunction;
   //
   filters: INewslettersFilters;
-  onFilters: (name: string, value: PostFilterValue) => void;
+  onFilters: (name: string, value: NewslettersFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
   //
-  socialNetworks: ISocialnetworks[];
   // serviceOptions: string[];
   // tourGuideOptions: ITourGuide[];
   // destinationOptions: {
@@ -57,11 +52,8 @@ export default function Newsfilter({
   canReset,
   onResetFilters,
   //
-  socialNetworks, //
   dateError,
 }: Props) {
-  const { t } = useLocales();
-
   const renderHead = (
     <Stack
       direction="row"
@@ -70,7 +62,7 @@ export default function Newsfilter({
       sx={{ py: 2, pr: 1, pl: 2.5 }}
     >
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
-        {t('Dashboard.Create_Newsletter.Create.filters.Title')}
+        Filtros
       </Typography>
 
       <Tooltip title="Reset">
@@ -175,7 +167,7 @@ export default function Newsfilter({
   );
 
   const handleFilterStartDate = useCallback(
-    (newValue: Date | null) => {
+    (newValue: null | undefined) => {
       onFilters('creationDate', newValue);
     },
     [onFilters]
@@ -184,10 +176,10 @@ export default function Newsfilter({
   const renderDateRange = (
     <Stack>
       <Typography variant="subtitle2" sx={{ mb: 1.5 }}>
-        {t('Dashboard.Create_Newsletter.Create.filters.date')}
+        Fecha de Creación
       </Typography>
       <Stack spacing={2.5}>
-        <DatePicker
+        {/* <DatePicker
           label="Fecha de Creación"
           value={filters.creationDate}
           onChange={handleFilterStartDate}
@@ -197,7 +189,7 @@ export default function Newsfilter({
               helperText: dateError && 'No hay newsletters en esta fecha',
             },
           }}
-        />
+        /> */}
 
         {/* <DatePicker
           label={t('Dashboard.Create_Newsletter.Create.filters.endDate')}
@@ -226,7 +218,7 @@ export default function Newsfilter({
         }
         onClick={onOpen}
       >
-        {t('Dashboard.Create_Newsletter.Create.filters.Title')}
+        Filtros
       </Button>
 
       <Drawer

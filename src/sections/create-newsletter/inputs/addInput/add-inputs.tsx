@@ -4,12 +4,12 @@ import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { m } from 'framer-motion';
 import { Category, Image, Tag, Text } from 'iconsax-react';
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import Iconify from 'src/components/iconify/iconify';
 import { useDispatch } from 'react-redux';
-import { addNewInputNewsletter } from 'src/store/slices/newsletter';
 import uuidv4 from 'src/utils/uuidv4';
-import SvgColor from 'src/components/svg-color';
+import { addNewInputNewsletter } from 'src/store/slices/newsletterStore';
+import { SvgColor } from 'src/components/svg-color';
+import { Iconify } from 'src/components/iconify';
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
 
 interface AddInputProps {
   isEmail?: boolean;

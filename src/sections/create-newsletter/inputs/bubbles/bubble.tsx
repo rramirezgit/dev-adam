@@ -1,7 +1,6 @@
 /* eslint-disable react/no-danger */
 import { useRef } from 'react';
 import ReactQuill from 'react-quill';
-import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import { useStylesText } from './styles-text';
@@ -9,6 +8,7 @@ import useValidate from './useValidate';
 import './styles-bubble.css';
 import { TagsInput, TextInput } from '../types';
 import { COLORS_NEWSLETTER_TEMPLATES } from '../../templates/template-layout';
+import { RootState } from 'src/store';
 
 interface props extends TextInput {
   parentId?: string;

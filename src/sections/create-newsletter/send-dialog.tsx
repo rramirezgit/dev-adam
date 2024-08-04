@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setEmails } from 'src/store/slices/newsletter';
-import Iconify from 'src/components/iconify';
+import { setEmails } from 'src/store/slices/newsletterStore';
 import { LoadingButton } from '@mui/lab';
+import { Iconify } from 'src/components/iconify';
 
 interface Props {
   open: boolean;

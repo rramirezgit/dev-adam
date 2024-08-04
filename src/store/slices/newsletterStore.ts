@@ -1,271 +1,473 @@
-// import { create } from 'zustand';
-// import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-// import { headerContent } from 'src/sections/create-newsletter/templates/header/header-content';
-// import { FooterContent } from 'src/sections/create-newsletter/templates/footer/footer-content';
-// import {
-//   TypeTemplateContent,
-//   TagInput,
-//   valueImageNeswletter,
-// } from 'src/sections/create-newsletter/inputs/types';
-// import { NeswletterState, Tmenudata, imageCrop, newsletterItemList } from 'src/types/newsletter';
+'use client';
 
-// interface newsletterStore {
-//   menuData: Tmenudata;
-//   selectedNewsletter: string;
-//   neswletterList: newsletterItemList[];
-//   styles: {
-//     main: string;
-//   };
-//   currentNewsletter: TypeTemplateContent[];
-//   errors: any[];
-//   dataImageCrop: imageCrop | null;
-//   dataImageCroped: imageCrop | null;
-//   emails: string[];
-//   deleted: boolean;
-//   header: boolean;
-//   showEditor: boolean;
-//   subject: string;
-//   currentNewsletterId: string;
-//   currentNewsletterImagesList: valueImageNeswletter[];
-//   showAprove: boolean;
-//   imageSaved: boolean;
-//   objectFit: string;
-//   setShowEditor: (showEditor: boolean) => void;
-//   setMenu: (menuData: Tmenudata) => void;
-//   setSelectedNewsletter: (selectedNewsletter: string) => void;
-//   setNeswletterList: (neswletterList: newsletterItemList[]) => void;
-//   setStylesNewsletter: (styles: { main: string }) => void;
-//   setCurrentNewsletter: (currentNewsletter: TypeTemplateContent[]) => void;
-//   setErrors: (errors: any[]) => void;
-//   setDataImageCrop: (dataImageCrop: imageCrop | null) => void;
-//   setDataImageCroped: (dataImageCroped: imageCrop | null) => void;
-//   addNewInputNewsletter: (templateId: string, input: any) => void;
-//   addTagNewsletter: (templateId: string, inputId: string, inputTag: TagInput) => void;
-//   deleteTagNewsletter: (templateId: string, inputId: string, tagId: string) => void;
-//   updateValueInputNewsletter: (
-//     templateId: string,
-//     inputId: string,
-//     value: string,
-//     parentId: string
-//   ) => void;
-//   deleteNewsletterTemplate: (templateId: string) => void;
-//   deleteInputNewsletter: (templateId: string, index: number) => void;
-//   moveTemplateNewsletter: (templateId: string, direction: string) => void;
-//   reorderInputNewsletter: (templateId: string, currentIndex: number, newIndex: number) => void;
-//   changeColorNewslettertemplate: (templateId: string, color: string) => void;
-//   changeBGColorNewslettertemplate: (templateId: string, color: string) => void;
-//   setEmails: (emails: string[]) => void;
-//   setDeleted: (deleted: boolean) => void;
-//   setHeader: (header: boolean) => void;
-//   setSubject: (subject: string) => void;
-//   setCurrentNewsletterID: (currentNewsletterId: string) => void;
-//   setCurrentNewsletterImagesList: (currentNewsletterImagesList: valueImageNeswletter[]) => void;
-//   setShowAprove: (showAprove: boolean) => void;
-//   setImagesSaved: (imageSaved: boolean) => void;
-//   setObjectFit: (objectFit: string) => void;
-// }
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { headerContent } from 'src/sections/create-newsletter/templates/header/header-content';
+import {
+  TypeTemplateContent,
+  TagInput,
+  valueImageNeswletter,
+} from 'src/sections/create-newsletter/inputs/types';
+import { FooterContent } from 'src/sections/create-newsletter/templates/footer/footer-content';
+import { imageCrop, NeswletterState, newsletterItemList, Tmenudata } from 'src/types/newsletter';
 
-// const useNewsletterStore = create<newsletterStore>((set) => ({
-//   menuData: { type: 'none', templateId: '', inputId: 'string', parentId: 'string' },
-//   selectedNewsletter: '',
-//   neswletterList: [],
-//   styles: {
-//     main: DEFAULT_COLOR_NESWLETTER,
-//   },
-//   currentNewsletter: [headerContent('header'), FooterContent('footer')],
-//   currentNewsletterId: '',
-//   currentNewsletterImagesList: [],
-//   errors: [],
-//   dataImageCrop: null,
-//   dataImageCroped: null,
-//   emails: [],
-//   header: true,
-//   showEditor: false,
-//   deleted: false,
-//   subject: 'ADAC',
-//   showAprove: false,
-//   imageSaved: true,
-//   objectFit: 'cover',
+const initialState: NeswletterState = {
+  menuData: { type: 'none', templateId: '', inputId: 'string', parentId: 'string' },
+  //
+  selectedNewsletter: '',
+  neswletterList: [],
 
-//   setShowEditor: (showEditor) => set({ showEditor }),
-//   setMenu: (menuData) => set({ menuData }),
-//   setSelectedNewsletter: (selectedNewsletter) => set({ selectedNewsletter }),
-//   setNeswletterList: (neswletterList) => set({ neswletterList }),
-//   setStylesNewsletter: (styles) => set({ styles }),
-//   setCurrentNewsletter: (currentNewsletter) => set({ currentNewsletter }),
-//   setErrors: (errors) => set({ errors }),
-//   setDataImageCrop: (dataImageCrop) => set({ dataImageCrop }),
-//   setDataImageCroped: (dataImageCroped) => set({ dataImageCroped }),
-//   addNewInputNewsletter: (templateId, input) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) =>
-//         item.templateId === templateId
-//           ? {
-//               ...item,
-//               inputs: [
-//                 ...(item.inputs.filter((item2) => item2.type !== 'addInput') || []),
-//                 { ...input },
-//                 ...(item.inputs.filter((item2) => item2.type === 'addInput') || []),
-//               ],
-//             }
-//           : item
-//       ),
-//     })),
-//   addTagNewsletter: (templateId, inputId, inputTag) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) =>
-//         item.templateId === templateId
-//           ? {
-//               ...item,
-//               inputs: item.inputs.map((input) =>
-//                 input.inputId === inputId && input.type === 'tags'
-//                   ? {
-//                       ...input,
-//                       tags: [...input.tags, { ...inputTag }],
-//                     }
-//                   : input
-//               ),
-//             }
-//           : item
-//       ),
-//     })),
-//   deleteTagNewsletter: (templateId, inputId, tagId) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) =>
-//         item.templateId === templateId
-//           ? {
-//               ...item,
-//               inputs: item.inputs.map((input) =>
-//                 input.inputId === inputId && input.type === 'tags'
-//                   ? {
-//                       ...input,
-//                       tags: input.tags.filter((tag) => tag.inputId !== tagId),
-//                     }
-//                   : input
-//               ),
-//             }
-//           : item
-//       ),
-//     })),
-//   updateValueInputNewsletter: (templateId, inputId, value, parentId) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) => {
-//         if (item.templateId === templateId) {
-//           return {
-//             ...item,
-//             inputs: item.inputs.map((input) => {
-//               if (input.type === 'tags' && input.inputId === parentId) {
-//                 return {
-//                   ...input,
-//                   tags: input?.tags.map((tag) =>
-//                     tag.inputId === inputId ? { ...tag, value } : tag
-//                   ),
-//                 };
-//               }
-//               if (input.inputId === parentId && input.type === 'layout') {
-//                 return {
-//                   ...input,
-//                   inputs: input.inputs.map((input2) =>
-//                     input2.inputId === inputId ? { ...input2, value } : input2
-//                   ),
-//                 };
-//               }
-//               if (input.inputId === inputId && input.type !== 'tags' && input.type !== 'layout') {
-//                 return { ...input, value };
-//               }
-//               return input;
-//             }),
-//           };
-//         }
-//         return item;
-//       }),
-//     })),
-//   deleteNewsletterTemplate: (templateId) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.filter((item) => item.templateId !== templateId),
-//     })),
-//   deleteInputNewsletter: (templateId, index) =>
-//     set((state) => {
-//       const input = state.currentNewsletter.find((item) => item.templateId === templateId)?.inputs[
-//         index
-//       ];
-//       if (input?.type === 'layout') {
-//         const inputs = input.inputs.map((item) => item.inputId);
-//         const newErrors = state.errors.filter(
-//           (item) => item.templateId !== templateId || !inputs.includes(item.inputId)
-//         );
-//         state.errors = newErrors;
-//       } else {
-//         const newErrors = state.errors.filter(
-//           (item) => item.templateId !== templateId || item.inputId !== input?.inputId
-//         );
-//         state.errors = newErrors;
-//       }
+  styles: {
+    main: '#00C3C3',
+  },
 
-//       const isAddInput = state.currentNewsletter.some(
-//         (item) => item.templateId === templateId && item.inputs[index].type === 'addInput'
-//       );
-//       if (isAddInput) return state;
+  currentNewsletter: [headerContent('header'), FooterContent('footer')],
+  currentNewsletterId: '',
+  currentNewsletterImagesList: [],
+  errors: [],
 
-//       return {
-//         currentNewsletter: state.currentNewsletter.map((item) =>
-//           item.templateId === templateId
-//             ? { ...item, inputs: item.inputs.filter((_, i) => i !== index) }
-//             : item
-//         ),
-//       };
-//     }),
-//   moveTemplateNewsletter: (templateId, direction) =>
-//     set((state) => {
-//       const index = state.currentNewsletter.findIndex((item) => item.templateId === templateId);
-//       if (direction === 'up' && index !== 1) {
-//         const temp = state.currentNewsletter[index - 1];
-//         state.currentNewsletter[index - 1] = state.currentNewsletter[index];
-//         state.currentNewsletter[index] = temp;
-//       }
-//       if (direction === 'down' && index !== state.currentNewsletter.length - 2) {
-//         const temp = state.currentNewsletter[index + 1];
-//         state.currentNewsletter[index + 1] = state.currentNewsletter[index];
-//         state.currentNewsletter[index] = temp;
-//       }
-//     }),
-//   reorderInputNewsletter: (templateId, currentIndex, newIndex) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) => {
-//         if (item.templateId === templateId) {
-//           const inputsCopy = [...item.inputs];
-//           const [movedInput] = inputsCopy.splice(currentIndex, 1);
-//           inputsCopy.splice(newIndex, 0, movedInput);
-//           return {
-//             ...item,
-//             inputs: inputsCopy,
-//           };
-//         }
-//         return item;
-//       }),
-//     })),
-//   changeColorNewslettertemplate: (templateId, color) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) =>
-//         item.templateId === templateId ? { ...item, color } : item
-//       ),
-//     })),
-//   changeBGColorNewslettertemplate: (templateId, color) =>
-//     set((state) => ({
-//       currentNewsletter: state.currentNewsletter.map((item) =>
-//         item.templateId === templateId ? { ...item, bgColor: color } : item
-//       ),
-//     })),
-//   setEmails: (emails) => set({ emails }),
-//   setDeleted: (deleted) => set({ deleted }),
-//   setHeader: (header) => set({ header }),
-//   setSubject: (subject) => set({ subject }),
-//   setCurrentNewsletterID: (currentNewsletterId) => set({ currentNewsletterId }),
-//   setCurrentNewsletterImagesList: (currentNewsletterImagesList) =>
-//     set({ currentNewsletterImagesList }),
-//   setShowAprove: (showAprove) => set({ showAprove }),
-//   setImagesSaved: (imageSaved) => set({ imageSaved }),
-//   setObjectFit: (objectFit) => set({ objectFit }),
-// }));
+  // image crop
+  dataImageCrop: null,
+  dataImageCroped: null,
+  emails: [],
+  header: true,
+  showEditor: false,
+  deleted: false,
+  subject: 'ADAC',
 
-// export default useNewsletterStore;
+  showAprove: false,
+
+  imageSaved: true,
+  objectFit: 'cover',
+};
+
+export const NewsletterSlice = createSlice({
+  name: 'post',
+  initialState,
+  reducers: {
+    setShowEditor: (state, action: PayloadAction<boolean>) => {
+      state.showEditor = action.payload;
+    },
+    setMenu: (state, action: PayloadAction<Tmenudata>) => {
+      state.menuData = action.payload;
+    },
+    setSelectedNewsletter: (state, action: PayloadAction<string>) => {
+      state.selectedNewsletter = action.payload;
+    },
+    setNeswletterList: (state, action: PayloadAction<newsletterItemList[]>) => {
+      state.neswletterList = action.payload;
+    },
+    setStylesNewsletter: (state, action: PayloadAction<any>) => {
+      state.styles = action.payload;
+    },
+    setcurrentNewsletter: (state, action: PayloadAction<any>) => {
+      state.currentNewsletter = action.payload;
+    },
+    updateValueInputNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        inputId: string;
+        value: string;
+        parentId?: string | null;
+      }>
+    ) => {
+      const { templateId, inputId, value, parentId } = action.payload;
+
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          return {
+            ...item,
+            inputs: item.inputs.map((input) => {
+              if (input.type === 'tags' && input.inputId === parentId) {
+                return {
+                  ...input,
+                  tags: input?.tags.map((tag) => {
+                    if (tag.inputId === inputId) {
+                      return {
+                        ...tag,
+                        value,
+                      };
+                    }
+                    return tag;
+                  }),
+                };
+              }
+              if (input.inputId === parentId && input.type === 'layout') {
+                return {
+                  ...input,
+                  inputs: input.inputs.map((input2) => {
+                    if (input2.inputId === inputId) {
+                      return {
+                        ...input2,
+                        value,
+                      };
+                    }
+                    return input2;
+                  }),
+                };
+              }
+              if (input.inputId === inputId && input.type !== 'tags' && input.type !== 'layout') {
+                return {
+                  ...input,
+                  value,
+                };
+              }
+              return input;
+            }),
+          };
+        }
+        return item;
+      });
+    },
+
+    /// tags
+    addNewInputNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        input: TypeTemplateContent;
+      }>
+    ) => {
+      const { templateId, input } = action.payload;
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          return {
+            ...item,
+            inputs: [
+              ...(item.inputs.filter((item2) => item2.type !== 'addInput') || []),
+              {
+                ...input,
+              },
+              ...(item.inputs.filter((item2) => item2.type === 'addInput') || []),
+            ],
+          };
+        }
+        return item;
+      });
+
+      const error =
+        state.errors.find((item) => item.templateId === templateId)?.message ===
+        'Debe cargar al menos un input';
+
+      if (error) {
+        state.errors = state.errors.filter(
+          (item) =>
+            item.templateId !== templateId && item.message !== 'Debe cargar al menos un input'
+        );
+      }
+    },
+    addTagNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        inputId: string;
+        inputTag: TagInput;
+      }>
+    ) => {
+      const { templateId, inputId, inputTag } = action.payload;
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          return {
+            ...item,
+            inputs: item.inputs.map((input) => {
+              if (input.inputId === inputId && input.type === 'tags') {
+                return {
+                  ...input,
+                  tags: [...input.tags, { ...inputTag }],
+                };
+              }
+              return input;
+            }),
+          };
+        }
+        return item;
+      });
+    },
+    deleteTagNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        inputId: string;
+        tagId: string;
+      }>
+    ) => {
+      const { templateId, inputId, tagId } = action.payload;
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          return {
+            ...item,
+            inputs: item.inputs.map((input) => {
+              if (input.inputId === inputId && input.type === 'tags') {
+                return {
+                  ...input,
+                  tags: input.tags.filter((tag) => tag.inputId !== tagId),
+                };
+              }
+              return input;
+            }),
+          };
+        }
+        return item;
+      });
+    },
+
+    /// errors
+    setErrors: (state, action: PayloadAction<any>) => {
+      state.errors = action.payload;
+    },
+
+    /// Image crop
+    setDataImageCrop: (state, action: PayloadAction<imageCrop>) => {
+      state.dataImageCrop = action.payload;
+    },
+    setDataImageCroped: (state, action: PayloadAction<imageCrop>) => {
+      state.dataImageCroped = action.payload;
+    },
+    updateImageDataNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        inputId: string;
+        ImageData: valueImageNeswletter;
+        parentId?: string | null;
+      }>
+    ) => {
+      const { templateId, inputId, ImageData, parentId } = action.payload;
+
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          return {
+            ...item,
+            inputs: item.inputs.map((input) => {
+              if (input.inputId === inputId && input.type === 'image') {
+                return {
+                  ...input,
+                  ImageData: {
+                    ...input?.ImageData,
+                    ...ImageData,
+                  },
+                };
+              }
+
+              if (input.inputId === parentId && input.type === 'layout') {
+                return {
+                  ...input,
+                  inputs: input.inputs.map((input2) => {
+                    if (input2.inputId === inputId && input2.type === 'image') {
+                      return {
+                        ...input2,
+                        ImageData: {
+                          ...input2?.ImageData,
+                          ...ImageData,
+                        },
+                      };
+                    }
+                    return input2;
+                  }),
+                };
+              }
+              return input;
+            }),
+          };
+        }
+        return item;
+      });
+    },
+
+    deleteNewsletterTemplate: (state, action: PayloadAction<string>) => {
+      state.currentNewsletter = state.currentNewsletter.filter(
+        (item) => item.templateId !== action.payload
+      );
+    },
+
+    deleteInputNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        index: number;
+      }>
+    ) => {
+      const { templateId, index } = action.payload;
+
+      // elimino los errores del input
+      const input = state.currentNewsletter.find((item) => item.templateId === templateId)?.inputs[
+        index
+      ];
+
+      if (input?.type === 'layout') {
+        const inputs = input.inputs.map((item) => item.inputId);
+
+        const newErrors = state.errors.filter(
+          (item) => item.templateId !== templateId || !inputs.includes(item.inputId)
+        );
+
+        state.errors = newErrors;
+      } else {
+        const newErrors = state.errors.filter(
+          (item) => item.templateId !== templateId || item.inputId !== input?.inputId
+        );
+
+        state.errors = newErrors;
+      }
+
+      /// si el input es el ultimo typo addInput no se puede eliminar
+      const isAddInput = state.currentNewsletter.some(
+        (item) => item.templateId === templateId && item.inputs[index].type === 'addInput'
+      );
+
+      if (isAddInput) return;
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          return {
+            ...item,
+            inputs: item.inputs.filter((_, i) => i !== index),
+          };
+        }
+        return item;
+      });
+    },
+    moveTemplateNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        direction: string;
+      }>
+    ) => {
+      const { templateId, direction } = action.payload;
+      const index = state.currentNewsletter.findIndex((item) => item.templateId === templateId);
+
+      if (direction === 'up' && index !== 1) {
+        const temp = state.currentNewsletter[index - 1];
+        state.currentNewsletter[index - 1] = state.currentNewsletter[index];
+        state.currentNewsletter[index] = temp;
+      }
+      if (direction === 'down' && index !== state.currentNewsletter.length - 2) {
+        const temp = state.currentNewsletter[index + 1];
+        state.currentNewsletter[index + 1] = state.currentNewsletter[index];
+        state.currentNewsletter[index] = temp;
+      }
+    },
+    reorderInputNewsletter: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        currentIndex: number;
+        newIndex: number;
+      }>
+    ) => {
+      const { templateId, currentIndex, newIndex } = action.payload;
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === templateId) {
+          const inputsCopy = [...item.inputs];
+          const [movedInput] = inputsCopy.splice(currentIndex, 1);
+          inputsCopy.splice(newIndex, 0, movedInput);
+          return {
+            ...item,
+            inputs: inputsCopy,
+          };
+        }
+        return item;
+      });
+    },
+
+    changeColorNewslettertemplate: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        color: string;
+      }>
+    ) => {
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === action.payload.templateId) {
+          return {
+            ...item,
+            color: action.payload.color,
+          };
+        }
+        return item;
+      });
+    },
+    changeBGColorNewslettertemplate: (
+      state,
+      action: PayloadAction<{
+        templateId: string;
+        color: string;
+      }>
+    ) => {
+      state.currentNewsletter = state.currentNewsletter.map((item) => {
+        if (item.templateId === action.payload.templateId) {
+          return {
+            ...item,
+            bgColor: action.payload.color,
+          };
+        }
+        return item;
+      });
+    },
+    setEmails: (state, action: PayloadAction<string[]>) => {
+      state.emails = action.payload;
+    },
+    setDeleted: (state, action: PayloadAction<boolean>) => {
+      state.deleted = action.payload;
+    },
+    setHeader: (state, action: PayloadAction<boolean>) => {
+      state.header = action.payload;
+    },
+    setSubject: (state, action: PayloadAction<string>) => {
+      state.subject = action.payload;
+    },
+    setcurrentNewsletterID: (state, action: PayloadAction<string>) => {
+      state.currentNewsletterId = action.payload;
+    },
+    setCurrentNewsletterImagesList: (state, action: PayloadAction<any[]>) => {
+      state.currentNewsletterImagesList = action.payload;
+    },
+
+    setShowAprove: (state, action: PayloadAction<boolean>) => {
+      state.showAprove = action.payload;
+    },
+
+    setImagesSaved: (state, action: PayloadAction<boolean>) => {
+      state.imageSaved = action.payload;
+    },
+    setObjectFit: (state, action: PayloadAction<any>) => {
+      state.objectFit = action.payload;
+    },
+  },
+});
+
+// Action creators are generated for each case reducer function
+export const {
+  setShowEditor,
+  setMenu,
+  setSelectedNewsletter,
+  updateValueInputNewsletter,
+  setNeswletterList,
+  setStylesNewsletter,
+  setcurrentNewsletter,
+  setErrors,
+  setDataImageCrop,
+  updateImageDataNewsletter,
+  setDataImageCroped,
+  addNewInputNewsletter,
+  addTagNewsletter,
+  deleteTagNewsletter,
+  deleteNewsletterTemplate,
+  moveTemplateNewsletter,
+  deleteInputNewsletter,
+  reorderInputNewsletter,
+  changeColorNewslettertemplate,
+  changeBGColorNewslettertemplate,
+  setEmails,
+  setDeleted,
+  setHeader,
+  setSubject,
+  setcurrentNewsletterID,
+  setCurrentNewsletterImagesList,
+  setShowAprove,
+  setImagesSaved,
+  setObjectFit,
+} = NewsletterSlice.actions;
+
+export default NewsletterSlice.reducer;

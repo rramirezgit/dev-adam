@@ -1,0 +1,10 @@
+.wrap {
+  display: flex;
+  gap: 20px;
+}
+
+.buttonColor {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}

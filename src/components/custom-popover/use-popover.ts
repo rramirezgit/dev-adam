@@ -10,7 +10,7 @@ export function usePopover(): UsePopoverReturn {
   const [anchorEl, setAnchorEl] = useState<PopoverProps['anchorEl']>(null);
 
   const onOpen = useCallback((event: React.MouseEvent<PopoverProps['anchorEl']>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget || event.target);
   }, []);
 
   const onClose = useCallback(() => {

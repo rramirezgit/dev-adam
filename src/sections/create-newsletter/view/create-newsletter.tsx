@@ -11,16 +11,16 @@ import {
 import { useEffect, useState } from 'react';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowEditor, setSubject } from 'src/store/slices/newsletter';
+import { setShowEditor, setSubject } from 'src/store/slices/newsletterStore';
 import { useParams } from 'next/navigation';
-import Iconify from 'src/components/iconify';
-import { RootState } from 'src/store';
 import dayjs from 'dayjs';
 import { useRouter } from 'src/routes/hooks';
 import NewsletterEditingArea from '../editing-area';
 import SendNewsletter from '../header-editing';
 import MenuNeswletter from '../menu/menu-view';
-import { useAxios } from '../../../auth/context/axios/axios-provider';
+import { RootState } from 'src/store';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { Iconify } from 'src/components/iconify';
 
 export default function CreateNewsletter() {
   const Theme = useTheme();
@@ -31,7 +31,7 @@ export default function CreateNewsletter() {
 
   const smUp = useResponsive('up', 'sm');
 
-  const router = useParams();
+  const router = useParams<any>();
 
   const navegate = useRouter();
 
@@ -74,7 +74,7 @@ export default function CreateNewsletter() {
         approved: true,
       })
       .then(() => {
-        navegate.push('/dashboard/create_newsletter');
+        navegate.push('/dashboard/create-newsletter');
         setShowAprove(false);
         dispatch(setShowEditor(false));
       });
@@ -86,7 +86,7 @@ export default function CreateNewsletter() {
         approved: false,
       })
       .then(() => {
-        navegate.push('/dashboard/create_newsletter');
+        navegate.push('/dashboard/create-newsletter');
         setShowAprove(false);
         dispatch(setShowEditor(false));
       });

@@ -1,16 +1,15 @@
 /* eslint-disable arrow-body-style */
 import { useCallback, useEffect, useState } from 'react';
 import { Box, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
-import { useLocales } from 'src/locales';
 import { useDispatch, useSelector } from 'react-redux';
-import { setcurrentNewsletter, setHeader, setMenu } from 'src/store/slices/newsletter';
-import uuidv4 from 'src/utils/uuidv4';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
-import NotaCardItem from 'src/sections/create-note/Nota-card-item';
+import { setcurrentNewsletter, setHeader, setMenu } from 'src/store/slices/newsletterStore';
 import { NEWSLETTERS_TEMPLATES_LIST_MENU } from 'src/const/neswletter/templates';
+import { TEMPLATES_WITH_CONTENT } from '../../templates';
+import { useAxios } from 'src/auth/axios/axios-provider';
 import { RootState } from 'src/store';
 import { INewslettersNames } from 'src/types/newsletter';
-import { TEMPLATES_WITH_CONTENT } from '../../templates';
+import NotaCardItem from 'src/components/Nota-card-item';
+import uuidv4 from 'src/utils/uuidv4';
 
 export default function AddTemplateMenu() {
   const theme = useTheme();

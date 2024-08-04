@@ -14,17 +14,14 @@ import { paths } from 'src/routes/paths';
 import { useResponsive } from 'src/hooks/use-responsive';
 // _mock
 import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+// import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { SOCIALNETWORKS } from 'src/const/post/redes';
+// import { SOCIALNETWORKS } from 'src/const/post/redes';
 // types
-import { PostFilterValue } from 'src/types/post';
-import EmptyContent from 'src/components/empty-content/empty-content';
+// import { NewslettersFilterValue } from 'src/types/post';
+// import EmptyContent from 'src/components/empty-content/empty-content';
 //
-import { newsletterItemList } from 'src/store/slices/types';
-import { useLocales } from 'src/locales';
-import { INewslettersFilters } from 'src/types/newsletter';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setDeleted,
@@ -33,11 +30,8 @@ import {
   setShowEditor,
   setcurrentNewsletter,
   setcurrentNewsletterID,
-} from 'src/store/slices/newsletter';
-import useAxiosInstance from 'src/hooks/use-axios-instance';
-import { useParams } from 'next/navigation';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
-import { RootState } from 'src/store';
+} from 'src/store/slices/newsletterStore';
+import { useParams } from 'src/routes/hooks';
 import { SplashScreen } from 'src/components/loading-screen';
 import CreateNewsletterButton from './create-Newsletter-btn';
 import NewsletterList from '../newsletter-list';
@@ -45,6 +39,14 @@ import PostSearch from '../post-search';
 import Newsfilter from '../newsletter-filter';
 import NewsletterFiltersResult from '../newsletter-filters-result';
 import CreateNewsletter from './create-newsletter';
+import {
+  INewslettersFilters,
+  newsletterItemList,
+  NewslettersFilterValue,
+} from 'src/types/newsletter';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { RootState } from 'src/store';
+import EmptyContent from 'src/components/empty-content/empty-content';
 
 const mockState = ['published', 'programmed', 'published', 'programmed', 'published'];
 
@@ -58,17 +60,15 @@ export default function CreateNewsletterHome() {
   const showEditor = useSelector((state: RootState) => state.newsletter.showEditor);
   const deleted = useSelector((state: RootState) => state.newsletter.deleted);
 
-  const router = useParams();
+  const params = useParams<any>();
 
-  const { NewsletterId, action } = router;
+  const { NewsletterId, action } = params;
 
   const settings = useSettingsContext();
 
   const distpach = useDispatch();
 
   const axiosInstance = useAxios();
-
-  const { t } = useLocales();
 
   const openFilters = useBoolean();
 
@@ -143,7 +143,7 @@ export default function CreateNewsletterHome() {
     dateError,
   });
 
-  const handleFilters = useCallback((name: string, value: PostFilterValue) => {
+  const handleFilters = useCallback((name: string, value: NewslettersFilterValue) => {
     setFilters((prevState) => ({
       ...prevState,
       [name]: value,
@@ -189,12 +189,12 @@ export default function CreateNewsletterHome() {
       alignItems={{ xs: 'flex-end', sm: 'center' }}
       direction={{ xs: 'column', sm: 'row' }}
     >
-      <PostSearch
+      {/* <PostSearch
         query={search.query}
         results={search.results}
         onSearch={handleSearch}
         hrefItem={(id: string) => paths.dashboard.tour.details(id)}
-      />
+      /> */}
       <Stack direction="row" spacing={1} flexShrink={0}>
         <Newsfilter
           open={openFilters.value}
@@ -203,7 +203,7 @@ export default function CreateNewsletterHome() {
           //
           filters={filters}
           onFilters={handleFilters}
-          socialNetworks={SOCIALNETWORKS}
+          // socialNetworks={SOCIALNETWORKS}
           //
           canReset={canReset}
           onResetFilters={handleResetFilters}
@@ -321,7 +321,7 @@ export default function CreateNewsletterHome() {
 
   return (
     <Container
-      maxWidth={settings.themeStretch ? false : 'lg'}
+      maxWidth={'lg'}
       sx={{
         pb: !showEditor ? { xs: 10, md: 15 } : 0,
         minWidth: '565px',
@@ -334,7 +334,7 @@ export default function CreateNewsletterHome() {
       >
         {!showEditor ? (
           <>
-            <CustomBreadcrumbs
+            {/* <CustomBreadcrumbs
               heading={t('Dashboard.Create_Newsletter.Title')}
               links={[
                 { name: 'ADAM', href: '#' },
@@ -344,7 +344,7 @@ export default function CreateNewsletterHome() {
               sx={{
                 mb: { xs: 3, md: 5 },
               }}
-            />
+            /> */}
             {/* Filters */}
             <Stack
               spacing={2.5}

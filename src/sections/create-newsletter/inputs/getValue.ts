@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { ImageInput, ILayout } from './types';
+import { RootState } from 'src/store';
 
 interface IgetInputValue {
   inputId: string;

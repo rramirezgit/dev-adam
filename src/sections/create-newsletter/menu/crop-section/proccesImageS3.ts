@@ -1,8 +1,8 @@
 /* eslint-disable no-plusplus */
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
+import { useAxios } from 'src/auth/axios/axios-provider';
 import { RootState } from 'src/store';
-import { setCurrentNewsletterImagesList } from 'src/store/slices/newsletter';
+import { setCurrentNewsletterImagesList } from 'src/store/slices/newsletterStore';
 
 export const useProcessImagesS3 = () => {
   const currentNewsletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);

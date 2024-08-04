@@ -1,5 +1,9 @@
 import 'src/global.css';
 
+// editor
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
+
 // ----------------------------------------------------------------------
 
 import type { Viewport } from 'next';
@@ -15,6 +19,7 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 import { ReduxProvider } from 'src/store/Provider';
+import { AxiosProvider } from 'src/auth/axios/axios-provider';
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +49,9 @@ export default async function RootLayout({ children }: Props) {
               <MotionLazy>
                 <ProgressBar />
                 <SettingsDrawer />
-                <AuthInitialize>{children}</AuthInitialize>
+                <AxiosProvider>
+                  <AuthInitialize>{children}</AuthInitialize>
+                </AxiosProvider>
               </MotionLazy>
             </ThemeProvider>
           </SettingsProvider>

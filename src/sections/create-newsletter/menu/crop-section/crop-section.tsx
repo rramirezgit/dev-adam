@@ -4,7 +4,6 @@
 import { DependencyList, useEffect, useRef, useState } from 'react';
 import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { Box, Checkbox, IconButton, Slider, Stack, Typography } from '@mui/material';
 // import { setDataImageCroped, setOpenModalPreviewMobile } from 'src/store/slices/post';
 import {
@@ -16,17 +15,17 @@ import {
   setcurrentNewsletter,
   updateImageDataNewsletter,
   updateValueInputNewsletter,
-} from 'src/store/slices/newsletter';
-import { useLocales } from 'src/locales';
-import ColorPicker from 'src/components/colorPicker';
+} from 'src/store/slices/newsletterStore';
 import 'react-image-crop/dist/ReactCrop.css';
-import Iconify from 'src/components/iconify';
 import { m } from 'framer-motion';
 import { LoadingButton } from '@mui/lab';
 import { varFade } from 'src/components/animate';
 import { imgPreview } from './imgPreview';
 import useGetInputValue from '../../inputs/getValue';
 import { useProcessImagesS3 } from './proccesImageS3';
+import { RootState } from 'src/store';
+import { Iconify } from 'src/components/iconify';
+import ColorPicker from 'src/components/colorPicker';
 
 export default function CropSection() {
   const [crop, setCrop] = useState<Crop>();
@@ -40,7 +39,6 @@ export default function CropSection() {
 
   const [showOptionsCrop, setOptionsCrop] = useState(false);
 
-  const { t } = useLocales();
   const distpatch = useDispatch();
 
   const { dataImageCrop, menuData, dataImageCroped, errors } = useSelector(
@@ -217,7 +215,7 @@ export default function CropSection() {
         {showOptionsCrop && (
           <m.div initial="initial" animate="animate" variants={varFade().in}>
             <Box>
-              <Typography>{t('Dashboard.Create_Newsletter.Create.Modal.Crop_Scale')}</Typography>
+              <Typography>Escalar</Typography>
               <Slider
                 size="small"
                 defaultValue={1}
@@ -233,7 +231,7 @@ export default function CropSection() {
             </Box>
 
             <Box>
-              <Typography>{t('Dashboard.Create_Newsletter.Create.Modal.Crop_Rotate')}</Typography>
+              <Typography>Rotar</Typography>
               <Slider
                 size="small"
                 step={1}
