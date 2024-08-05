@@ -8,7 +8,7 @@ import {
   DialogTitle,
   useTheme,
 } from '@mui/material';
-import Iconify from 'src/components/iconify/iconify';
+import { Iconify } from 'src/components/iconify';
 
 interface Props {
   open: boolean;

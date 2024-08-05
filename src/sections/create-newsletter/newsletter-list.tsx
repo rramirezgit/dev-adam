@@ -16,7 +16,7 @@ type Props = {
 export default function NewsletterList({ news }: Props) {
   const [page, setPage] = useState(1);
 
-  const renderNews = news.length > 6 ? news.slice((page - 1) * 6, page * 6) : news;
+  const renderNews = news.length > 6 ? news.slice((page - 1) * 20, page * 20) : news;
 
   return (
     <>
@@ -24,10 +24,10 @@ export default function NewsletterList({ news }: Props) {
         gap={3}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
-          lg: 'repeat(3, 1fr)',
+          xs: 'repeat(2, 1fr)',
+          sm: 'repeat(3, 1fr)',
+          md: 'repeat(4, 1fr)',
+          lg: 'repeat(5, 1fr)',
         }}
         sx={{
           justifyItems: { xs: 'center', sm: 'stretch', md: 'stretch', lg: 'stretch' },
@@ -40,7 +40,7 @@ export default function NewsletterList({ news }: Props) {
 
       {news.length > 6 && (
         <Pagination
-          count={Math.ceil(news.length / 6)}
+          count={Math.ceil(news.length / 20)}
           page={page}
           onChange={(e, value) => setPage(value)}
           color="primary"

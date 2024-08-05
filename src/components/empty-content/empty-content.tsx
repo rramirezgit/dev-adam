@@ -40,13 +40,6 @@ export default function EmptyContent({
       }}
       {...other}
     >
-      <Box
-        component="img"
-        alt="empty content"
-        src={imgUrl || '/assets/icons/empty/ic_content.svg'}
-        sx={{ width: 1, maxWidth: 160 }}
-      />
-
       {title && (
         <Typography
           variant="h6"

@@ -6,27 +6,19 @@ import { useCallback, useEffect, useState } from 'react';
 // @mui
 import Stack from '@mui/material/Stack';
 import { Box, Tab, Tabs } from '@mui/material';
-import Container from '@mui/material/Container';
 
 // routes
 import { paths } from 'src/routes/paths';
 // utils
 import { useResponsive } from 'src/hooks/use-responsive';
 // _mock
-import { useSettingsContext } from 'src/components/settings';
-// import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import { useBoolean } from 'src/hooks/use-boolean';
 
-// import { SOCIALNETWORKS } from 'src/const/post/redes';
-// types
-// import { NewslettersFilterValue } from 'src/types/post';
-// import EmptyContent from 'src/components/empty-content/empty-content';
 //
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  fetchNewsletters,
   setDeleted,
-  setNeswletterList,
-  setShowAprove,
   setShowEditor,
   setcurrentNewsletter,
   setcurrentNewsletterID,
@@ -35,7 +27,6 @@ import { useParams } from 'src/routes/hooks';
 import { SplashScreen } from 'src/components/loading-screen';
 import CreateNewsletterButton from './create-Newsletter-btn';
 import NewsletterList from '../newsletter-list';
-import PostSearch from '../post-search';
 import Newsfilter from '../newsletter-filter';
 import NewsletterFiltersResult from '../newsletter-filters-result';
 import CreateNewsletter from './create-newsletter';
@@ -45,10 +36,9 @@ import {
   NewslettersFilterValue,
 } from 'src/types/newsletter';
 import { useAxios } from 'src/auth/axios/axios-provider';
-import { RootState } from 'src/store';
+import { AppDispatch, RootState } from 'src/store';
 import EmptyContent from 'src/components/empty-content/empty-content';
-
-const mockState = ['published', 'programmed', 'published', 'programmed', 'published'];
+import { DashboardContent } from 'src/layouts/dashboard';
 
 const defaultFilters: INewslettersFilters = {
   creationDate: null,
@@ -59,14 +49,13 @@ export default function CreateNewsletterHome() {
   const neswletterListData = useSelector((state: RootState) => state.newsletter.neswletterList);
   const showEditor = useSelector((state: RootState) => state.newsletter.showEditor);
   const deleted = useSelector((state: RootState) => state.newsletter.deleted);
+  const isLoading = useSelector((state: RootState) => state.newsletter.isLoading);
 
   const params = useParams<any>();
 
   const { NewsletterId, action } = params;
 
-  const settings = useSettingsContext();
-
-  const distpach = useDispatch();
+  const distpach = useDispatch<AppDispatch>();
 
   const axiosInstance = useAxios();
 
@@ -113,17 +102,7 @@ export default function CreateNewsletterHome() {
       handleFilters('state', 'SENDED');
     }
 
-    const data = await axiosInstance.get('/newsletters').then((res) => res.data);
-
-    const proccesData = data.map((item: any) => ({
-      ...item,
-      objData:
-        item.objData.length > 0 && item.objData[0] === '{'
-          ? JSON.parse(item.objData)
-          : item.objData,
-    }));
-
-    distpach(setNeswletterList(proccesData));
+    distpach(fetchNewsletters());
   };
 
   useEffect(() => {
@@ -189,13 +168,7 @@ export default function CreateNewsletterHome() {
       alignItems={{ xs: 'flex-end', sm: 'center' }}
       direction={{ xs: 'column', sm: 'row' }}
     >
-      {/* <PostSearch
-        query={search.query}
-        results={search.results}
-        onSearch={handleSearch}
-        hrefItem={(id: string) => paths.dashboard.tour.details(id)}
-      /> */}
-      <Stack direction="row" spacing={1} flexShrink={0}>
+      <Stack direction="row" spacing={1} flexShrink={0} justifyContent="space-between" width={1}>
         <Newsfilter
           open={openFilters.value}
           onOpen={openFilters.onTrue}
@@ -209,6 +182,7 @@ export default function CreateNewsletterHome() {
           onResetFilters={handleResetFilters}
           dateError={dateError}
         />
+        <CreateNewsletterButton />
       </Stack>
     </Stack>
   );
@@ -315,13 +289,13 @@ export default function CreateNewsletterHome() {
     </Tabs>
   );
 
-  if (neswletterListData.length === 0) {
+  if (isLoading) {
     return <SplashScreen />;
   }
 
   return (
-    <Container
-      maxWidth={'lg'}
+    <DashboardContent
+      maxWidth="xl"
       sx={{
         pb: !showEditor ? { xs: 10, md: 15 } : 0,
         minWidth: '565px',
@@ -369,7 +343,7 @@ export default function CreateNewsletterHome() {
           <CreateNewsletter />
         )}
       </Box>
-    </Container>
+    </DashboardContent>
   );
 }
 
@@ -407,5 +381,7 @@ const applyFilter = ({
     inputData = inputData.filter((newsletter) => newsletter?.status === state);
   }
 
-  return inputData;
+  return inputData.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 };

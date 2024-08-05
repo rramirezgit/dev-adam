@@ -78,6 +78,7 @@ export type newsletterItemList = {
   scheduleDate: Date;
   objData: string;
   approverEmails: string[];
+  createdAt?: any;
 };
 
 type error = {
@@ -111,4 +112,7 @@ export interface NeswletterState {
 
   imageSaved: boolean;
   objectFit: any;
+
+  isLoading: boolean;
+  error: string | null;
 }

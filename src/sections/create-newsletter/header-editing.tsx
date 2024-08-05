@@ -423,6 +423,36 @@ export default function SendNewsletter() {
     }
   };
 
+  const callbackFunction = () => {
+    router.push('/dashboard/create-newsletter');
+    dispatch(setcurrentNewsletterID(''));
+    setSaving(false);
+    dispatch(setErrors([]));
+    dispatch(setShowEditor(false));
+    showPopup.onFalse();
+  };
+
+  const createNewNewsletter = async () => {
+    const pathData = {
+      objData: JSON.stringify(currentNewsletter),
+    };
+
+    const postData = {
+      subject: Subject,
+      content: await buildHtml(),
+    };
+
+    await axiosInstance.post('/newsletters', postData).then(async (res) => {
+      if (res.status === 200 || res.status === 201) {
+        await axiosInstance.patch(`/newsletters/${res.data.id}`, pathData).then((res) => {
+          if (res.status === 200 || res.status === 201) {
+            callbackFunction();
+          }
+        });
+      }
+    });
+  };
+
   const handleclickAcept = async () => {
     setLoading(true);
     const postDataNewsletter = {
@@ -442,38 +472,14 @@ export default function SendNewsletter() {
           .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletter)
           .then((res) => {
             if (res.status === 200 || res.status === 201) {
-              router.push('/dashboard/create-newsletter');
-              dispatch(setcurrentNewsletterID(''));
-              setSaving(false);
-              dispatch(setErrors([]));
-              dispatch(setShowEditor(false));
-              showPopup.onFalse();
+              callbackFunction();
             }
           });
-      } else {
-        await axiosInstance.post('/newsletters', postDataNewsletter).then((res) => {
-          if (res.status === 200 || res.status === 201) {
-            router.push('/dashboard/create-newsletter');
-            dispatch(setcurrentNewsletterID(''));
-            setSaving(false);
-            dispatch(setErrors([]));
-            dispatch(setShowEditor(false));
-            showPopup.onFalse();
-          }
-        });
+
+        return;
       }
-    } else {
-      await axiosInstance.post('/newsletters', postDataNewsletter).then((res) => {
-        if (res.status === 200 || res.status === 201) {
-          router.push('/dashboard/create-newsletter');
-          dispatch(setcurrentNewsletterID(''));
-          setSaving(false);
-          dispatch(setErrors([]));
-          dispatch(setShowEditor(false));
-          showPopup.onFalse();
-        }
-      });
     }
+    await createNewNewsletter();
   };
 
   type Ioptions = 'Prueba' | 'Aprobacion' | 'Subscriptores' | 'schedule';

@@ -1,6 +1,6 @@
 'use client';
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { headerContent } from 'src/sections/create-newsletter/templates/header/header-content';
 import {
@@ -10,6 +10,8 @@ import {
 } from 'src/sections/create-newsletter/inputs/types';
 import { FooterContent } from 'src/sections/create-newsletter/templates/footer/footer-content';
 import { imageCrop, NeswletterState, newsletterItemList, Tmenudata } from 'src/types/newsletter';
+import axios from 'axios';
+import { createAxiosInstance } from '../axiosInstance';
 
 const initialState: NeswletterState = {
   menuData: { type: 'none', templateId: '', inputId: 'string', parentId: 'string' },
@@ -39,7 +41,59 @@ const initialState: NeswletterState = {
 
   imageSaved: true,
   objectFit: 'cover',
+
+  isLoading: false,
+  error: null,
 };
+
+// Thunks
+export const deleteNewsletter = createAsyncThunk(
+  'newsletters/deleteNewsletter',
+  async (newsletterId: string, { rejectWithValue }) => {
+    try {
+      const axiosIntance = createAxiosInstance();
+      await axiosIntance.delete(`/newsletters/${newsletterId}`);
+      return newsletterId; // Return the ID of the deleted newsletter
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const fetchNewsletters = createAsyncThunk(
+  'newsletters/fetchNewsletters',
+  async (_, { rejectWithValue }) => {
+    try {
+      const axiosIntance = createAxiosInstance();
+      const response = await axiosIntance.get('/newsletters');
+      return response.data; // Return the list of newsletters
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const editNewsletter = createAsyncThunk(
+  'newsletters/editNewsletter',
+  async (
+    {
+      id,
+      subject,
+      content,
+      objData,
+    }: { id: string; subject: string; content: string; objData: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const postDataNewsletter = { subject, content, objData };
+      const axiosIntance = createAxiosInstance();
+      const response = await axiosIntance.patch(`/newsletters/${id}`, postDataNewsletter);
+      return response.data; // Return the updated newsletter data
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
 export const NewsletterSlice = createSlice({
   name: 'post',
@@ -434,6 +488,49 @@ export const NewsletterSlice = createSlice({
     setObjectFit: (state, action: PayloadAction<any>) => {
       state.objectFit = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNewsletters.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchNewsletters.fulfilled, (state, action: PayloadAction<newsletterItemList[]>) => {
+        state.neswletterList = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchNewsletters.rejected, (state, action: PayloadAction<any>) => {
+        state.error = action.payload || 'Unknown error';
+        state.isLoading = false;
+      })
+      .addCase(deleteNewsletter.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteNewsletter.fulfilled, (state, action: PayloadAction<string>) => {
+        state.neswletterList = state.neswletterList.filter(
+          (newsletter) => newsletter.id !== action.payload
+        );
+        state.isLoading = false;
+      })
+      .addCase(deleteNewsletter.rejected, (state, action: PayloadAction<any>) => {
+        state.error = action.payload || 'Unknown error';
+        state.isLoading = false;
+      })
+      .addCase(editNewsletter.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(editNewsletter.fulfilled, (state, action: PayloadAction<newsletterItemList>) => {
+        state.neswletterList = state.neswletterList.map((newsletter) =>
+          newsletter.id === action.payload.id ? action.payload : newsletter
+        );
+        state.isLoading = false;
+      })
+      .addCase(editNewsletter.rejected, (state, action: PayloadAction<any>) => {
+        state.error = action.payload || 'Unknown error';
+        state.isLoading = false;
+      });
   },
 });
 

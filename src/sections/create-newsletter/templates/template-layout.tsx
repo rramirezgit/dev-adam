@@ -19,7 +19,7 @@ import { RootState } from 'src/store';
 import { SvgColor } from 'src/components/svg-color';
 import { Iconify } from 'src/components/iconify';
 
-export const COLORS_NEWSLETTER_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', 'black'];
+export const COLORS_NEWSLETTER_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', '#000'];
 export const COLORS_BG_NEWSLETTER_TEMPLATES = [
   '#FFFFFF',
   '#FEFAEF',

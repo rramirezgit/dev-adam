@@ -8,6 +8,7 @@ import {
   DialogTitle,
   IconButton,
   Stack,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -17,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { alpha } from '@mui/material/styles';
 import {
   setDeleted,
+  setNeswletterList,
   setShowEditor,
   setSubject,
   setcurrentNewsletter,
@@ -103,6 +105,10 @@ export default function NewsletterCardItem(props: Props) {
           maxWidth: '352px',
           position: 'relative',
           width: '100%',
+          '&:hover': {
+            transform: 'scale(1.02)',
+            transition: 'all 0.2s ease',
+          },
         }}
       >
         {/* {post.mediaUrls?.length ? renderSocialMini : null} */}
@@ -154,10 +160,10 @@ export default function NewsletterCardItem(props: Props) {
         >
           <Box
             sx={{
-              transform: 'scale(0.4)',
+              transform: 'scale(30%)',
               height: '100%',
               position: 'relative',
-              top: '-8%',
+              top: '-30%',
             }}
             dangerouslySetInnerHTML={{
               __html: newsletter.content,
@@ -166,23 +172,29 @@ export default function NewsletterCardItem(props: Props) {
         </Box>
 
         <CardContent sx={{ padding: '13px 20px', height: 'auto' }}>
-          <Typography
-            component="div"
-            sx={{ fontSize: '18px', fontWeight: '600', paddingBottom: '8px' }}
-          >
-            {newsletter.subject}
-          </Typography>
+          <Tooltip title={newsletter.subject} placement="top">
+            <Typography
+              sx={{
+                cursor: 'pointer',
+                fontWeight: '600',
+
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {newsletter.subject}
+            </Typography>
+          </Tooltip>
 
           {newsletter.status === 'SCHEDULED' ? (
             <Typography sx={{ fontSize: '12px', fontWeight: '400' }} color="primary.main">
               {`Programado el ${fDate(newsletter.scheduleDate)}`}
             </Typography>
-          ) : newsletter.status === 'DRAFT' ? (
-            <Typography sx={{ fontSize: '12px', fontWeight: '400' }} color="text.secondary">
-              Borrador
-            </Typography>
           ) : (
-            <></>
+            <Typography sx={{ fontSize: '11px', fontWeight: '400' }} color="text.secondary">
+              {newsletter.status} : {fDate(newsletter.createdAt)}
+            </Typography>
           )}
         </CardContent>
       </Card>
@@ -226,12 +238,15 @@ export default function NewsletterCardItem(props: Props) {
                 variant="outlined"
                 color="primary"
                 loading={loading}
-                onClick={() => {
+                onClick={async () => {
                   setLoading(true);
-                  axiosInstance.delete(`/newsletters/${newsletter.id}`).then((res) => {
-                    setLoading(false);
+                  await axiosInstance.delete(`/newsletters/${newsletter.id}`).then(async (res) => {
                     dispatch(setDeleted(true));
                     showPopupDelete.onFalse();
+                    const data = await axiosInstance.get('/newsletters').then((res) => res.data);
+                    setLoading(false);
+
+                    dispatch(setNeswletterList(data));
                   });
                 }}
                 sx={{

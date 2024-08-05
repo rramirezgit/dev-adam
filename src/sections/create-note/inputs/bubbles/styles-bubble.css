@@ -1,0 +1,141 @@
+.ql-tooltip {
+  position: relative;
+  z-index: 9999;
+  height: 40px;
+}
+
+.quill.quill-tags-Blank * .ql-tooltip,
+.quill.quill-tags-Noticias * .ql-tooltip {
+  width: max-content !important;
+  left: -100% !important;
+}
+
+.ql-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.ql-editor {
+  padding: 0px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  overflow: visible;
+  line-height: 1.2;
+}
+
+.ql-editor.ql-blank::before {
+  left: 0px;
+}
+
+/*----------------------------------------------------------------------------------*/
+/*                      HEADER STYLES                                        */
+/*----------------------------------------------------------------------------------*/
+
+/** title **/
+
+.quill-title-Header * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-weight: 800;
+  font-size: 32px;
+}
+
+.quill-title-Header * .ql-editor {
+  font-weight: 700;
+  font-size: 32px;
+}
+
+/** SUBTITLE */
+.quill-subtitle-Blank * .ql-editor.ql-blank::before,
+.quill-subtitle-Header * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-weight: 400;
+  font-size: 18px;
+}
+.quill-subtitle-Blank * .ql-editor,
+.quill-subtitle-Header * .ql-editor {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+/** PARAGRAPH */
+
+.quill-paragraph-Header * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-weight: 325;
+  font-size: 18px;
+}
+
+.quill-paragraph-Header * .ql-editor {
+  font-weight: 325;
+  font-size: 18px;
+}
+
+/*----------------------------------------------------------------------------------*/
+/*                      NOTICIAS BLANK BUBBLE STYLES                                      */
+/*----------------------------------------------------------------------------------*/
+
+/** seccion **/
+
+.quill-seccion-Noticias * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.quill-seccion-Noticias * .ql-editor {
+  padding: 0px;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+/** title **/
+.quill-title-Blank * .ql-editor.ql-blank::before,
+.quill-title-Noticias * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-weight: 800;
+  font-size: 34px;
+}
+
+.quill-title-Blank * .ql-editor,
+.quill-title-Noticias * .ql-editor {
+  font-weight: 700;
+  font-size: 34px;
+}
+
+/** paragraph **/
+
+.quill-paragraph-Blank * .ql-editor.ql-blank::before,
+.quill-paragraph-Noticias * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.quill-paragraph-Blank * .ql-editor,
+.quill-paragraph-Noticias * .ql-editor {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+/** tags **/
+.quill-tags-Blank * .ql-editor.ql-blank::before,
+.quill-tags-Noticias * .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  font-size: 14px;
+  color: white;
+  left: 7px;
+}
+
+.quill-tags-Blank * .ql-editor,
+.quill-tags-Blank * .ql-editor.ql-blank,
+.quill-tags-Noticias * .ql-editor,
+.quill-tags-Noticias * .ql-editor.ql-blank {
+  padding: 0px !important;
+  text-align: center;
+}
+
+.quill-tags-Blank * .ql-editor,
+.quill-tags-Noticias * .ql-editor {
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+}
