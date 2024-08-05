@@ -1,18 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prefer-spread */
 /* eslint-disable @next/next/no-img-element */
-import { DependencyList, useEffect, useRef, useState } from "react";
-import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "src/store";
-import {
-  Box,
-  Checkbox,
-  IconButton,
-  Slider,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { DependencyList, useEffect, useRef, useState } from 'react';
+import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import { Box, Checkbox, IconButton, Slider, Stack, Typography } from '@mui/material';
 // import { setDataImageCroped, setOpenModalPreviewMobile } from 'src/store/slices/post';
 import {
   setDataImageCrop,
@@ -23,17 +16,16 @@ import {
   setcurrentNota,
   updateImageDataNota,
   updateValueInputNota,
-} from "src/store/slices/note";
-import { useLocales } from "src/locales";
-import ColorPicker from "src/components/colorPicker";
-import "react-image-crop/dist/ReactCrop.css";
-import Iconify from "src/components/iconify";
-import { m } from "framer-motion";
-import { LoadingButton } from "@mui/lab";
-import { varFade } from "src/components/animate";
-import { imgPreview } from "./imgPreview";
-import useGetInputValue from "../../inputs/getValue";
-import { useProcessImagesS3 } from "./proccesImageS3";
+} from 'src/store/slices/noteStore';
+import ColorPicker from 'src/components/colorPicker';
+import 'react-image-crop/dist/ReactCrop.css';
+import { Iconify } from 'src/components/iconify';
+import { m } from 'framer-motion';
+import { LoadingButton } from '@mui/lab';
+import { varFade } from 'src/components/animate';
+import { imgPreview } from './imgPreview';
+import useGetInputValue from '../../inputs/getValue';
+import { useProcessImagesS3 } from './proccesImageS3';
 
 export default function CropSection() {
   const [crop, setCrop] = useState<Crop>();
@@ -47,7 +39,6 @@ export default function CropSection() {
 
   const [showOptionsCrop, setOptionsCrop] = useState(false);
 
-  const { t } = useLocales();
   const distpatch = useDispatch();
 
   const { dataImageCrop, menuData, dataImageCroped, errors } = useSelector(
@@ -84,7 +75,7 @@ export default function CropSection() {
 
   useDebounceEffect(
     async () => {
-      let b64 = "";
+      let b64 = '';
       if (completedCrop?.width && completedCrop?.height && imgRef?.current) {
         b64 = imgPreview(imgRef.current, completedCrop, scale, rotate);
         distpach(
@@ -105,18 +96,18 @@ export default function CropSection() {
 
   const handleSave = () => {
     setLoading(true);
-    processSingleImageS3(inputData).then(newCurrentNeswletter => {
+    processSingleImageS3(inputData).then((newCurrentNeswletter) => {
       setLoading(false);
-      distpach(setMenu({ type: "none" }));
-      distpach(setDataImageCrop({ imageData: "", name: "", type: "" }));
-      distpach(setDataImageCroped({ imageData: "", name: "", type: "" }));
+      distpach(setMenu({ type: 'none' }));
+      distpach(setDataImageCrop({ imageData: '', name: '', type: '' }));
+      distpach(setDataImageCroped({ imageData: '', name: '', type: '' }));
       distpach(setcurrentNota(newCurrentNeswletter));
       distpach(setImagesSaved(true));
     });
   };
 
   type TypesUpdateDataImage = {
-    key: "bgColor" | "adjustImageCrop" | "name" | "type";
+    key: 'bgColor' | 'adjustImageCrop' | 'name' | 'type';
     value: string | boolean;
   };
 
@@ -130,11 +121,11 @@ export default function CropSection() {
   };
 
   const handleChangeBgColorIamge = (e: any) => {
-    updateDataImage({ key: "bgColor", value: e.target.value });
+    updateDataImage({ key: 'bgColor', value: e.target.value });
   };
 
   const handleChangeSizeimage = (e: any) =>
-    updateDataImage({ key: "adjustImageCrop", value: e.target.checked });
+    updateDataImage({ key: 'adjustImageCrop', value: e.target.checked });
 
   const loadedImage = () => {
     distpach(
@@ -144,15 +135,13 @@ export default function CropSection() {
       })
     );
 
-    updateDataImage({ key: "name", value: dataImageCrop?.name as string });
-    updateDataImage({ key: "type", value: dataImageCrop?.type as string });
-    updateDataImage({ key: "bgColor", value: "white" });
+    updateDataImage({ key: 'name', value: dataImageCrop?.name as string });
+    updateDataImage({ key: 'type', value: dataImageCrop?.type as string });
+    updateDataImage({ key: 'bgColor', value: 'white' });
 
     /// si existe un error para este input, lo borramos
 
-    const newErrors = errors.filter(
-      (error: any) => error.inputId !== menuData.inputId
-    );
+    const newErrors = errors.filter((error: any) => error.inputId !== menuData.inputId);
 
     distpach(setErrors(newErrors));
   };
@@ -161,8 +150,8 @@ export default function CropSection() {
     distpach(
       setDataImageCroped({
         imageData: dataImageCrop?.imageData as string,
-        name: "",
-        type: "",
+        name: '',
+        type: '',
       })
     );
     setCrop(undefined);
@@ -173,34 +162,34 @@ export default function CropSection() {
     setScale(1);
     setRotate(0);
 
-    updateDataImage({ key: "adjustImageCrop", value: true });
-    updateDataImage({ key: "bgColor", value: "white" });
+    updateDataImage({ key: 'adjustImageCrop', value: true });
+    updateDataImage({ key: 'bgColor', value: 'white' });
   };
 
   const handleClicDelete = () => {
-    updateDataImage({ key: "adjustImageCrop", value: true });
-    updateDataImage({ key: "bgColor", value: "white" });
+    updateDataImage({ key: 'adjustImageCrop', value: true });
+    updateDataImage({ key: 'bgColor', value: 'white' });
 
     distpatch(
       updateValueInputNota({
-        value: "",
+        value: '',
         ...ids,
       })
     );
-    distpach(setMenu({ type: "none" }));
+    distpach(setMenu({ type: 'none' }));
     distpach(
       setDataImageCrop({
-        imageData: "",
-        name: "",
-        type: "",
+        imageData: '',
+        name: '',
+        type: '',
       })
     );
 
     distpach(
       setDataImageCroped({
-        imageData: "",
-        name: "",
-        type: "",
+        imageData: '',
+        name: '',
+        type: '',
       })
     );
   };
@@ -213,7 +202,7 @@ export default function CropSection() {
         gap={2}
         sx={{
           mb: 2,
-          transition: "all 1s ease",
+          transition: 'all 1s ease',
         }}
       >
         <ColorPicker
@@ -226,9 +215,7 @@ export default function CropSection() {
         {showOptionsCrop && (
           <m.div initial="initial" animate="animate" variants={varFade().in}>
             <Box>
-              <Typography>
-                {t("Dashboard.Create_Nota.Create.Modal.Crop_Scale")}
-              </Typography>
+              <Typography>Escalar</Typography>
               <Slider
                 size="small"
                 defaultValue={1}
@@ -239,16 +226,12 @@ export default function CropSection() {
                 marks
                 valueLabelDisplay="auto"
                 disabled={!dataImageCroped}
-                onChange={(event: Event, newValue: number | number[]) =>
-                  setScale(Number(newValue))
-                }
+                onChange={(event: Event, newValue: number | number[]) => setScale(Number(newValue))}
               />
             </Box>
 
             <Box>
-              <Typography>
-                {t("Dashboard.Create_Nota.Create.Modal.Crop_Rotate")}
-              </Typography>
+              <Typography>Rotar</Typography>
               <Slider
                 size="small"
                 step={1}
@@ -268,7 +251,7 @@ export default function CropSection() {
         <Stack direction="row" alignItems="center">
           <Box flex={1}>
             <Checkbox
-              sx={{ margin: "0px 10px 0px 0px" }}
+              sx={{ margin: '0px 10px 0px 0px' }}
               onChange={handleChangeSizeimage}
               defaultChecked
               checked={inputData.ImageData.adjustImageCrop}
@@ -276,16 +259,10 @@ export default function CropSection() {
             ajustar Image
           </Box>
           <Box>
-            <IconButton
-              onClick={handleClickReset}
-              disabled={!dataImageCroped?.imageData}
-            >
+            <IconButton onClick={handleClickReset} disabled={!dataImageCroped?.imageData}>
               <Iconify icon="mdi:restore" />
             </IconButton>
-            <IconButton
-              onClick={handleClicDelete}
-              disabled={!dataImageCroped?.imageData}
-            >
+            <IconButton onClick={handleClicDelete} disabled={!dataImageCroped?.imageData}>
               <Iconify icon="mdi:delete" />
             </IconButton>
           </Box>
@@ -297,9 +274,9 @@ export default function CropSection() {
           crop={crop}
           maxHeight={imgRef?.current?.height}
           onChange={(_, percentCrop) => setCrop(percentCrop)}
-          onComplete={c => setCompletedCrop(c)}
+          onComplete={(c) => setCompletedCrop(c)}
           style={{
-            width: "100%",
+            width: '100%',
           }}
         >
           <img
@@ -309,8 +286,8 @@ export default function CropSection() {
             onLoad={loadedImage}
             style={{
               transform: `scale(${scale}) rotate(${rotate}deg)`,
-              background: "white",
-              objectFit: "contain",
+              background: 'white',
+              objectFit: 'contain',
             }}
           />
         </ReactCrop>
@@ -321,11 +298,11 @@ export default function CropSection() {
         onClick={handleSave}
         sx={{
           width: {
-            xs: "100%",
-            md: "20%",
+            xs: '100%',
+            md: '20%',
           },
-          margin: "0 0 24px 0",
-          alignSelf: "flex-start",
+          margin: '0 0 24px 0',
+          alignSelf: 'flex-start',
         }}
         loading={loading}
       >

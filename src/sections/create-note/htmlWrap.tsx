@@ -74,7 +74,7 @@ export const htmlWrap = ({ body, option, currentNotaId }: any) => `<!DOCTYPE htm
       ? `<table width="100%" border="0" cellspacing="0" cellpadding="0" class="img-text-prueba">
       <tr>
         <td>
-          <a href="${process.env.NEXT_PUBLIC_HOST_FRONT}/dashboard/create_note/${currentNotaId}/request-approval" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">
+          <a href="${process.env.NEXT_PUBLIC_HOST_FRONT}/dashboard/create-note/${currentNotaId}/request-approval" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">
             Dar Feedback
           </a>
         </td>

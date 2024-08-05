@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
 // routes
 import { useState } from 'react';
-import { NotaItemList } from 'src/store/slices/note';
+import { NotaItemList } from 'src/store/slices/noteStore';
 import NotaCardItem from './Nota-card-item';
 //
 
@@ -16,7 +16,7 @@ type Props = {
 export default function NotaList({ news }: Props) {
   const [page, setPage] = useState(1);
 
-  const renderNews = news.length > 6 ? news.slice((page - 1) * 6, page * 6) : news;
+  const renderNews = news.length > 6 ? news.slice((page - 1) * 20, page * 20) : news;
 
   return (
     <>
@@ -24,10 +24,10 @@ export default function NotaList({ news }: Props) {
         gap={3}
         display="grid"
         gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
-          lg: 'repeat(3, 1fr)',
+          xs: 'repeat(2, 1fr)',
+          sm: 'repeat(3, 1fr)',
+          md: 'repeat(4, 1fr)',
+          lg: 'repeat(5, 1fr)',
         }}
         sx={{
           justifyItems: {
@@ -43,9 +43,9 @@ export default function NotaList({ news }: Props) {
         ))}
       </Box>
 
-      {news.length > 6 && (
+      {news.length > 12 && (
         <Pagination
-          count={Math.ceil(news.length / 6)}
+          count={Math.ceil(news.length / 20)}
           page={page}
           onChange={(e, value) => setPage(value)}
           color="primary"

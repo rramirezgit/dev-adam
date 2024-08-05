@@ -25,15 +25,15 @@ import {
   setSubject,
   setcurrentNota,
   setcurrentNotaID,
-} from 'src/store/slices/note';
-import Iconify from 'src/components/iconify/iconify';
+} from 'src/store/slices/noteStore';
+import { Iconify } from 'src/components/iconify';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
 import { useRouter } from 'src/routes/hooks';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
+import { useAxios } from 'src/auth/axios/axios-provider';
 import Image from 'src/components/image';
-import { setcurrentNewsletter } from 'src/store/slices/newsletter';
+import { setcurrentNewsletter } from 'src/store/slices/newsletterStore';
 import { RootState } from 'src/store';
 import StateBtn from './view/StateBtn';
 import useNotes from './view/useNotes';
@@ -193,7 +193,7 @@ export default function NotaCardItem(props: Props) {
           ) : (
             <Box
               sx={{
-                transform: 'scale(0.4)',
+                transform: 'scale(30%)',
                 height: '100%',
                 position: 'relative',
                 top: '-8%',

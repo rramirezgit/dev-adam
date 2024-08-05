@@ -28,7 +28,6 @@ export function CustomPopover({
   const arrowOffset = slotProps?.arrow?.offset ?? 17;
 
   const { paperStyles, anchorOrigin, transformOrigin } = calculateAnchorOrigin(arrowPlacement);
-
   return (
     <Popover
       open={!!open}

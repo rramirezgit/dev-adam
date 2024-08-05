@@ -1,19 +1,17 @@
 /* eslint-disable no-plusplus */
-import { useDispatch, useSelector } from "react-redux";
-import { useAxios } from "src/auth/context/axios/axios-provider";
-import { RootState } from "src/store";
-import { setCurrentNotaImagesList } from "src/store/slices/note";
+import { useDispatch, useSelector } from 'react-redux';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { RootState } from 'src/store';
+import { setCurrentNotaImagesList } from 'src/store/slices/noteStore';
 
 export const useProcessImagesS3 = () => {
   const currentNota = useSelector((state: RootState) => state.note.currentNota);
-  const currentNotaImagesList = useSelector(
-    (state: RootState) => state.note.currentNotaImagesList
-  );
+  const currentNotaImagesList = useSelector((state: RootState) => state.note.currentNotaImagesList);
   const dispatch = useDispatch();
   const axiosInstance = useAxios();
 
   const base64ToBlob = (base64: string, mimeType: string) => {
-    const bytes = atob(base64.split(",")[1]);
+    const bytes = atob(base64.split(',')[1]);
     const arr = new Uint8Array(bytes.length);
     for (let i = 0; i < bytes.length; i++) {
       arr[i] = bytes.charCodeAt(i);
@@ -29,12 +27,12 @@ export const useProcessImagesS3 = () => {
     try {
       const formData = new FormData();
       const { type } = input.ImageData;
-      const imageBlob = base64ToBlob(input.value, type || "image/jpeg");
-      const extension = type?.split("/").pop(); // Extrae 'jpeg' de 'image/jpeg'
+      const imageBlob = base64ToBlob(input.value, type || 'image/jpeg');
+      const extension = type?.split('/').pop(); // Extrae 'jpeg' de 'image/jpeg'
       const filename = `file.${extension}`; // Crea 'file.jpeg'
 
-      formData.append("file", imageBlob, filename);
-      const { data } = await axiosInstance.post("/media/upload", formData);
+      formData.append('file', imageBlob, filename);
+      const { data } = await axiosInstance.post('/media/upload', formData);
 
       dispatch(
         setCurrentNotaImagesList([
@@ -53,18 +51,18 @@ export const useProcessImagesS3 = () => {
         ...input,
       });
     } catch (error) {
-      console.error("Hubo un error al procesar la imagen:", error);
+      console.error('Hubo un error al procesar la imagen:', error);
       throw error; // O maneja el error como prefieras
     }
   };
 
   const processImagesS3 = async () => {
-    const inputsImages = currentNota.filter(obj =>
-      obj.inputs.some(input => input.type === "image" && input?.ImageData?.name)
+    const inputsImages = currentNota.filter((obj) =>
+      obj.inputs.some((input) => input.type === 'image' && input?.ImageData?.name)
     );
 
-    const hasImagesWithValues = inputsImages.some(obj =>
-      obj.inputs.some(input => input.type === "image" && input?.ImageData?.name)
+    const hasImagesWithValues = inputsImages.some((obj) =>
+      obj.inputs.some((input) => input.type === 'image' && input?.ImageData?.name)
     );
 
     if (!hasImagesWithValues) {
@@ -73,21 +71,21 @@ export const useProcessImagesS3 = () => {
 
     const uploadPromises: Promise<any>[] = [];
 
-    currentNota.forEach(obj => {
-      obj.inputs.forEach(input => {
+    currentNota.forEach((obj) => {
+      obj.inputs.forEach((input) => {
         let uploadPromise = null;
-        if (input.type === "image" && input?.ImageData?.name) {
+        if (input.type === 'image' && input?.ImageData?.name) {
           uploadPromise = new Promise((resolve, reject) => {
             const formData = new FormData();
             const { type } = input.ImageData;
-            const imageBlob = base64ToBlob(input.value, type || "image/jpeg");
+            const imageBlob = base64ToBlob(input.value, type || 'image/jpeg');
 
             // Asegúrate de que el nombre del archivo termina con una extensión válida
-            const extension = type?.split("/").pop(); // Esto extrae 'jpeg' de 'image/jpeg'
+            const extension = type?.split('/').pop(); // Esto extrae 'jpeg' de 'image/jpeg'
             const filename = `file.${extension}`; // Esto crea 'file.jpeg'
-            formData.append("file", imageBlob, filename);
+            formData.append('file', imageBlob, filename);
             axiosInstance
-              .post("/media/upload", formData)
+              .post('/media/upload', formData)
               .then(({ data }: any) => {
                 resolve({
                   url: data.s3Url,
@@ -95,29 +93,26 @@ export const useProcessImagesS3 = () => {
                   ...input,
                 });
               })
-              .catch(error => {
+              .catch((error) => {
                 reject(error);
               });
           });
           uploadPromises.push(uploadPromise);
-        } else if (input.type === "layout" && input?.inputs) {
+        } else if (input.type === 'layout' && input?.inputs) {
           input.inputs.forEach((input2: any) => {
-            if (input2.type === "image" && input2?.ImageData?.name) {
+            if (input2.type === 'image' && input2?.ImageData?.name) {
               uploadPromise = new Promise((resolve, reject) => {
                 const formData = new FormData();
                 const { type } = input2.ImageData;
-                const imageBlob = base64ToBlob(
-                  input2.value,
-                  type || "image/jpeg"
-                );
+                const imageBlob = base64ToBlob(input2.value, type || 'image/jpeg');
 
                 // Asegúrate de que el nombre del archivo termina con una extensión válida
-                const extension = type.split("/").pop(); // Esto extrae 'jpeg' de 'image/jpeg'
+                const extension = type.split('/').pop(); // Esto extrae 'jpeg' de 'image/jpeg'
                 const filename = `file.${extension}`; // Esto crea 'file.jpeg'
 
-                formData.append("file", imageBlob, filename);
+                formData.append('file', imageBlob, filename);
                 axiosInstance
-                  .post("/media/upload", formData)
+                  .post('/media/upload', formData)
                   .then(({ data }: any) => {
                     resolve(
                       resolve({
@@ -127,7 +122,7 @@ export const useProcessImagesS3 = () => {
                       })
                     );
                   })
-                  .catch(error => {
+                  .catch((error) => {
                     reject(error);
                   });
               });
@@ -140,12 +135,12 @@ export const useProcessImagesS3 = () => {
 
     const imagesList = await Promise.all(uploadPromises)
       .then((images: any[]) => images)
-      .catch(error => {
-        console.error("Hubo un error al procesar las imágenes:", error);
+      .catch((error) => {
+        console.error('Hubo un error al procesar las imágenes:', error);
         return error;
       })
-      .catch(error => {
-        console.error("Hubo un error al procesar las imágenes:", error);
+      .catch((error) => {
+        console.error('Hubo un error al procesar las imágenes:', error);
         return error;
       });
 
@@ -155,20 +150,16 @@ export const useProcessImagesS3 = () => {
   };
 
   const replaceUrlImagesCurrentNota = (image: any) => {
-    const newCurrentNota = currentNota.map(obj => {
-      const newInputs = obj.inputs.map(input => {
-        if (
-          input.type === "image" &&
-          input?.ImageData?.name &&
-          input.inputId === image.inputId
-        ) {
+    const newCurrentNota = currentNota.map((obj) => {
+      const newInputs = obj.inputs.map((input) => {
+        if (input.type === 'image' && input?.ImageData?.name && input.inputId === image.inputId) {
           const newInput = { ...input, value: image.url };
           return newInput;
         }
-        if (input.type === "layout" && input?.inputs?.length) {
-          const newInputs2 = input.inputs.map(input2 => {
+        if (input.type === 'layout' && input?.inputs?.length) {
+          const newInputs2 = input.inputs.map((input2) => {
             if (
-              input2.type === "image" &&
+              input2.type === 'image' &&
               input2?.ImageData?.name &&
               input2.inputId === image.inputId
             ) {

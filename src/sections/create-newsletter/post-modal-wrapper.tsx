@@ -12,7 +12,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import { forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { RootState } from 'src/store';
 import { setOpenDrawer } from 'src/store/slices/post';

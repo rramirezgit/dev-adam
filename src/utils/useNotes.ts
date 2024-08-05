@@ -49,7 +49,7 @@ const useNotes = () => {
         }
 
         dispatch(setLoading(false));
-        navigate.push('/dashboard/create_note');
+        navigate.push('/dashboard/create-note');
       } catch (error) {
         console.error('Failed to load notes:', error);
       }

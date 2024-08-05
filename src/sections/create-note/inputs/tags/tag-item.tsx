@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { alpha, useTheme } from '@mui/material';
 import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTagNota, setErrors } from 'src/store/slices/note';
+import { deleteTagNota, setErrors } from 'src/store/slices/noteStore';
 import TextBubble from '../bubbles/bubble';
 
 interface ItemProps {

@@ -8,17 +8,15 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // types
-import { IPostFilters, ISocialnetworks, PostFilterValue } from 'src/types/post';
 
 // components
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import { Iconify } from 'src/components/iconify';
 import { ButtonBase } from '@mui/material';
-import { SOCIALNETWORKS } from 'src/const/post/redes';
-import { useCallback, useState } from 'react';
-import { useLocales } from 'src/locales';
+import { useCallback } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { INotasFilters } from 'src/types/Nota';
+import { Scrollbar } from 'src/components/scrollbar';
+import { NewslettersFilterValue } from 'src/types/newsletter';
 
 // ----------------------------------------------------------------------
 
@@ -28,12 +26,12 @@ type Props = {
   onClose: VoidFunction;
   //
   filters: INotasFilters;
-  onFilters: (name: string, value: PostFilterValue) => void;
+  onFilters: (name: string, value: NewslettersFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
   //
-  socialNetworks: ISocialnetworks[];
+  // socialNetworks: ISocialnetworks[];
   // serviceOptions: string[];
   // tourGuideOptions: ITourGuide[];
   // destinationOptions: {
@@ -57,13 +55,8 @@ export default function Newsfilter({
   canReset,
   onResetFilters,
   //
-  socialNetworks, //
   dateError,
 }: Props) {
-  const { t } = useLocales();
-
-  const [origin, setOrigin] = useState<string>('');
-
   const renderHead = (
     <Stack
       direction="row"
@@ -72,7 +65,7 @@ export default function Newsfilter({
       sx={{ py: 2, pr: 1, pl: 2.5 }}
     >
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
-        {t('Dashboard.Create_Nota.Create.filters.Title')}
+        Crear Nota
       </Typography>
 
       <Tooltip title="Reset">
@@ -196,7 +189,7 @@ export default function Newsfilter({
   const renderDateRange = (
     <Stack>
       <Typography variant="subtitle2" sx={{ mb: 1.5 }}>
-        {t('Dashboard.Create_Nota.Create.filters.date')}
+        Fecha de Creación
       </Typography>
       <Stack spacing={2.5}>
         <DatePicker
@@ -238,7 +231,7 @@ export default function Newsfilter({
         }
         onClick={onOpen}
       >
-        {t('Dashboard.Create_Nota.Create.filters.Title')}
+        Filtrar
       </Button>
 
       <Drawer

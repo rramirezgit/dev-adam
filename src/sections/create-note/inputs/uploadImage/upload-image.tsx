@@ -3,8 +3,8 @@
 import { Box, alpha, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
-import Iconify from 'src/components/iconify';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { Iconify } from 'src/components/iconify';
 import {
   setDataImageCrop,
   setDataImageCroped,
@@ -13,7 +13,7 @@ import {
   setObjectFit,
   updateImageDataNota,
   updateValueInputNota,
-} from 'src/store/slices/note';
+} from 'src/store/slices/noteStore';
 import { RootState } from 'src/store';
 import { ILayout, ImageInput } from '../types';
 

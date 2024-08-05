@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { LoadingButton } from '@mui/lab';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 
 interface Props {
   open: boolean;

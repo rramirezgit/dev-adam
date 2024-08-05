@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { alpha, Box, useTheme } from '@mui/material';
-import Iconify from 'src/components/iconify/iconify';
+import { Iconify } from 'src/components/iconify';
 import { m } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-import { deleteInputNota, reorderInputNota, setDeleteItem } from 'src/store/slices/note';
+import { deleteInputNota, reorderInputNota, setDeleteItem } from 'src/store/slices/noteStore';
 
 interface LayoutDragableProps {
   templateId: string;

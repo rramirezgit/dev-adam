@@ -1,20 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import { TDrawers } from "src/store/slices/types";
-import { RootState } from "src/store";
-import { useEffect } from "react";
-import { setMenu } from "src/store/slices/note";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { Stack } from "@mui/system";
-import { useBoolean } from "src/hooks/use-boolean";
-import MenuLayout from "./menu-layout";
-import CropSection from "./crop-section";
-import AddTemplateMenu from "./add-template/add-templates";
+import { useDispatch, useSelector } from 'react-redux';
+import { TDrawers } from 'src/store/slices/types';
+import { RootState } from 'src/store';
+import { useEffect } from 'react';
+import { setMenu } from 'src/store/slices/noteStore';
+import { Button, Dialog, DialogTitle, Typography, useTheme } from '@mui/material';
+import { Stack } from '@mui/system';
+import { useBoolean } from 'src/hooks/use-boolean';
+import MenuLayout from './menu-layout';
+import CropSection from './crop-section';
+import AddTemplateMenu from './add-template/add-templates';
 
 export default function MenuNeswletter() {
   const menu = useSelector((state: RootState) => state.note.menuData.type);
@@ -34,19 +28,18 @@ export default function MenuNeswletter() {
 
   const MenuList: TMenu[] = [
     {
-      name: "add-template",
-      title: "Selecciona el tipo de template",
+      name: 'add-template',
+      title: 'Selecciona el tipo de template',
       Component: <AddTemplateMenu />,
     },
     {
-      name: "crop-image",
-      title: "Multimedia",
+      name: 'crop-image',
+      title: 'Multimedia',
       Component: <CropSection />,
     },
   ];
 
-  const currentMenu: TMenu =
-    MenuList.find(item => item.name === menu) || MenuList[0];
+  const currentMenu: TMenu = MenuList.find((item) => item.name === menu) || MenuList[0];
 
   useEffect(() => {
     // if (menu === 'crop-image') {
@@ -59,9 +52,7 @@ export default function MenuNeswletter() {
   return (
     <>
       {/* {!showPopup.value ? ( */}
-      <MenuLayout title={currentMenu?.title}>
-        {currentMenu?.Component}
-      </MenuLayout>
+      <MenuLayout title={currentMenu?.title}>{currentMenu?.Component}</MenuLayout>
       {/* ) : (
         <Dialog
           fullWidth

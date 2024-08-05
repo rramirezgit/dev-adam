@@ -10,13 +10,12 @@ import {
   Slide,
   Stack,
   DialogTitle,
-} from "@mui/material";
-import React, { forwardRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Iconify from "src/components/iconify";
-import { useResponsive } from "src/hooks/use-responsive";
-import { HEADER } from "src/layouts/config-layout";
-import { RootState } from "src/store";
+} from '@mui/material';
+import React, { forwardRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Iconify } from 'src/components/iconify';
+import { useResponsive } from 'src/hooks/use-responsive';
+import { RootState } from 'src/store';
 import {
   setDataImageCrop,
   setDataImageCroped,
@@ -24,10 +23,10 @@ import {
   setMenu,
   setcurrentNota,
   updateValueInputNota,
-} from "src/store/slices/note";
+} from 'src/store/slices/noteStore';
 /* eslint-disable prefer-arrow-callback */
-import { TransitionProps } from "@mui/material/transitions";
-import { useBoolean } from "src/hooks/use-boolean";
+import { TransitionProps } from '@mui/material/transitions';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -45,8 +44,8 @@ interface IMenuLayout {
 
 export default function MenuLayout({ children, title }: IMenuLayout) {
   const [opacityMenu, setopacityMenu] = useState(0);
-  const [displayMenu, setdisplayMenu] = useState("none");
-  const [position, setPosition] = useState("absolute");
+  const [displayMenu, setdisplayMenu] = useState('none');
+  const [position, setPosition] = useState('absolute');
 
   const showPopup = useBoolean();
 
@@ -57,27 +56,25 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
 
   const dispatch = useDispatch();
 
-  const mdUp = useResponsive("up", "md");
+  const mdUp = useResponsive('up', 'md');
 
-  const drawerWidth = mdUp ? 454 : "100%";
-  const drawerHeight = mdUp
-    ? `calc(100vh - ${HEADER.H_DESKTOP * 2.6}px)`
-    : "100vh";
+  const drawerWidth = mdUp ? 454 : '100%';
+  const drawerHeight = mdUp ? `calc(100vh - ${40 * 2.6}px)` : '100vh';
 
   useEffect(() => {
-    if (menu === "none") {
+    if (menu === 'none') {
       setopacityMenu(0);
-      setdisplayMenu("none");
+      setdisplayMenu('none');
       setOpenDrawer(false);
       setTimeout(() => {
-        setPosition("absolute");
+        setPosition('absolute');
       }, 200);
     } else {
       setOpenDrawer(true);
-      setPosition("initial");
+      setPosition('initial');
       setTimeout(() => {
         setopacityMenu(1);
-        setdisplayMenu("block");
+        setdisplayMenu('block');
       }, 200);
     }
   }, [menu]);
@@ -87,16 +84,16 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
   const renderBody = (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         position,
-        overflowY: "auto",
+        overflowY: 'auto',
         gap: Theme.spacing(5),
         height: drawerHeight,
         padding: open ? Theme.spacing(2) : 0,
-        alignItems: "center",
+        alignItems: 'center',
         borderRadius: Theme.spacing(1),
-        transition: Theme.transitions.create("all", {
+        transition: Theme.transitions.create('all', {
           easing: Theme.transitions.easing.easeInOut,
           duration: Theme.transitions.duration.standard,
         }),
@@ -106,10 +103,10 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
     >
       <Box
         sx={{
-          display: open ? "flex" : "none",
+          display: open ? 'flex' : 'none',
           opacity: opacityMenu,
-          justifyContent: "space-between",
-          width: "100%",
+          justifyContent: 'space-between',
+          width: '100%',
         }}
       >
         <Box>
@@ -118,14 +115,14 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
         <Box>
           <IconButton
             sx={{
-              width: "fit-content",
-              height: "fit-content",
+              width: 'fit-content',
+              height: 'fit-content',
               padding: 0,
               margin: 0,
             }}
             onClick={() => {
               if (imageSaved) {
-                dispatch(setMenu({ type: "none" }));
+                dispatch(setMenu({ type: 'none' }));
               } else {
                 showPopup.onTrue();
               }
@@ -134,7 +131,7 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
             <Iconify
               icon="material-symbols:cancel-outline-rounded"
               sx={{
-                cursor: "pointer",
+                cursor: 'pointer',
               }}
             />
           </IconButton>
@@ -143,7 +140,7 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
       <Box
         sx={{
           display: displayMenu,
-          width: "100%",
+          width: '100%',
         }}
       >
         {children}
@@ -160,10 +157,10 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
           fullScreen
           TransitionComponent={Transition}
           open={open}
-          onClose={() => dispatch(setMenu({ type: "none" }))}
+          onClose={() => dispatch(setMenu({ type: 'none' }))}
           sx={{
-            "& .MuiDialog-paper": {
-              boxShadow: "none",
+            '& .MuiDialog-paper': {
+              boxShadow: 'none',
             },
           }}
         >
@@ -190,8 +187,8 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
             <Typography
               variant="h6"
               sx={{
-                textAlign: "center",
-                width: "100%",
+                textAlign: 'center',
+                width: '100%',
                 mb: Theme.spacing(5),
               }}
             >
@@ -202,8 +199,8 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
               direction="row"
               spacing={1}
               sx={{
-                justifyContent: "center",
-                width: "100%",
+                justifyContent: 'center',
+                width: '100%',
               }}
             >
               <Button
@@ -218,24 +215,24 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
 
                   dispatch(
                     updateValueInputNota({
-                      value: "",
+                      value: '',
                       ...ids,
                     })
                   );
-                  dispatch(setMenu({ type: "none" }));
+                  dispatch(setMenu({ type: 'none' }));
                   dispatch(
                     setDataImageCrop({
-                      imageData: "",
-                      name: "",
-                      type: "",
+                      imageData: '',
+                      name: '',
+                      type: '',
                     })
                   );
 
                   dispatch(
                     setDataImageCroped({
-                      imageData: "",
-                      name: "",
-                      type: "",
+                      imageData: '',
+                      name: '',
+                      type: '',
                     })
                   );
 
@@ -244,10 +241,10 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
                 color="primary"
                 variant="outlined"
                 sx={{
-                  "&.MuiButton-root": {
-                    height: "48px",
+                  '&.MuiButton-root': {
+                    height: '48px',
                     padding: Theme.spacing(0, 7),
-                    fontSize: { xs: "12px", md: "16px" },
+                    fontSize: { xs: '12px', md: '16px' },
                   },
                 }}
               >
@@ -260,10 +257,10 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
                 color="primary"
                 variant="contained"
                 sx={{
-                  "&.MuiButton-root": {
-                    height: "48px",
+                  '&.MuiButton-root': {
+                    height: '48px',
                     padding: Theme.spacing(0, 7),
-                    fontSize: { xs: "12px", md: "16px" },
+                    fontSize: { xs: '12px', md: '16px' },
                   },
                 }}
               >

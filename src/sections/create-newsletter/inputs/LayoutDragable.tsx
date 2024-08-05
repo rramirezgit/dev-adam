@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { Box, useTheme } from '@mui/material';
 import { m } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-// import { setDeleteItem } from 'src/store/slices/note';
+// import { setDeleteItem } from 'src/store/slices/noteStore';
 import { Iconify } from 'src/components/iconify';
 import { deleteInputNewsletter, reorderInputNewsletter } from 'src/store/slices/newsletterStore';
 

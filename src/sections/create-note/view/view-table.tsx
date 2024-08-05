@@ -392,7 +392,7 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
                           handleNewsletterButtonClick(article.id);
                         }}
                       >
-                        Newsletter
+                        {article.id}
                       </Button>
                     )}
                   </TableCell>

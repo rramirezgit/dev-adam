@@ -6,17 +6,16 @@ import Button from '@mui/material/Button';
 import Stack, { StackProps } from '@mui/material/Stack';
 // types
 // components
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { shortDateLabel } from 'src/components/custom-date-range-picker';
-import { PostFilterValue } from 'src/types/post';
-import { useLocales } from 'src/locales';
+import { NewslettersFilterValue } from 'src/types/newsletter';
 import { INotasFilters } from 'src/types/Nota';
 
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
   filters: INotasFilters;
-  onFilters: (name: string, value: PostFilterValue) => void;
+  onFilters: (name: string, value: NewslettersFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
@@ -35,7 +34,6 @@ export default function NotaFiltersResult({
   ...other
 }: Props) {
   const shortLabel = shortDateLabel(filters.creationDate);
-  const { t } = useLocales();
 
   // const handleRemoveServices = (inputValue: string) => {
   //   const newValue = filters.services.filter((item) => item !== inputValue);
@@ -142,7 +140,7 @@ export default function NotaFiltersResult({
             onClick={onResetFilters}
             startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
           >
-            {t('Dashboard.Create_Nota.Create.filters.clear')}
+            Limpiar filtros
           </Button>
         )}
         {/* <Box sx={{ typography: 'body2' }}>

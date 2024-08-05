@@ -12,14 +12,11 @@ import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 // import { useRouter } from 'src/routes/hooks';
 // types
 // components
-import Iconify from 'src/components/iconify';
-import SearchNotFound from 'src/components/search-not-found';
-import { IPost } from 'src/types/post';
-import { useLocales } from 'src/locales';
+import { Iconify } from 'src/components/iconify';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenDrawer } from 'src/store/slices/post';
 import { RootState } from 'src/store';
-import { NotaItemList, setShowEditor, setcurrentNota } from 'src/store/slices/note';
+import { NotaItemList, setShowEditor, setcurrentNota } from 'src/store/slices/noteStore';
+import { SearchNotFound } from 'src/components/search-not-found';
 
 // ----------------------------------------------------------------------
 
@@ -51,8 +48,6 @@ export default function PostSearch({ query, results, onSearch, hrefItem }: Props
     distpach(setcurrentNota(dataNewsletter));
     distpach(setShowEditor(true));
   };
-
-  const { t } = useLocales();
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (query) {
@@ -92,7 +87,7 @@ export default function PostSearch({ query, results, onSearch, hrefItem }: Props
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder={t('Dashboard.Create_Nota.Create.filters.search')}
+          placeholder={`Search post`}
           onKeyUp={handleKeyUp}
           InputProps={{
             ...params.InputProps,

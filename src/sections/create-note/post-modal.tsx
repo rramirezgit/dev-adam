@@ -4,7 +4,7 @@
 import { Box, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { RootState } from 'src/store';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenModalPreviewMobile } from 'src/store/slices/post';
 import CropSection from './menu/crop-section';

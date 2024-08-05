@@ -15,23 +15,20 @@ import { paths } from 'src/routes/paths';
 import { useResponsive } from 'src/hooks/use-responsive';
 // _mock
 import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { SOCIALNETWORKS } from 'src/const/post/redes';
 // types
-import { PostFilterValue } from 'src/types/post';
 import EmptyContent from 'src/components/empty-content/empty-content';
 //
 import { useDispatch, useSelector } from 'react-redux';
-import { INotasFilters } from 'src/types/Nota';
 import {
   setFilters,
   setShowEditor,
   setcurrentNota,
   setcurrentNotaID,
   setselectedTab,
-} from 'src/store/slices/note';
+} from 'src/store/slices/noteStore';
 import { SplashScreen } from 'src/components/loading-screen';
 import { useParams } from 'next/navigation';
 import { useAuthContext } from 'src/auth/hooks';
@@ -45,6 +42,7 @@ import OptionsCreateNota from './OptionsCreateNota';
 import NotaFiltersResult from '../Nota-filters-result';
 import useNotes from './useNotes';
 import ArticlesTable from './view-table';
+import { DashboardContent } from 'src/layouts/dashboard';
 
 const whiteList = [
   '97.rramirez@gmail.com',
@@ -79,9 +77,9 @@ export default function CreateNotaHome() {
 
   const [viewTable, setViewTable] = useState(false);
 
-  const router = useParams();
+  const router = useParams<any>();
 
-  const { user } = useAuthContext();
+  const { userAuth0 } = useSelector((state: RootState) => state.auth);
 
   const { NotaId, action } = router;
 
@@ -157,13 +155,16 @@ export default function CreateNotaHome() {
         alignItems={{ xs: 'flex-end', sm: 'center' }}
         direction={{ xs: 'column', sm: 'row' }}
       >
-        <PostSearch
-          query={search.query}
-          results={search.results}
-          onSearch={handleSearch}
-          hrefItem={(id: string) => paths.dashboard.tour.details(id)}
-        />
-        <Stack direction="row" spacing={1} flexShrink={0}>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexShrink={0}
+          sx={{
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Newsfilter
             open={openFilters.value}
             onOpen={openFilters.onTrue}
@@ -171,12 +172,12 @@ export default function CreateNotaHome() {
             //
             filters={filters}
             onFilters={handleFilters}
-            socialNetworks={SOCIALNETWORKS}
             //
             canReset={!!filters.creationDate || !!filters.origin}
             onResetFilters={handleResetFilters}
             dateError={filters?.creationDate ? filters.creationDate > new Date() : false}
           />
+          <CreateNotaButton />
         </Stack>
       </Stack>
     ),
@@ -296,8 +297,8 @@ export default function CreateNotaHome() {
   }
 
   return (
-    <Container
-      maxWidth={settings.themeStretch ? false : 'lg'}
+    <DashboardContent
+      maxWidth="xl"
       sx={{
         pb: !showEditor ? { xs: 10, md: 15 } : 0,
         minWidth: '565px',
@@ -310,14 +311,14 @@ export default function CreateNotaHome() {
       >
         {!showEditor ? (
           <>
-            <CustomBreadcrumbs
+            {/* <CustomBreadcrumbs
               heading="Crea una Nota"
               links={[{ name: 'ADAM', href: '#' }, { name: 'Crea una nota' }]}
               action={mdUp ? <CreateNotaButton /> : null}
               sx={{
                 mb: { xs: 3, md: 5 },
               }}
-            />
+            /> */}
             {/* Filters */}
             <Stack
               spacing={2.5}
@@ -325,23 +326,36 @@ export default function CreateNotaHome() {
                 mb: { xs: 3, md: 2 },
               }}
             >
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={viewTable}
-                    onChange={() => {
-                      setViewTable(!viewTable);
-                      localStorage.setItem('viewTable', JSON.stringify({ viewTable: !viewTable }));
-                    }}
-                    name="Tabla"
-                  />
-                }
-                label="Tabla"
-              />
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{
+                  width: '100%',
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={viewTable}
+                      onChange={() => {
+                        setViewTable(!viewTable);
+                        localStorage.setItem(
+                          'viewTable',
+                          JSON.stringify({ viewTable: !viewTable })
+                        );
+                      }}
+                      name="Tabla"
+                    />
+                  }
+                  label="Tabla"
+                />
+                {viewTable && <CreateNotaButton />}
+              </Stack>
               {!viewTable && renderFilters}
+
               {renderTabs}
               {!!filters.creationDate || !!filters.origin ? renderResults : null}
-              {!mdUp ? <CreateNotaButton /> : null}
             </Stack>
             {/* End Filters */}
 
@@ -362,8 +376,8 @@ export default function CreateNotaHome() {
         )}
       </Box>
       <Box sx={{ position: 'fixed', bottom: 0, right: 16 }}>
-        {whiteList && user && whiteList.includes(user.email) && <OptionsCreateNota />}
+        {whiteList && userAuth0 && whiteList.includes(userAuth0.email) && <OptionsCreateNota />}
       </Box>
-    </Container>
+    </DashboardContent>
   );
 }

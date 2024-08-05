@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { useAuthContext } from 'src/auth/hooks';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import Image from 'src/components/image';

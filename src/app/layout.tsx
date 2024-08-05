@@ -20,6 +20,7 @@ import { detectSettings } from 'src/components/settings/server';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 import { ReduxProvider } from 'src/store/Provider';
 import { AxiosProvider } from 'src/auth/axios/axios-provider';
+import { LocalizationProvider } from 'src/utils/localization-provider';
 
 // ----------------------------------------------------------------------
 
@@ -41,20 +42,22 @@ export default async function RootLayout({ children }: Props) {
       <body>
         {getInitColorSchemeScript}
         <ReduxProvider>
-          <SettingsProvider
-            settings={settings}
-            caches={CONFIG.isStaticExport ? 'localStorage' : 'cookie'}
-          >
-            <ThemeProvider>
-              <MotionLazy>
-                <ProgressBar />
-                <SettingsDrawer />
-                <AxiosProvider>
-                  <AuthInitialize>{children}</AuthInitialize>
-                </AxiosProvider>
-              </MotionLazy>
-            </ThemeProvider>
-          </SettingsProvider>
+          <LocalizationProvider>
+            <SettingsProvider
+              settings={settings}
+              caches={CONFIG.isStaticExport ? 'localStorage' : 'cookie'}
+            >
+              <ThemeProvider>
+                <MotionLazy>
+                  <ProgressBar />
+                  <SettingsDrawer />
+                  <AxiosProvider>
+                    <AuthInitialize>{children}</AuthInitialize>
+                  </AxiosProvider>
+                </MotionLazy>
+              </ThemeProvider>
+            </SettingsProvider>
+          </LocalizationProvider>
         </ReduxProvider>
       </body>
     </html>

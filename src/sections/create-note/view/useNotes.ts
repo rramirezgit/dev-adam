@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
-import { setNeswletterList } from 'src/store/slices/newsletter';
-import { setFilters, setLoading, setselectedTab, setShowEditor } from 'src/store/slices/note';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { setNeswletterList } from 'src/store/slices/newsletterStore';
+import { setFilters, setLoading, setselectedTab, setShowEditor } from 'src/store/slices/noteStore';
 import { useRouter } from 'src/routes/hooks';
 import { useCallback } from 'react';
 import { PostFilterValue } from 'src/types/post';
@@ -49,7 +49,7 @@ const useNotes = () => {
         }
 
         dispatch(setLoading(false));
-        navigate.push('/dashboard/create_note');
+        navigate.push('/dashboard/create-note');
       } catch (error) {
         console.error('Failed to load notes:', error);
       }

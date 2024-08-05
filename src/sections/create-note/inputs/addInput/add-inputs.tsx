@@ -5,9 +5,9 @@ import { useState } from 'react';
 import { m } from 'framer-motion';
 import { Category, Image, Tag, Text } from 'iconsax-react';
 import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import Iconify from 'src/components/iconify/iconify';
+import { Iconify } from 'src/components/iconify';
 import { useDispatch } from 'react-redux';
-import { addNewInputNota } from 'src/store/slices/note';
+import { addNewInputNota } from 'src/store/slices/noteStore';
 import uuidv4 from 'src/utils/uuidv4';
 import SvgColor from 'src/components/svg-color';
 

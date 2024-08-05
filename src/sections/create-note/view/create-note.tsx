@@ -2,18 +2,18 @@ import { Box, IconButton, Paper, Stack, TextField, Tooltip, useTheme } from '@mu
 import { useEffect, useState } from 'react';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCoverImage, setSubject } from 'src/store/slices/note';
+import { setCoverImage, setSubject } from 'src/store/slices/noteStore';
 import { useParams } from 'next/navigation';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { RootState } from 'src/store';
 import Image from 'src/components/image/image';
-import { UploadBox } from 'src/components/upload';
 import NotaEditingArea from '../editing-area';
 import SendNota from '../header-editing';
 import MenuNeswletter from '../menu/menu-view';
-import { useAxios } from '../../../auth/context/axios/axios-provider';
 import StateBtn from './StateBtn';
 import useNotes from './useNotes';
+import { useAxios } from 'src/auth/axios/axios-provider';
+import { UploadBox } from 'src/components/upload';
 
 export default function CreateNota() {
   const theme = useTheme();
@@ -22,7 +22,7 @@ export default function CreateNota() {
   const [loadingCoverImage, setLoadingCoverImage] = useState(false);
   const [coverImageLocal, setCoverImageLocal] = useState('');
   const smUp = useResponsive('up', 'sm');
-  const { NotaId } = useParams();
+  const { NotaId } = useParams<any>();
   const { loadNotes } = useNotes();
   const dispatch = useDispatch();
   const axiosInstance = useAxios();

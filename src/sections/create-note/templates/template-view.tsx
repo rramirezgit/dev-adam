@@ -1,6 +1,6 @@
 import { Draggable } from '@hello-pangea/dnd';
 import { RootState } from 'src/store';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';

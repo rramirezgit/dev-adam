@@ -49,7 +49,10 @@ export const navData = [
    */
   {
     subheader: 'Newsletter',
-    items: [{ title: 'Crea un newsletter', path: paths.dashboard.root, icon: ICONS.magicpen }],
+    items: [
+      { title: 'Crea un newsletter', path: paths.dashboard.root, icon: ICONS.magicpen },
+      { title: 'Crea una nota', path: paths.dashboard.createNota, icon: ICONS.note },
+    ],
   },
   /**
    * Management

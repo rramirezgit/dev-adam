@@ -7,7 +7,7 @@ import {
   setcurrentNota,
   setcurrentNotaID,
   setCoverImage,
-} from 'src/store/slices/note';
+} from 'src/store/slices/noteStore';
 
 export default function CreateNotaButton() {
   const dispatch = useDispatch();

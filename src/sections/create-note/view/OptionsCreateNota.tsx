@@ -10,16 +10,16 @@ import BuildIcon from '@mui/icons-material/Build';
 import { green } from '@mui/material/colors';
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
-import { endpoints_adam } from 'src/utils/axios';
+import { useAxios } from 'src/auth/axios/axios-provider';
 import axios from 'axios';
-import { setNeswletterList } from 'src/store/slices/newsletter';
-import { useSnackbar } from 'notistack';
-import { setUrlNgrok, setpromptIa } from 'src/store/slices/note';
+import { setNeswletterList } from 'src/store/slices/newsletterStore';
+import { setUrlNgrok, setpromptIa } from 'src/store/slices/noteStore';
 import NoteDialog from './modal/CreateAi';
 import TrenddingDialog, { Data } from './modal/trending';
 import DialogAlert from './modal/DialogAlert';
 import useNotes from './useNotes';
+import { useSnackbar } from 'notistack';
+import { endpoints_adam } from 'src/utils/endpoints';
 
 const emailsReviewError = ['97.rramirez@gmail.com', 'jolcusuario1@gmail.com'];
 

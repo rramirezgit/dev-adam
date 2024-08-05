@@ -6,7 +6,7 @@ import { Box, IconButton, Menu, Theme, styled, useTheme } from '@mui/material';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { useField } from 'formik';
 import { useEffect, useState } from 'react';
-import Iconify from 'src/components/iconify/iconify';
+import { Iconify } from 'src/components/iconify';
 import { useLocales } from 'src/locales';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';

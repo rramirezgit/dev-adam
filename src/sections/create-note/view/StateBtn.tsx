@@ -1,9 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { Button, ListItemText, MenuItem, SxProps } from '@mui/material';
 import React from 'react';
-import { usePopover } from 'src/components/custom-popover';
-import CustomPopover from 'src/components/custom-popover/custom-popover';
-import Iconify from 'src/components/iconify';
+import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import { Iconify } from 'src/components/iconify';
 
 interface Props {
   Nota: any;
@@ -42,7 +41,7 @@ const StateBtn = ({ Nota, onChange, sx }: Props) => {
   return (
     <>
       <Button
-        onClick={async (e) => {
+        onClickCapture={(e: React.MouseEvent<HTMLElement>) => {
           popover.onOpen(e);
         }}
         disabled={!Nota?.status}
@@ -64,7 +63,7 @@ const StateBtn = ({ Nota, onChange, sx }: Props) => {
       >
         {Nota?.status ? (Nota.status === 'PUBLISHED' ? 'PUBLISHED' : Nota.status) : 'Draft'}
       </Button>
-      <CustomPopover open={popover.open} onClose={popover.onClose} hiddenArrow>
+      <CustomPopover open={popover.open} onClose={popover.onClose} anchorEl={popover.anchorEl}>
         <MenuItem onClick={() => onChange('DRAFT')} disabled={disabledItemMenu('DRAFT')}>
           <ListItemText>DRAFT</ListItemText>
         </MenuItem>

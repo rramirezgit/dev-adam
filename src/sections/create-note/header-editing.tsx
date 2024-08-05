@@ -11,10 +11,9 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import Iconify from 'src/components/iconify';
-import CustomPopover from 'src/components/custom-popover/custom-popover';
+import { Iconify } from 'src/components/iconify';
 import { renderToString } from 'react-dom/server';
-import { usePopover } from 'src/components/custom-popover';
+import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import Nota, {
   setCoverImageError,
   setErrors,
@@ -22,17 +21,16 @@ import Nota, {
   setShowEditor,
   setcurrentNota,
   setcurrentNotaID,
-} from 'src/store/slices/note';
+} from 'src/store/slices/noteStore';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { useEffect, useState } from 'react';
 import { RootState, store } from 'src/store';
 import { SmsSearch, SmsTracking } from 'iconsax-react';
-import ThemeProvider from 'src/theme';
-import { SettingsProvider } from 'src/components/settings';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
 import { useRouter } from 'src/routes/hooks';
 import dayjs from 'dayjs';
-import { useAxios } from 'src/auth/context/axios/axios-provider';
+import { useAxios } from 'src/auth/axios/axios-provider';
 import { useBoolean } from 'src/hooks/use-boolean';
 import SendDialog from './send-dialog';
 import SendErrorDialog from './send-error-dialog';
@@ -43,6 +41,8 @@ import { htmlWrap } from './htmlWrap';
 import useEqualNota from './useEquealNota';
 import NotaBody from './Nota-body';
 import useNotes from './view/useNotes';
+import { ThemeProvider } from 'src/theme/theme-provider';
+import { CONFIG } from 'src/config-global';
 
 export default function SendNota() {
   const Theme = useTheme();
@@ -87,14 +87,8 @@ export default function SendNota() {
   const buildHtml = (option = '') => {
     const componenteComoString = renderToString(
       <SettingsProvider
-        defaultSettings={{
-          themeMode: 'light', // 'light' | 'dark'
-          themeDirection: 'ltr', //  'rtl' | 'ltr'
-          themeContrast: 'default', // 'default' | 'bold'
-          themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-          themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-          themeStretch: false,
-        }}
+        settings={defaultSettings}
+        caches={CONFIG.isStaticExport ? 'localStorage' : 'cookie'}
       >
         <ThemeProvider>
           <Provider store={store}>
@@ -304,7 +298,7 @@ export default function SendNota() {
               // dispatch(setNeswletterList([...NotaList, res.data]));
               setNotaSaved(res.data);
               setSaving(false);
-              router.push('/dashboard/create_note');
+              router.push('/dashboard/create-note');
             }
           });
         } else {
@@ -314,7 +308,7 @@ export default function SendNota() {
               dispatch(setcurrentNotaID(res.data.id));
               setNotaSaved(res.data);
               setSaving(false);
-              router.push('/dashboard/create_note');
+              router.push('/dashboard/create-note');
             }
           });
         }
@@ -327,7 +321,7 @@ export default function SendNota() {
           // dispatch(setNeswletterList([...NotaList, res.data]));
           setNotaSaved(res.data);
           setSaving(false);
-          router.push('/dashboard/create_note');
+          router.push('/dashboard/create-note');
         }
       });
     }
@@ -346,14 +340,14 @@ export default function SendNota() {
     if (NotaSaveed) {
       axiosInstance.delete(`/posts/${currentNotaId}`).then((res) => {
         if (res.status === 200 || res.status === 201) {
-          router.push('/dashboard/create_note');
+          router.push('/dashboard/create-note');
           dispatch(setcurrentNotaID(''));
           dispatch(setErrors([]));
           dispatch(setShowEditor(false));
         }
       });
     } else {
-      router.push('/dashboard/create_note');
+      router.push('/dashboard/create-note');
       dispatch(setcurrentNotaID(''));
       dispatch(setErrors([]));
       dispatch(setShowEditor(false));
@@ -377,7 +371,7 @@ export default function SendNota() {
       if (!newsleterEsqual) {
         await axiosInstance.patch(`/posts/${currentNotaId}`, postDataNota).then((res) => {
           if (res.status === 200 || res.status === 201) {
-            router.push('/dashboard/create_note');
+            router.push('/dashboard/create-note');
             dispatch(setcurrentNotaID(''));
             setSaving(false);
             setNotaSaved(undefined);
@@ -389,7 +383,7 @@ export default function SendNota() {
       } else {
         await axiosInstance.post('/posts', postDataNota).then((res) => {
           if (res.status === 200 || res.status === 201) {
-            router.push('/dashboard/create_note');
+            router.push('/dashboard/create-note');
             dispatch(setcurrentNotaID(''));
             setSaving(false);
             setNotaSaved(undefined);
@@ -402,7 +396,7 @@ export default function SendNota() {
     } else {
       await axiosInstance.post('/posts', postDataNota).then((res) => {
         if (res.status === 200 || res.status === 201) {
-          router.push('/dashboard/create_note');
+          router.push('/dashboard/create-note');
           dispatch(setcurrentNotaID(''));
           setSaving(false);
           setNotaSaved(undefined);
@@ -477,7 +471,7 @@ export default function SendNota() {
           >
             <Button
               onClick={() => {
-                router.push('/dashboard/create_note');
+                router.push('/dashboard/create-note');
                 dispatch(setErrors([]));
                 dispatch(setShowEditor(false));
                 showPopup.onFalse();
@@ -586,8 +580,8 @@ export default function SendNota() {
                 saving
                   ? ''
                   : popover.open
-                  ? 'eva:arrow-ios-upward-fill'
-                  : 'eva:arrow-ios-downward-fill'
+                    ? 'eva:arrow-ios-upward-fill'
+                    : 'eva:arrow-ios-downward-fill'
               }
               width={15}
               height={15}
@@ -604,7 +598,7 @@ export default function SendNota() {
           {saving ? 'Guardando...' : 'Guardar como'}
         </Button>
       </Box>
-      <CustomPopover open={popover.open} onClose={popover.onClose} hiddenArrow>
+      <CustomPopover open={popover.open} onClose={popover.onClose}>
         <MenuItem onClick={() => setOpen(true)}>
           <ListItemText>Guardar Nota</ListItemText>
         </MenuItem>

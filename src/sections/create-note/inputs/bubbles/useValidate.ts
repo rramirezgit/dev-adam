@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { setErrors, updateValueInputNota } from 'src/store/slices/note';
+import { setErrors, updateValueInputNota } from 'src/store/slices/noteStore';
 import * as Yup from 'yup';
 import { TagsInput } from '../types';
 

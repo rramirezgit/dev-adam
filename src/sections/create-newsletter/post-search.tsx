@@ -12,7 +12,7 @@ import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 // import { useRouter } from 'src/routes/hooks';
 // types
 // components
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import SearchNotFound from 'src/components/search-not-found';
 import { IPost } from 'src/types/post';
 import { useLocales } from 'src/locales';

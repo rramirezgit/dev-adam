@@ -2,7 +2,7 @@ import { Box, Typography, alpha, useTheme } from '@mui/material';
 import { CSSProperties, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import { setDataImageCrop, setShowCropSection } from 'src/store/slices/post';
 
 interface ImageBoxProps {
