@@ -44,6 +44,8 @@ const initialState: NeswletterState = {
 
   isLoading: false,
   error: null,
+
+  openNewsletterDrawer: false,
 };
 
 // Thunks
@@ -99,6 +101,9 @@ export const NewsletterSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
+    setOpenNewsletterDrawer: (state, action: PayloadAction<boolean>) => {
+      state.openNewsletterDrawer = action.payload;
+    },
     setShowEditor: (state, action: PayloadAction<boolean>) => {
       state.showEditor = action.payload;
     },
@@ -536,6 +541,7 @@ export const NewsletterSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  setOpenNewsletterDrawer,
   setShowEditor,
   setMenu,
   setSelectedNewsletter,

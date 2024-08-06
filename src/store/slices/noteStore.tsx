@@ -138,7 +138,7 @@ export const updateNote = createAsyncThunk(
   'post/updateNote',
   async ({ id, updatedData }: { id: string; updatedData: any }) => {
     const axiosInstance = createAxiosInstance();
-    const { data } = await axiosInstance.patch(`/posts/${id}/used/Note/`, updatedData);
+    const { data } = await axiosInstance.patch(`/posts/${id}`, updatedData);
     return data;
   }
 );

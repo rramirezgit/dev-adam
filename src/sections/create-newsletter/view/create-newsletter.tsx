@@ -11,7 +11,11 @@ import {
 import { useEffect, useState } from 'react';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowEditor, setSubject } from 'src/store/slices/newsletterStore';
+import {
+  setOpenNewsletterDrawer,
+  setShowEditor,
+  setSubject,
+} from 'src/store/slices/newsletterStore';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { useRouter } from 'src/routes/hooks';
@@ -21,6 +25,8 @@ import MenuNeswletter from '../menu/menu-view';
 import { RootState } from 'src/store';
 import { useAxios } from 'src/auth/axios/axios-provider';
 import { Iconify } from 'src/components/iconify';
+import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
+import useSendNewsletter from '../header-editing';
 
 export default function CreateNewsletter() {
   const Theme = useTheme();
@@ -30,6 +36,8 @@ export default function CreateNewsletter() {
   const [showScheduleData, setShowScheduleData] = useState(false);
 
   const smUp = useResponsive('up', 'sm');
+
+  const { showPopupNewsletterSave, DialogSaveNewsletter } = useSendNewsletter();
 
   const router = useParams<any>();
 
@@ -106,16 +114,34 @@ export default function CreateNewsletter() {
 
   return (
     <>
-      <SendNewsletter />
+      {/* <SendNewsletter /> */}
       {!smUp ? (
         renderBody
       ) : (
-        <Box>
-          <Box
+        <Box position={'relative'}>
+          <ButtonOption
+            iconSrc="/assets/icons/dashboard/create-note/save.svg"
+            title="Guardar Newsletter"
+            onClick={() => {
+              showPopupNewsletterSave.onTrue();
+            }}
+            index={0}
+          />
+          <ButtonOption
+            iconSrc="/assets/icons/dashboard/create-note/options.svg"
+            title="Opciones de nota"
+            sx={{
+              opacity: currentNewsletterId ? 1 : 0,
+            }}
+            onClick={() => {
+              dispatch(setOpenNewsletterDrawer(true));
+            }}
+            index={1}
+          />
+          {/* <Box
             sx={{
               display: 'flex',
               gap: Theme.spacing(2),
-              padding: Theme.spacing(2),
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
@@ -203,18 +229,21 @@ export default function CreateNewsletter() {
                 </Box>
               </Box>
             )}
-          </Box>
+          </Box> */}
           <Paper
             sx={{
               width: '100%',
               padding: Theme.spacing(2),
-              borderRadius: '8px',
+              borderRadius: '16px',
               position: 'relative',
+              boxShadow:
+                '0px 0px 2px 0px rgba(145, 158, 171, 0.20), 0px 12px 24px -4px rgba(145, 158, 171, 0.12)',
             }}
             elevation={1}
           >
             {renderBody}
           </Paper>
+          {DialogSaveNewsletter({ exitEditor: false })}
         </Box>
       )}
     </>

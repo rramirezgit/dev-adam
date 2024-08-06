@@ -35,6 +35,8 @@ import {
   setShowSaved,
 } from 'src/store/slices/noteStore';
 import { LoadingButton } from '@mui/lab';
+import useSaveDialogNota from 'src/sections/create-note/dialog-save';
+import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
 
 const ButtonBackEditors = () => {
   const pathname = usePathname();
@@ -57,11 +59,13 @@ const ButtonBackEditors = () => {
 
   const { deepEqual } = useEqualNewsletter();
 
-  const showPopup = useBoolean();
-
   const router = useRouter();
 
   const dispatch = useDispatch();
+
+  const { showPopup, DialogosaveNota } = useSaveDialogNota();
+
+  const { showPopupNewsletterSave, DialogSaveNewsletter } = useSendNewsletter();
 
   const newsletterSaveed = newsletterList.find((news) => news.id === currentNewsletterId);
 
@@ -89,13 +93,13 @@ const ButtonBackEditors = () => {
         const objDataCurrent = currentNewsletter;
         const newsleterEsqual = deepEqual(objDataExist, objDataCurrent);
         if (!newsleterEsqual) {
-          showPopup.onTrue();
+          showPopupNewsletterSave.onTrue();
         } else {
           cleanStateNewsletter();
           router.push(pathname);
         }
       } else {
-        showPopup.onTrue();
+        showPopupNewsletterSave.onTrue();
       }
     } else if (pathname?.includes('create-note')) {
       if (NotaSaved) {
@@ -115,83 +119,6 @@ const ButtonBackEditors = () => {
     }
   };
 
-  const DialogosaveDraf = (
-    <Dialog
-      fullWidth
-      maxWidth="xs"
-      open={showPopup.value}
-      onClose={showPopup.onFalse}
-      transitionDuration={{
-        enter: Theme.transitions.duration.shortest,
-        exit: Theme.transitions.duration.shortest - 80,
-      }}
-    >
-      <DialogTitle
-        sx={{ minHeight: 76 }}
-        style={{
-          padding: Theme.spacing(5),
-        }}
-      >
-        <Stack direction="column" justifyContent="space-between">
-          <Typography
-            variant="h6"
-            sx={{
-              textAlign: 'center',
-              width: '100%',
-              mb: Theme.spacing(5),
-            }}
-          >
-            Tienes cambios sin guardar ¿Deseas salir sin guardar?
-          </Typography>
-
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{
-              justifyContent: 'center',
-              width: '100%',
-            }}
-          >
-            <LoadingButton
-              variant="outlined"
-              color="primary"
-              loading={loading}
-              onClick={() => {
-                showPopup.onFalse();
-                if (pathname?.includes('create-newsletter')) {
-                  cleanStateNewsletter();
-                  router.push(pathname);
-                } else if (pathname?.includes('create-note')) {
-                  cleanStateNote();
-                  router.push(pathname);
-                }
-              }}
-              sx={{
-                width: '180px',
-              }}
-            >
-              Salir sin guardar
-            </LoadingButton>
-            <LoadingButton
-              variant="contained"
-              color="primary"
-              loading={loading}
-              onClick={() => {
-                showPopup.onFalse();
-                dispatch(setShowSaved(true));
-              }}
-              sx={{
-                width: '180px',
-              }}
-            >
-              Cancelar
-            </LoadingButton>
-          </Stack>
-        </Stack>
-      </DialogTitle>
-    </Dialog>
-  );
-
   return (
     <Box
       style={{
@@ -210,7 +137,9 @@ const ButtonBackEditors = () => {
         <Iconify icon="eva:arrow-back-fill" width={24} height={24} color="black" />
       </IconButton>
       <Typography variant="h5">Volver</Typography>
-      {DialogosaveDraf}
+
+      {DialogSaveNewsletter({ exitEditor: true })}
+      {DialogosaveNota({ exitEditor: true })}
     </Box>
   );
 };

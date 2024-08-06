@@ -115,4 +115,6 @@ export interface NeswletterState {
 
   isLoading: boolean;
   error: string | null;
+
+  openNewsletterDrawer: boolean;
 }

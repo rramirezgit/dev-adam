@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setFilters,
   setLoading,
-  setnoteList,
   setselectedTab,
   setShowEditor,
   fetchNotes,
+  createNote,
+  updateNote,
   deleteNote,
 } from 'src/store/slices/noteStore';
 import { useRouter } from 'src/routes/hooks';
@@ -88,10 +89,28 @@ const useNotes = () => {
         console.error('Failed to delete note:', error);
       }
     },
-    [dispatch]
+    [dispatch, loadNotes]
   );
 
-  return { loadNotes, handleFilters, handleResetFilters, deleteNota };
+  const createNotaAndReload = useCallback(
+    async (postData: any) => {
+      try {
+        await dispatch(createNote(postData));
+        await loadNotes({ tab: 0 });
+      } catch (error) {
+        console.error('Failed to create note:', error);
+      }
+    },
+    [dispatch, loadNotes]
+  );
+
+  return {
+    loadNotes,
+    handleFilters,
+    handleResetFilters,
+    deleteNota,
+    createNotaAndReload,
+  };
 };
 
 export default useNotes;

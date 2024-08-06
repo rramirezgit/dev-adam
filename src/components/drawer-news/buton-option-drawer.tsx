@@ -39,6 +39,7 @@ function ButtonOption({
         color: '#fff',
         cursor: 'pointer',
         position: 'absolute',
+        whiteSpace: 'nowrap',
         top: `${index === 0 ? '0px' : '65px'}`,
         right: '-180px',
         transition: 'all 0.3s ease',
@@ -46,6 +47,7 @@ function ButtonOption({
         '& .text-btn-adac': {
           width: '100%',
           textAlign: 'left',
+          opacity: 0,
         },
         '& span': {
           opacity: 0.5,

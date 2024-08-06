@@ -6,7 +6,7 @@ import { RootState } from 'src/store';
 import NotaEditingArea from '../editing-area';
 import MenuNeswletter from '../menu/menu-view';
 import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
-import useSendNota from '../header-editing';
+import useSaveDialogNota from '../dialog-save';
 import { NewsDrawer } from 'src/components/drawer-news';
 
 export default function CreateNota() {
@@ -18,7 +18,7 @@ export default function CreateNota() {
   const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
   const showSaved = useSelector((state: RootState) => state.note.showSaved);
 
-  const { showPopup, DialogosaveDraf } = useSendNota();
+  const { showPopup, DialogosaveNota } = useSaveDialogNota();
 
   const renderBody = (
     <Box sx={{ display: 'flex', gap: theme.spacing(2) }}>
@@ -79,7 +79,7 @@ export default function CreateNota() {
           >
             {renderBody}
           </Box>
-          {DialogosaveDraf}
+          {DialogosaveNota({ exitEditor: false })}
           <NewsDrawer />
         </Box>
       )}

@@ -22,8 +22,9 @@ import NotaBody from './Nota-body';
 import { ThemeProvider } from 'src/theme/theme-provider';
 import { CONFIG } from 'src/config-global';
 import { SettingsProvider, defaultSettings } from 'src/components/settings';
+import useNotes from 'src/utils/useNotes';
 
-const useSendNota = () => {
+const useSaveDialogNota = () => {
   const Theme = useTheme();
   const popover = usePopover();
   const router = useRouter();
@@ -35,6 +36,8 @@ const useSendNota = () => {
   const currentNota = useSelector((state: RootState) => state.note.currentNota);
   const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
   const Subject = useSelector((state: RootState) => state.note.subject);
+
+  const { loadNotes } = useNotes();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -89,14 +92,13 @@ const useSendNota = () => {
     }
   };
 
-  const handleSaveNota = async () => {
+  const handleSaveNota = async (exitEditor: boolean) => {
     setLoading(true);
     const postDataNota = {
       title: Subject,
       content: buildHtml(),
       objData: JSON.stringify(currentNota),
     };
-
     let result = null;
 
     if (NotaSaved || (NotaSaved?.origin === 'AI' && !NotaSaved?.content)) {
@@ -105,18 +107,15 @@ const useSendNota = () => {
       result = await dispatch(createNote(postDataNota));
     }
 
-    if (result.meta.requestStatus === 'fulfilled') {
-      dispatch(setcurrentNotaID(result.payload.id));
-      dispatch(
-        setnoteList([...NotaList.filter((item) => item.id !== currentNotaId), result.payload])
-      );
+    if (result.meta.requestStatus === 'fulfilled' && exitEditor) {
+      loadNotes({ tab: 0 });
     }
 
     setLoading(false);
     showPopup.onFalse();
   };
 
-  const DialogosaveDraf = (
+  const DialogosaveNota = ({ exitEditor }: { exitEditor: boolean }) => (
     <Dialog
       fullWidth
       maxWidth="xs"
@@ -142,7 +141,7 @@ const useSendNota = () => {
               mb: Theme.spacing(5),
             }}
           >
-            ¿Deseas guardar los cambios?
+            ¿Deseas guardar los cambios de la nota?
           </Typography>
 
           <Stack
@@ -171,12 +170,12 @@ const useSendNota = () => {
               variant="contained"
               color="primary"
               loading={loading}
-              onClick={handleSaveNota}
+              onClick={() => handleSaveNota(exitEditor)}
               sx={{
                 width: '180px',
               }}
             >
-              Aceptar
+              Guardar
             </LoadingButton>
           </Stack>
         </Stack>
@@ -188,7 +187,7 @@ const useSendNota = () => {
     buildHtml,
     handleDeleteNota,
     handleSaveNota,
-    DialogosaveDraf,
+    DialogosaveNota,
     setOpen,
     open,
     popover,
@@ -196,4 +195,4 @@ const useSendNota = () => {
   };
 };
 
-export default useSendNota;
+export default useSaveDialogNota;

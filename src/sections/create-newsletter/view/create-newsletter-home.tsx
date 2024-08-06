@@ -3,18 +3,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
 import { useCallback, useEffect, useState } from 'react';
-// @mui
-import Stack from '@mui/material/Stack';
-import { Box, Tab, Tabs } from '@mui/material';
-
-// routes
-import { paths } from 'src/routes/paths';
-// utils
-import { useResponsive } from 'src/hooks/use-responsive';
-// _mock
-import { useBoolean } from 'src/hooks/use-boolean';
-
-//
+import { Box, Tab, Tabs, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchNewsletters,
@@ -27,15 +16,12 @@ import { useParams } from 'src/routes/hooks';
 import { SplashScreen } from 'src/components/loading-screen';
 import CreateNewsletterButton from './create-Newsletter-btn';
 import NewsletterList from '../newsletter-list';
-import Newsfilter from '../newsletter-filter';
-import NewsletterFiltersResult from '../newsletter-filters-result';
 import CreateNewsletter from './create-newsletter';
 import {
   INewslettersFilters,
   newsletterItemList,
   NewslettersFilterValue,
 } from 'src/types/newsletter';
-import { useAxios } from 'src/auth/axios/axios-provider';
 import { AppDispatch, RootState } from 'src/store';
 import EmptyContent from 'src/components/empty-content/empty-content';
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -45,6 +31,8 @@ const defaultFilters: INewslettersFilters = {
   state: 'sended',
 };
 
+const STATES = ['DRAFT', 'PENDING_APPROVAL', 'APPROVED', 'REJECTED', 'SCHEDULED', 'SENDED'];
+
 export default function CreateNewsletterHome() {
   const neswletterListData = useSelector((state: RootState) => state.newsletter.newsletterList);
   const showEditor = useSelector((state: RootState) => state.newsletter.showEditor);
@@ -52,12 +40,9 @@ export default function CreateNewsletterHome() {
   const isLoading = useSelector((state: RootState) => state.newsletter.isLoading);
 
   const params = useParams<any>();
-
   const { NewsletterId, action } = params;
 
-  const distpach = useDispatch<AppDispatch>();
-
-  const openFilters = useBoolean();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [filters, setFilters] = useState(defaultFilters);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -67,58 +52,24 @@ export default function CreateNewsletterHome() {
       const newCurrentNewsletter = neswletterListData.find((news) => news.id === NewsletterId);
       if (!newCurrentNewsletter) return;
 
-      const dataNews =
-        typeof newCurrentNewsletter.objData === 'string'
-          ? newCurrentNewsletter.objData !== '' && newCurrentNewsletter.objData.startsWith('[')
-            ? JSON.parse(newCurrentNewsletter.objData)
-            : null
-          : newCurrentNewsletter.objData;
-      distpach(setcurrentNewsletter(dataNews));
-      distpach(setcurrentNewsletterID(NewsletterId as string));
-      distpach(setShowEditor(true));
+      const dataNews = parseObjData(newCurrentNewsletter.objData);
+      dispatch(setcurrentNewsletter(dataNews));
+      dispatch(setcurrentNewsletterID(NewsletterId));
+      dispatch(setShowEditor(true));
     }
   }, [neswletterListData, NewsletterId, action]);
-
-  const getData = async () => {
-    if (selectedTab === 0) {
-      handleFilters('state', 'DRAFT');
-    }
-
-    if (selectedTab === 1) {
-      handleFilters('state', 'PENDING_APPROVAL');
-    }
-
-    if (selectedTab === 2) {
-      handleFilters('state', 'APPROVED');
-    }
-
-    if (selectedTab === 3) {
-      handleFilters('state', 'REJECTED');
-    }
-
-    if (selectedTab === 4) {
-      handleFilters('state', 'SENDED');
-    }
-
-    distpach(fetchNewsletters());
-  };
 
   useEffect(() => {
     if (!showEditor || deleted) {
       getData();
-      distpach(setDeleted(false));
+      dispatch(setDeleted(false));
     }
   }, [showEditor, deleted]);
 
-  const canReset = !!filters.creationDate;
-
-  const dateError = filters?.creationDate ? filters.creationDate > new Date() : false;
-
-  const dataFiltered = applyFilter({
-    inputData: neswletterListData,
-    filters,
-    dateError,
-  });
+  const getData = useCallback(async () => {
+    handleFiltersByTab(selectedTab);
+    await dispatch(fetchNewsletters());
+  }, [selectedTab, dispatch]);
 
   const handleFilters = useCallback((name: string, value: NewslettersFilterValue) => {
     setFilters((prevState) => ({
@@ -127,106 +78,46 @@ export default function CreateNewsletterHome() {
     }));
   }, []);
 
-  const mdUp = useResponsive('up', 'md');
-
-  const [search, setSearch] = useState<{ query: string; results: any[] }>({
-    query: '',
-    results: [],
-  });
-
-  const handleResetFilters = useCallback(() => {
-    setFilters(defaultFilters);
+  const handleClickTab = useCallback((event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+    handleFiltersByTab(newValue);
   }, []);
 
-  const handleSearch = useCallback(
-    (inputValue: string) => {
-      setSearch((prevState) => ({
-        ...prevState,
-        query: inputValue,
-      }));
-
-      if (inputValue) {
-        const results = neswletterListData.filter(
-          (news) => news.subject?.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
-        );
-
-        setSearch((prevState) => ({
-          ...prevState,
-          results,
-        }));
-      }
-    },
-    [search.query]
-  );
-
-  const renderFilters = (
-    <Stack
-      spacing={3}
-      justifyContent="space-between"
-      alignItems={{ xs: 'flex-end', sm: 'center' }}
-      direction={{ xs: 'column', sm: 'row' }}
-    >
-      <Stack direction="row" spacing={1} flexShrink={0} justifyContent="space-between" width={1}>
-        <Newsfilter
-          open={openFilters.value}
-          onOpen={openFilters.onTrue}
-          onClose={openFilters.onFalse}
-          //
-          filters={filters}
-          onFilters={handleFilters}
-          // socialNetworks={SOCIALNETWORKS}
-          //
-          canReset={canReset}
-          onResetFilters={handleResetFilters}
-          dateError={dateError}
-        />
-        <CreateNewsletterButton />
-      </Stack>
-    </Stack>
-  );
-
-  const renderResults = (
-    <NewsletterFiltersResult
-      filters={filters}
-      onResetFilters={handleResetFilters}
-      //
-      canReset={canReset}
-      onFilters={handleFilters}
-      //
-      results={dataFiltered.length}
-    />
-  );
-
-  const handleClickTab = (event: React.SyntheticEvent, newValue: number) => {
-    setSelectedTab(newValue);
-
-    if (newValue === 0) {
-      handleFilters('state', 'DRAFT');
-    }
-
-    if (newValue === 1) {
-      handleFilters('state', 'PENDING_APPROVAL');
-    }
-
-    if (newValue === 2) {
-      handleFilters('state', 'APPROVED');
-    }
-
-    if (newValue === 3) {
-      handleFilters('state', 'REJECTED');
-    }
-
-    if (newValue === 4) {
-      handleFilters('state', 'SCHEDULED');
-    }
-
-    if (newValue === 5) {
-      handleFilters('state', 'SENDED');
-    }
+  const handleFiltersByTab = (tab: number) => {
+    const state = STATES[tab];
+    if (state) handleFilters('state', state);
   };
 
   const counterNewsletterPerState = (state: string) =>
     neswletterListData.filter((news) => news.status === state).length;
+
+  const getStateLabel = (state: string) => {
+    switch (state) {
+      case 'DRAFT':
+        return 'Borradores';
+      case 'PENDING_APPROVAL':
+        return 'Pendientes';
+      case 'APPROVED':
+        return 'Aprobados';
+      case 'REJECTED':
+        return 'Rechazados';
+      case 'SCHEDULED':
+        return 'Programados';
+      case 'SENDED':
+        return 'Enviados';
+      default:
+        return '';
+    }
+  };
+
+  const getStateCount = (state: string) => {
+    const count = counterNewsletterPerState(state);
+    return count === 0 ? '' : `: ${count}`;
+  };
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   const renderTabs = (
     <Tabs
@@ -244,52 +135,19 @@ export default function CreateNewsletterHome() {
         },
       }}
     >
-      <Tab
-        label={`Borradores${
-          counterNewsletterPerState('DRAFT') === 0 ? '' : `: ${counterNewsletterPerState('DRAFT')}`
-        }`}
-      />
-      <Tab
-        label={`Pendientes${
-          counterNewsletterPerState('PENDING_APPROVAL') === 0
-            ? ''
-            : `: ${counterNewsletterPerState('PENDING_APPROVAL')}`
-        }`}
-      />
-      <Tab
-        label={`Aprobados${
-          counterNewsletterPerState('APPROVED') === 0
-            ? ''
-            : `: ${counterNewsletterPerState('APPROVED')}`
-        }`}
-      />
-      <Tab
-        label={`Rechazados${
-          counterNewsletterPerState('REJECTED') === 0
-            ? ''
-            : `: ${counterNewsletterPerState('REJECTED')}`
-        }`}
-      />
-      <Tab
-        label={`Programados${
-          counterNewsletterPerState('SCHEDULED') === 0
-            ? ''
-            : `: ${counterNewsletterPerState('SCHEDULED')}`
-        }`}
-      />
-      <Tab
-        label={`Enviados${
-          counterNewsletterPerState('SENDED') === 0
-            ? ''
-            : `: ${counterNewsletterPerState('SENDED')}`
-        }`}
-      />
+      {STATES.map((state, index) => (
+        <Tab key={state} label={`${getStateLabel(state)}${getStateCount(state)}`} />
+      ))}
     </Tabs>
   );
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
+  const dateError = filters.creationDate ? filters.creationDate > new Date() : false;
+
+  const dataFiltered = applyFilter({
+    inputData: neswletterListData,
+    filters,
+    dateError,
+  });
 
   return (
     <DashboardContent
@@ -306,30 +164,15 @@ export default function CreateNewsletterHome() {
       >
         {!showEditor ? (
           <>
-            {/* <CustomBreadcrumbs
-              heading={t('Dashboard.Create_Newsletter.Title')}
-              links={[
-                { name: 'ADAM', href: '#' },
-                { name: t('Dashboard.Create_Newsletter.Title') },
-              ]}
-              action={mdUp ? <CreateNewsletterButton /> : null}
-              sx={{
-                mb: { xs: 3, md: 5 },
-              }}
-            /> */}
-            {/* Filters */}
             <Stack
               spacing={2.5}
               sx={{
                 mb: { xs: 3, md: 2 },
               }}
             >
-              {renderFilters}
+              <CreateNewsletterButton />
               {renderTabs}
-              {canReset && renderResults}
-              {!mdUp ? <CreateNewsletterButton /> : null}
             </Stack>
-            {/* End Filters */}
 
             {dataFiltered.length > 0 ? (
               <NewsletterList news={dataFiltered} />
@@ -345,6 +188,15 @@ export default function CreateNewsletterHome() {
   );
 }
 
+const parseObjData = (objData: string | null) => {
+  if (typeof objData === 'string') {
+    if (objData !== '' && objData.startsWith('[')) {
+      return JSON.parse(objData);
+    }
+  }
+  return objData;
+};
+
 const applyFilter = ({
   inputData,
   filters,
@@ -354,32 +206,14 @@ const applyFilter = ({
   filters: INewslettersFilters;
   dateError: boolean;
 }) => {
-  const { creationDate, state } = filters;
+  const { state } = filters;
 
-  // if (!dateError) {
-  //   if (startDate && endDate) {
-  //     inputData = inputData.filter(
-  //       (post) =>
-  //         fTimestamp(post?.creationDate) >= fTimestamp(startDate) &&
-  //         fTimestamp(post?.creationDate) <= fTimestamp(endDate)
-  //     );
-  //   }
-  // }
-
-  // if (socialNetworks.length) {
-  //   inputData = inputData.filter((post) =>
-  //     socialNetworks.some((social) => post?.platforms?.includes(social))
-  //   );
-  // }
-  if (creationDate) {
-    inputData = inputData.filter((newsletter) => newsletter?.creationDate === creationDate);
-  }
-
+  let filteredData = inputData;
   if (state) {
-    inputData = inputData.filter((newsletter) => newsletter?.status === state);
+    filteredData = filteredData.filter((newsletter) => newsletter?.status === state);
   }
 
-  return inputData.sort(
+  return filteredData.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 };
