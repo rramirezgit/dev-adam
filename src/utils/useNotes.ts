@@ -6,16 +6,16 @@ import {
   setnoteList,
   setselectedTab,
   setShowEditor,
+  fetchNotes,
+  deleteNote,
 } from 'src/store/slices/noteStore';
 import { useRouter } from 'src/routes/hooks';
 import { useCallback } from 'react';
-import { RootState } from 'src/store';
-import { useAxios } from 'src/auth/axios/axios-provider';
+import { AppDispatch, RootState } from 'src/store';
 import { NewslettersFilterValue } from 'src/types/newsletter';
 
 const useNotes = () => {
-  const dispatch = useDispatch();
-  const axiosInstance = useAxios();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useRouter();
 
   const filters = useSelector((state: RootState) => state.note.filters);
@@ -28,8 +28,7 @@ const useNotes = () => {
     async ({ tab = 0 }: Tab) => {
       try {
         dispatch(setLoading(true));
-        const { data } = await axiosInstance.get('/posts');
-        dispatch(setnoteList(data));
+        await dispatch(fetchNotes());
         dispatch(setShowEditor(false));
         dispatch(setselectedTab(tab));
 
@@ -51,19 +50,25 @@ const useNotes = () => {
         console.error('Failed to load notes:', error);
       }
     },
-    [axiosInstance, dispatch, navigate]
+    [dispatch, navigate]
   );
 
-  const handleFilters = useCallback((name: string, value?: NewslettersFilterValue) => {
-    dispatch(
-      setFilters({
-        ...filters,
-        [name]: value,
-        ...(name === 'state' && { publishOnAdac: false, state: value }),
-        ...(name === 'publishOnAdac' && { publishOnAdac: true, state: ['PUBLISHED', 'APPROVED'] }),
-      })
-    );
-  }, []);
+  const handleFilters = useCallback(
+    (name: string, value?: NewslettersFilterValue) => {
+      dispatch(
+        setFilters({
+          ...filters,
+          [name]: value,
+          ...(name === 'state' && { publishOnAdac: false, state: value }),
+          ...(name === 'publishOnAdac' && {
+            publishOnAdac: true,
+            state: ['PUBLISHED', 'APPROVED'],
+          }),
+        })
+      );
+    },
+    [dispatch, filters]
+  );
 
   const handleResetFilters = useCallback(() => {
     dispatch(
@@ -72,9 +77,21 @@ const useNotes = () => {
         publishOnAdac: false,
       })
     );
-  }, []);
+  }, [dispatch]);
 
-  return { loadNotes, handleFilters, handleResetFilters };
+  const deleteNota = useCallback(
+    async (id: string) => {
+      try {
+        await dispatch(deleteNote(id));
+        await loadNotes({ tab: 0 });
+      } catch (error) {
+        console.error('Failed to delete note:', error);
+      }
+    },
+    [dispatch]
+  );
+
+  return { loadNotes, handleFilters, handleResetFilters, deleteNota };
 };
 
 export default useNotes;

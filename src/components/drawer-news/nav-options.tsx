@@ -1,5 +1,3 @@
-import type { ButtonBaseProps } from '@mui/material/ButtonBase';
-
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 
@@ -15,28 +13,28 @@ import {
   setZoomScaleNota,
 } from 'src/store/slices/noteStore';
 import { useAxios } from 'src/auth/axios/axios-provider';
-import { RootState } from 'src/store';
+import { AppDispatch, RootState } from 'src/store';
 import { Iconify } from '../iconify';
 import { UploadBox } from '../upload';
 import { useState } from 'react';
 import Image from '../image/image';
 import { LoadingButton } from '@mui/lab';
-import useSendNota from 'src/sections/create-note/header-editing';
+import useNotes from 'src/utils/useNotes';
 
 export function NavOptions() {
   const theme = useTheme();
   const [loadingCoverImage, setLoadingCoverImage] = useState(false);
   const [coverImageLocal, setCoverImageLocal] = useState('');
-  const distpach = useDispatch();
+  const distpach = useDispatch<AppDispatch>();
 
   const coverImage = useSelector((state: RootState) => state.note.coverImage);
   const coverImageError = useSelector((state: RootState) => state.note.coverImageError);
 
   const axiosInstance = useAxios();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { handleclickDeleteNota } = useSendNota();
+  const { deleteNota } = useNotes();
 
   const { currentNotaId, subject, currentNotaDescription, zoomScaleNota } = useSelector(
     (state: RootState) => state.note
@@ -69,6 +67,12 @@ export function NavOptions() {
       setCoverImageLocal('');
     } finally {
       setLoadingCoverImage(false);
+    }
+  };
+
+  const handleClickDelete = async () => {
+    if (currentNotaId) {
+      await deleteNota(currentNotaId);
     }
   };
 
@@ -186,7 +190,7 @@ export function NavOptions() {
       </Block>
       <LoadingButton
         disabled={!currentNotaId}
-        onClick={handleclickDeleteNota}
+        onClick={handleClickDelete}
         loading={false}
         startIcon={<Iconify icon="material-symbols-light:delete" width={24} height={24} />}
         variant="soft"

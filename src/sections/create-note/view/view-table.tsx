@@ -345,12 +345,12 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
                 />
               </TableCell>
               <TableCell>Title</TableCell>
-              <TableCell>Created At</TableCell>
+              <TableCell>Fecha</TableCell>
               <TableCell>Origin</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Cover Image</TableCell>
-              <TableCell>Publish on ADAC</TableCell>
-              <TableCell>Newsletter ID</TableCell>
+              <TableCell>Publish ADAC</TableCell>
+              <TableCell>En uso</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -395,7 +395,7 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
                           handleNewsletterButtonClick(article.id);
                         }}
                       >
-                        {article.id}
+                        newsletter
                       </Button>
                     )}
                   </TableCell>
