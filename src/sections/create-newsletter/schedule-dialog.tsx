@@ -43,7 +43,7 @@ export default function ScheduleDialog({
   const [loading, setLoading] = useState(false);
   const [errorDate, setErrorDate] = useState<string | null>(null);
 
-  const newsletterList = useSelector((state: RootState) => state.newsletter.neswletterList);
+  const newsletterList = useSelector((state: RootState) => state.newsletter.newsletterList);
 
   const smUp = useResponsive('up', 'md');
 

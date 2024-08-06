@@ -7,23 +7,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 // @mui
 import Stack from '@mui/material/Stack';
 import { Box, FormControlLabel, Switch, Tab, Tabs } from '@mui/material';
-import Container from '@mui/material/Container';
-
-// routes
-import { paths } from 'src/routes/paths';
 // utils
 import { useResponsive } from 'src/hooks/use-responsive';
-// _mock
-import { useSettingsContext } from 'src/components/settings';
-import { useBoolean } from 'src/hooks/use-boolean';
-
-import { SOCIALNETWORKS } from 'src/const/post/redes';
 // types
 import EmptyContent from 'src/components/empty-content/empty-content';
 //
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setFilters,
+  fetchNotes,
   setShowEditor,
   setcurrentNota,
   setcurrentNotaID,
@@ -31,18 +22,15 @@ import {
 } from 'src/store/slices/noteStore';
 import { SplashScreen } from 'src/components/loading-screen';
 import { useParams } from 'next/navigation';
-import { useAuthContext } from 'src/auth/hooks';
-import { RootState } from 'src/store';
+import { AppDispatch, RootState } from 'src/store';
 import CreateNotaButton from './create-note-btn';
-import PostSearch from '../post-search';
 import CreateNota from './create-note';
-import Newsfilter from '../Nota-filter';
 import NotaList from '../Nota-list';
 import OptionsCreateNota from './OptionsCreateNota';
 import NotaFiltersResult from '../Nota-filters-result';
-import useNotes from './useNotes';
 import ArticlesTable from './view-table';
 import { DashboardContent } from 'src/layouts/dashboard';
+import useNotes from 'src/utils/useNotes';
 
 const whiteList = [
   '97.rramirez@gmail.com',
@@ -72,162 +60,55 @@ const tabs = [
 ];
 
 export default function CreateNotaHome() {
-  const neswletterListData = useSelector((state: RootState) => state.note.neswletterList);
-  const showEditor = useSelector((state: RootState) => state.note.showEditor);
-
-  const [viewTable, setViewTable] = useState(false);
-
-  const router = useParams<any>();
+  const { showEditor, selectedTab, loading, filters, noteList } = useSelector(
+    (state: RootState) => state.note
+  );
 
   const { userAuth0 } = useSelector((state: RootState) => state.auth);
 
-  const { NotaId, action } = router;
+  const [viewTable, setViewTable] = useState(false);
 
-  const settings = useSettingsContext();
+  const { handleFilters } = useNotes();
 
-  const { loadNotes, handleFilters, handleResetFilters } = useNotes();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const dispatch = useDispatch();
+  useEffect(() => {}, []);
 
-  const openFilters = useBoolean();
+  const getData = async () => {
+    if (selectedTab === 0) {
+      handleFilters('state', 'DRAFT');
+    } else if (selectedTab === 1) {
+      handleFilters('state', 'REVIEW');
+    } else if (selectedTab === 2) {
+      handleFilters('state', 'APPROVED');
+    } else if (selectedTab === 3) {
+      handleFilters('state', 'PUBLISHED');
+    } else if (selectedTab === 4) {
+      handleFilters('publishOnAdac');
+    }
 
-  // const [filters, setFilters] = useState(defaultFilters);
-
-  const selectedTab = useSelector((state: RootState) => state.note.selectedTab);
-  const loading = useSelector((state: RootState) => state.note.loading);
-  const filters = useSelector((state: RootState) => state.note.filters);
+    dispatch(fetchNotes());
+  };
 
   useEffect(() => {
-    if (neswletterListData.length > 0 && NotaId && action === 'request-approval') {
-      const newCurrentNota = neswletterListData.find((news) => news.id === NotaId);
-      if (newCurrentNota) {
-        const dataNews =
-          typeof newCurrentNota.objData === 'string'
-            ? newCurrentNota.objData !== '' && newCurrentNota.objData.startsWith('[')
-              ? JSON.parse(newCurrentNota.objData)
-              : null
-            : newCurrentNota.objData;
-        dispatch(setcurrentNota(dataNews));
-        dispatch(setcurrentNotaID(NotaId as string));
-        dispatch(setShowEditor(true));
-      }
+    if (!showEditor) {
+      getData();
     }
-
-    const dataLocal = localStorage.getItem('viewTable');
-    if (dataLocal) {
-      setViewTable(JSON.parse(dataLocal).viewTable);
-    }
-  }, [neswletterListData, NotaId, action, dispatch]);
-
-  const mdUp = useResponsive('up', 'md');
-
-  const [search, setSearch] = useState<{ query: string; results: any[] }>({
-    query: '',
-    results: [],
-  });
-
-  const handleSearch = useCallback(
-    (inputValue: string) => {
-      setSearch((prevState) => ({
-        ...prevState,
-        query: inputValue,
-      }));
-
-      if (inputValue) {
-        const results = neswletterListData.filter(
-          (news) => news.title?.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
-        );
-
-        setSearch((prevState) => ({
-          ...prevState,
-          results,
-        }));
-      }
-    },
-    [neswletterListData]
-  );
-
-  const renderFilters = useMemo(
-    () => (
-      <Stack
-        spacing={3}
-        justifyContent="space-between"
-        alignItems={{ xs: 'flex-end', sm: 'center' }}
-        direction={{ xs: 'column', sm: 'row' }}
-      >
-        <Stack
-          direction="row"
-          spacing={1}
-          flexShrink={0}
-          sx={{
-            width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Newsfilter
-            open={openFilters.value}
-            onOpen={openFilters.onTrue}
-            onClose={openFilters.onFalse}
-            //
-            filters={filters}
-            onFilters={handleFilters}
-            //
-            canReset={!!filters.creationDate || !!filters.origin}
-            onResetFilters={handleResetFilters}
-            dateError={filters?.creationDate ? filters.creationDate > new Date() : false}
-          />
-          <CreateNotaButton />
-        </Stack>
-      </Stack>
-    ),
-    [
-      search.query,
-      search.results,
-      handleSearch,
-      filters,
-      openFilters,
-      handleFilters,
-      handleResetFilters,
-    ]
-  );
+  }, [showEditor]);
 
   const dataFiltered = useMemo(() => {
-    const { creationDate, state, publishOnAdac, origin } = filters;
-    let filteredData = neswletterListData;
+    const { state } = filters;
 
-    if (creationDate) {
-      filteredData = filteredData.filter((Nota) => Nota?.creationDate === creationDate);
-    }
+    let filteredData = noteList;
+
     if (state) {
       filteredData = filteredData.filter((Nota) => state.includes(Nota?.status));
     }
 
-    if (origin) {
-      filteredData = filteredData.filter((Nota) => Nota?.origin === origin);
-    }
-
-    // filteredData = filteredData.filter((Nota) => Nota?.publishOnAdac === publishOnAdac);
-
     return filteredData.sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
-  }, [neswletterListData, filters]);
-
-  const renderResults = useMemo(
-    () => (
-      <NotaFiltersResult
-        filters={filters}
-        onResetFilters={handleResetFilters}
-        //
-        canReset={!!filters.creationDate || !!filters.origin}
-        onFilters={handleFilters}
-        //
-        results={dataFiltered.length}
-      />
-    ),
-    [filters, handleResetFilters, handleFilters, dataFiltered.length]
-  );
+  }, [noteList, filters]);
 
   const handleClickTab = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
@@ -248,18 +129,12 @@ export default function CreateNotaHome() {
     [handleFilters]
   );
 
-  useEffect(() => {
-    loadNotes({
-      tab: selectedTab,
-    });
-  }, [loadNotes]);
-
   const counterNotaPerState = useCallback(
     /// no deberia mostar las notas de ADAC
     (state: string) => {
-      return neswletterListData.filter((news) => news.status === state).length;
+      return noteList.filter((news) => news.status === state).length;
     },
-    [neswletterListData]
+    [noteList]
   );
 
   const renderTabs = useMemo(
@@ -302,6 +177,7 @@ export default function CreateNotaHome() {
       sx={{
         pb: !showEditor ? { xs: 10, md: 15 } : 0,
         minWidth: '565px',
+        overflowX: 'hidden',
       }}
     >
       <Box
@@ -311,15 +187,6 @@ export default function CreateNotaHome() {
       >
         {!showEditor ? (
           <>
-            {/* <CustomBreadcrumbs
-              heading="Crea una Nota"
-              links={[{ name: 'ADAM', href: '#' }, { name: 'Crea una nota' }]}
-              action={mdUp ? <CreateNotaButton /> : null}
-              sx={{
-                mb: { xs: 3, md: 5 },
-              }}
-            /> */}
-            {/* Filters */}
             <Stack
               spacing={2.5}
               sx={{
@@ -348,14 +215,12 @@ export default function CreateNotaHome() {
                       name="Tabla"
                     />
                   }
-                  label="Tabla"
+                  label="Tabla y Filtros"
                 />
-                {viewTable && <CreateNotaButton />}
+                <CreateNotaButton />
               </Stack>
-              {!viewTable && renderFilters}
 
               {renderTabs}
-              {!!filters.creationDate || !!filters.origin ? renderResults : null}
             </Stack>
             {/* End Filters */}
 

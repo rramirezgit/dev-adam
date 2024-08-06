@@ -58,7 +58,7 @@ export default function SendNewsletter() {
   const { deepEqual } = useEqualNewsletter();
 
   const images = useSelector((state: RootState) => state.newsletter.currentNewsletterImagesList);
-  const newsletterList = useSelector((state: RootState) => state.newsletter.neswletterList);
+  const newsletterList = useSelector((state: RootState) => state.newsletter.newsletterList);
   const currentNewsletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);
   const currentNewsletterId = useSelector(
     (state: RootState) => state.newsletter.currentNewsletterId
@@ -488,7 +488,6 @@ export default function SendNewsletter() {
     if (saving) {
       return true;
     }
-    // verificar estado de la newsletter
 
     const nesletter = newsletterList.find((item) => item.id === currentNewsletterId);
 

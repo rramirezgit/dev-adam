@@ -92,6 +92,7 @@ export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
               notifications: _notifications,
             }}
             slotsDisplay={{
+              back: true,
               signIn: false,
               purchase: false,
               helpLink: false,

@@ -9,7 +9,7 @@ import { Iconify } from 'src/components/iconify';
 import { useDispatch } from 'react-redux';
 import { addNewInputNota } from 'src/store/slices/noteStore';
 import uuidv4 from 'src/utils/uuidv4';
-import SvgColor from 'src/components/svg-color';
+import { SvgColor } from 'src/components/svg-color';
 
 interface AddInputProps {
   isEmail?: boolean;

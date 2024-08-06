@@ -9,12 +9,11 @@ import Typography from '@mui/material/Typography';
 // assets
 import { UploadIllustration } from 'src/assets/illustrations';
 //
-import Iconify from '../iconify';
 //
 import { UploadProps } from './types';
 import RejectionFiles from './errors-rejection-files';
-import MultiFilePreview from './preview-multi-file';
 import SingleFilePreview from './preview-single-file';
+import { Iconify } from '../iconify';
 
 // ----------------------------------------------------------------------
 
@@ -96,10 +95,6 @@ export default function Upload({
 
   const renderMultiPreview = hasFiles && (
     <>
-      <Box sx={{ my: 3 }}>
-        <MultiFilePreview files={files} thumbnail={thumbnail} onRemove={onRemove} />
-      </Box>
-
       <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
         {onRemoveAll && (
           <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>

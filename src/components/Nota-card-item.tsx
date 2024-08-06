@@ -23,6 +23,7 @@ import {
   setShowEditor,
   setSubject,
   setcurrentNota,
+  setcurrentNotaDescription,
   setcurrentNotaID,
 } from 'src/store/slices/noteStore';
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -34,9 +35,9 @@ import { RootState } from 'src/store';
 import useNotes from 'src/utils/useNotes';
 import { useAxios } from 'src/auth/axios/axios-provider';
 import { Iconify } from './iconify';
-import Image from 'next/image';
 import StateBtn from './StateBtn';
 import { fDate } from 'src/utils/format-time';
+import Image from './image/image';
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ export default function NotaCardItem(props: Props) {
   const { Nota, preview, ChangeStatus } = props;
   const theme = useTheme();
   const dispatch = useDispatch();
+  const routes = useRouter();
   const [loading, setLoading] = useState(false);
   const showPopupDelete = useBoolean();
 
@@ -75,6 +77,7 @@ export default function NotaCardItem(props: Props) {
     dispatch(setcurrentNotaID(Nota.id));
     dispatch(setCoverImage(Nota.coverImageUrl));
     dispatch(setSubject(Nota.title));
+    dispatch(setcurrentNotaDescription(Nota.description || ''));
     dispatch(setShowEditor(true));
     dispatch(setMenu({ type: 'none' }));
   };
@@ -302,6 +305,7 @@ export default function NotaCardItem(props: Props) {
                   axiosInstance.delete(`/posts/${Nota.id}`).then((res) => {
                     setLoading(false);
                     dispatch(setDeleted(true));
+                    routes.refresh();
                     showPopupDelete.onFalse();
                   });
                 }}

@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
 // routes
 import { useState } from 'react';
+import NotaCardItem from 'src/components/Nota-card-item';
 import { NotaItemList } from 'src/store/slices/noteStore';
-import NotaCardItem from './Nota-card-item';
 //
 
 // ----------------------------------------------------------------------

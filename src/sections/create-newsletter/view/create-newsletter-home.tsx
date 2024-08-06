@@ -46,7 +46,7 @@ const defaultFilters: INewslettersFilters = {
 };
 
 export default function CreateNewsletterHome() {
-  const neswletterListData = useSelector((state: RootState) => state.newsletter.neswletterList);
+  const neswletterListData = useSelector((state: RootState) => state.newsletter.newsletterList);
   const showEditor = useSelector((state: RootState) => state.newsletter.showEditor);
   const deleted = useSelector((state: RootState) => state.newsletter.deleted);
   const isLoading = useSelector((state: RootState) => state.newsletter.isLoading);
@@ -56,8 +56,6 @@ export default function CreateNewsletterHome() {
   const { NewsletterId, action } = params;
 
   const distpach = useDispatch<AppDispatch>();
-
-  const axiosInstance = useAxios();
 
   const openFilters = useBoolean();
 

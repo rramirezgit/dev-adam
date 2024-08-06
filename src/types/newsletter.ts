@@ -94,7 +94,7 @@ export interface NeswletterState {
   menuData: Tmenudata;
   //
   selectedNewsletter: string;
-  neswletterList: newsletterItemList[];
+  newsletterList: newsletterItemList[];
   currentNewsletterId: string;
   currentNewsletterImagesList: any[];
   styles: {

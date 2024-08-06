@@ -1,8 +1,7 @@
-'use client';
-
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+
+import { createAxiosInstance } from '../axiosInstance';
 import {
   TagInput,
   TypeTemplateContent,
@@ -25,6 +24,7 @@ export type NotaItemList = {
   coverImageUrl: string;
   origin?: string;
   publishOnAdac?: boolean;
+  description?: string;
 };
 
 type INotaNames = 'Header' | 'Noticias' | 'Footer' | 'Blank';
@@ -48,9 +48,8 @@ type error = {
 interface NotaState {
   showEditor: boolean;
   menuData: Tmenudata;
-  //
   selectedNota: string;
-  neswletterList: NotaItemList[];
+  noteList: NotaItemList[];
   currentNotaId: string;
   currentNotaImagesList: any[];
   styles: {
@@ -65,41 +64,34 @@ interface NotaState {
   header: boolean;
   subject: string;
   showAprove: boolean;
-
   imageSaved: boolean;
   objectFit: any;
-
   coverImage: string;
   coverImageError: boolean;
-
   promptIa: string;
   showTrendding: boolean;
-
   urlngrok: string;
   selectedTab: number;
-
   loading: boolean;
-
   filters: any;
   deleteItem: boolean;
+  openNewsDrawer: boolean;
+  currentNotaDescription: string;
+  zoomScaleNota: number;
+  showSaved: boolean;
 }
 
 const initialState: NotaState = {
   menuData: { type: 'none', templateId: '', inputId: 'string', parentId: 'string' },
-  //
   selectedNota: '',
-  neswletterList: [],
-
+  noteList: [],
   styles: {
     main: DEFAULT_COLOR_NESWLETTER,
   },
-
   currentNota: [],
   currentNotaId: '',
   currentNotaImagesList: [],
   errors: [],
-
-  // image crop
   dataImageCrop: null,
   dataImageCroped: null,
   emails: [],
@@ -107,28 +99,55 @@ const initialState: NotaState = {
   showEditor: false,
   deleted: false,
   subject: 'ADAC',
-
   showAprove: false,
-
   imageSaved: true,
   objectFit: 'cover',
-
   coverImage: '',
   coverImageError: false,
   promptIa: '',
   showTrendding: false,
   urlngrok: '',
   selectedTab: 0,
-
   loading: false,
   filters: {
     creationDate: null,
     state: 'DRAFT',
     publishOnAdac: false,
   },
-
   deleteItem: false,
+  openNewsDrawer: false,
+  currentNotaDescription: '',
+  zoomScaleNota: 1,
+  showSaved: false,
 };
+
+// Thunks
+export const fetchNotes = createAsyncThunk('post/fetchNotes', async () => {
+  const axiosInstance = createAxiosInstance();
+  const { data } = await axiosInstance.get('/posts');
+  return data;
+});
+
+export const createNote = createAsyncThunk('post/createNote', async (postDataNota: any) => {
+  const axiosInstance = createAxiosInstance();
+  const { data } = await axiosInstance.post('/posts', postDataNota);
+  return data;
+});
+
+export const updateNote = createAsyncThunk(
+  'post/updateNote',
+  async ({ id, updatedData }: { id: string; updatedData: any }) => {
+    const axiosInstance = createAxiosInstance();
+    const { data } = await axiosInstance.patch(`/posts/${id}/used/Note/`, updatedData);
+    return data;
+  }
+);
+
+export const deleteNote = createAsyncThunk('post/deleteNote', async (id: string) => {
+  const axiosInstance = createAxiosInstance();
+  await axiosInstance.delete(`/posts/${id}`);
+  return id;
+});
 
 export const NoteSlice = createSlice({
   name: 'post',
@@ -140,11 +159,17 @@ export const NoteSlice = createSlice({
     setMenu: (state, action: PayloadAction<Tmenudata>) => {
       state.menuData = action.payload;
     },
+    setShowSaved: (state, action: PayloadAction<boolean>) => {
+      state.showSaved = action.payload;
+    },
     setSelectedNota: (state, action: PayloadAction<string>) => {
       state.selectedNota = action.payload;
     },
-    setNeswletterList: (state, action: PayloadAction<NotaItemList[]>) => {
-      state.neswletterList = action.payload;
+    setOpenNewsDrawer: (state, action: PayloadAction<boolean>) => {
+      state.openNewsDrawer = action.payload;
+    },
+    setnoteList: (state, action: PayloadAction<NotaItemList[]>) => {
+      state.noteList = action.payload;
     },
     setStylesNota: (state, action: PayloadAction<any>) => {
       state.styles = action.payload;
@@ -209,8 +234,6 @@ export const NoteSlice = createSlice({
         return item;
       });
     },
-
-    /// tags
     addNewInputNota: (
       state,
       action: PayloadAction<{
@@ -300,13 +323,9 @@ export const NoteSlice = createSlice({
         return item;
       });
     },
-
-    /// errors
     setErrors: (state, action: PayloadAction<any>) => {
       state.errors = action.payload;
     },
-
-    /// Image crop
     setDataImageCrop: (state, action: PayloadAction<imageCrop>) => {
       state.dataImageCrop = action.payload;
     },
@@ -363,11 +382,12 @@ export const NoteSlice = createSlice({
         return item;
       });
     },
-
     deleteNotaTemplate: (state, action: PayloadAction<string>) => {
       state.currentNota = state.currentNota.filter((item) => item.templateId !== action.payload);
     },
-
+    setZoomScaleNota: (state, action: PayloadAction<number>) => {
+      state.zoomScaleNota = action.payload;
+    },
     deleteInputNota: (
       state,
       action: PayloadAction<{
@@ -377,7 +397,6 @@ export const NoteSlice = createSlice({
     ) => {
       const { templateId, index } = action.payload;
 
-      // elimino los errores del input
       const input = state.currentNota.find((item) => item.templateId === templateId)?.inputs[index];
 
       if (input?.type === 'layout') {
@@ -396,7 +415,6 @@ export const NoteSlice = createSlice({
         state.errors = newErrors;
       }
 
-      /// si el input es el ultimo typo addInput no se puede eliminar
       const isAddInput = state.currentNota.some(
         (item) => item.templateId === templateId && item.inputs[index].type === 'addInput'
       );
@@ -455,7 +473,6 @@ export const NoteSlice = createSlice({
         return item;
       });
     },
-
     changeColorNotatemplate: (
       state,
       action: PayloadAction<{
@@ -508,11 +525,9 @@ export const NoteSlice = createSlice({
     setCurrentNotaImagesList: (state, action: PayloadAction<any[]>) => {
       state.currentNotaImagesList = action.payload;
     },
-
     setShowAprove: (state, action: PayloadAction<boolean>) => {
       state.showAprove = action.payload;
     },
-
     setImagesSaved: (state, action: PayloadAction<boolean>) => {
       state.imageSaved = action.payload;
     },
@@ -537,18 +552,64 @@ export const NoteSlice = createSlice({
     setselectedTab: (state, action: PayloadAction<number>) => {
       state.selectedTab = action.payload;
     },
-
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-
     setFilters: (state, action: PayloadAction<any>) => {
       state.filters = action.payload;
     },
-
     setDeleteItem: (state, action: PayloadAction<boolean>) => {
       state.deleteItem = action.payload;
     },
+    setcurrentNotaDescription: (state, action: PayloadAction<string>) => {
+      state.currentNotaDescription = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNotes.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchNotes.fulfilled, (state, action: PayloadAction<NotaItemList[]>) => {
+        state.loading = false;
+        state.noteList = action.payload;
+      })
+      .addCase(fetchNotes.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(createNote.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createNote.fulfilled, (state, action: PayloadAction<NotaItemList>) => {
+        state.loading = false;
+        state.noteList.push(action.payload);
+      })
+      .addCase(createNote.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateNote.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateNote.fulfilled, (state, action: PayloadAction<NotaItemList>) => {
+        state.loading = false;
+        const index = state.noteList.findIndex((nota) => nota.id === action.payload.id);
+        if (index !== -1) {
+          state.noteList[index] = action.payload;
+        }
+      })
+      .addCase(updateNote.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteNote.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteNote.fulfilled, (state, action: PayloadAction<string>) => {
+        state.loading = false;
+        state.noteList = state.noteList.filter((nota) => nota.id !== action.payload);
+      })
+      .addCase(deleteNote.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 
@@ -556,11 +617,13 @@ export const NoteSlice = createSlice({
 export const {
   setShowEditor,
   setMenu,
+  setZoomScaleNota,
   setSelectedNota,
   updateValueInputNota,
-  setNeswletterList,
+  setnoteList,
   setStylesNota,
   setcurrentNota,
+  setcurrentNotaDescription,
   setErrors,
   setDataImageCrop,
   updateImageDataNota,
@@ -577,6 +640,7 @@ export const {
   setEmails,
   setDeleted,
   setHeader,
+  setShowSaved,
   setSubject,
   setcurrentNotaID,
   setCurrentNotaImagesList,
@@ -588,6 +652,7 @@ export const {
   setpromptIa,
   setUrlNgrok,
   setShowTrendding,
+  setOpenNewsDrawer,
   setselectedTab,
   setLoading,
   setFilters,

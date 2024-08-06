@@ -32,15 +32,16 @@ import { useDispatch, useSelector } from 'react-redux'; // Asegúrate de importa
 import {
   setCoverImage,
   setcurrentNota,
+  setcurrentNotaDescription,
   setcurrentNotaID,
   setMenu,
   setShowEditor,
   setSubject,
 } from 'src/store/slices/noteStore';
 import StateBtn from './StateBtn';
-import useNotes from './useNotes';
 import SendDialog from '../send-dialog';
 import { useAxios } from 'src/auth/axios/axios-provider';
+import useNotes from 'src/utils/useNotes';
 
 type Article = {
   id: string;
@@ -52,6 +53,7 @@ type Article = {
   publishOnAdac: boolean;
   objData: string | object;
   newsletterId?: string;
+  description?: string;
 };
 
 type Props = {
@@ -171,6 +173,7 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
         : article.objData;
 
     if (newCurrentNota === null) return;
+    dispatch(setcurrentNotaDescription(article.description || ''));
     dispatch(setcurrentNota(newCurrentNota));
     dispatch(setcurrentNotaID(article.id));
     dispatch(setCoverImage(article.coverImageUrl || ''));

@@ -6,6 +6,9 @@ import TemplateView from './templates/template-view';
 
 export default function NotaBody({ isEmail }: { isEmail?: boolean }) {
   const currentNesletter = useSelector((state: RootState) => state.note.currentNota);
+
+  const { zoomScaleNota } = useSelector((state: RootState) => state.note);
+
   return (
     <table
       width="100%"
@@ -26,6 +29,12 @@ export default function NotaBody({ isEmail }: { isEmail?: boolean }) {
         textDecoration: 'none',
         transition: 'all 0.3s ease',
         minWidth: '520px',
+        ...(!isEmail && {
+          transform: `scale(${zoomScaleNota})`,
+          position: 'relative',
+          marginTop: '50px',
+          top: `${zoomScaleNota > 1 ? zoomScaleNota * 14 : 0}%`,
+        }),
       }}
     >
       <tbody>

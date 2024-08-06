@@ -34,10 +34,10 @@ type Props = {
 export default function PostSearch({ query, results, onSearch, hrefItem }: Props) {
   const distpach = useDispatch();
 
-  const neswletterList = useSelector((state: RootState) => state.newsletter.neswletterList);
+  const newsletterList = useSelector((state: RootState) => state.newsletter.newsletterList);
 
   const handleClick = (id: string) => {
-    const selectNewsletter = neswletterList.filter((post) => post.id === id)[0];
+    const selectNewsletter = newsletterList.filter((post) => post.id === id)[0];
 
     const dataNewsletter =
       typeof selectNewsletter.objData === 'string'

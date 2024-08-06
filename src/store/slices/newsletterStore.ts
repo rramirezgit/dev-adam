@@ -17,7 +17,7 @@ const initialState: NeswletterState = {
   menuData: { type: 'none', templateId: '', inputId: 'string', parentId: 'string' },
   //
   selectedNewsletter: '',
-  neswletterList: [],
+  newsletterList: [],
 
   styles: {
     main: '#00C3C3',
@@ -109,7 +109,7 @@ export const NewsletterSlice = createSlice({
       state.selectedNewsletter = action.payload;
     },
     setNeswletterList: (state, action: PayloadAction<newsletterItemList[]>) => {
-      state.neswletterList = action.payload;
+      state.newsletterList = action.payload;
     },
     setStylesNewsletter: (state, action: PayloadAction<any>) => {
       state.styles = action.payload;
@@ -496,7 +496,7 @@ export const NewsletterSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchNewsletters.fulfilled, (state, action: PayloadAction<newsletterItemList[]>) => {
-        state.neswletterList = action.payload;
+        state.newsletterList = action.payload;
         state.isLoading = false;
       })
       .addCase(fetchNewsletters.rejected, (state, action: PayloadAction<any>) => {
@@ -508,7 +508,7 @@ export const NewsletterSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteNewsletter.fulfilled, (state, action: PayloadAction<string>) => {
-        state.neswletterList = state.neswletterList.filter(
+        state.newsletterList = state.newsletterList.filter(
           (newsletter) => newsletter.id !== action.payload
         );
         state.isLoading = false;
@@ -522,7 +522,7 @@ export const NewsletterSlice = createSlice({
         state.error = null;
       })
       .addCase(editNewsletter.fulfilled, (state, action: PayloadAction<newsletterItemList>) => {
-        state.neswletterList = state.neswletterList.map((newsletter) =>
+        state.newsletterList = state.newsletterList.map((newsletter) =>
           newsletter.id === action.payload.id ? action.payload : newsletter
         );
         state.isLoading = false;

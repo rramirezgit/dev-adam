@@ -12,7 +12,6 @@ export default function NewsletterEditingArea() {
         flexDirection: 'column',
         height: `calc(100vh - ${40 * 2.6}px)`,
         alignItems: 'center',
-        border: !smUp ? 'none' : `1px solid ${theme.palette.divider}`,
         transition: theme.transitions.create('all', {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.standard,

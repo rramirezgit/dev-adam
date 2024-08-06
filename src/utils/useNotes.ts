@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { useDispatch, useSelector } from 'react-redux';
-import { setNeswletterList } from 'src/store/slices/newsletterStore';
-import { setFilters, setLoading, setselectedTab, setShowEditor } from 'src/store/slices/noteStore';
+import {
+  setFilters,
+  setLoading,
+  setnoteList,
+  setselectedTab,
+  setShowEditor,
+} from 'src/store/slices/noteStore';
 import { useRouter } from 'src/routes/hooks';
 import { useCallback } from 'react';
 import { RootState } from 'src/store';
@@ -24,15 +29,7 @@ const useNotes = () => {
       try {
         dispatch(setLoading(true));
         const { data } = await axiosInstance.get('/posts');
-        const processedData = data.map((item: any) => ({
-          ...item,
-          objData:
-            typeof item.objData === 'string' && item.objData.length > 0 && item.objData[0] === '{'
-              ? JSON.parse(item.objData)
-              : item.objData,
-        }));
-
-        dispatch(setNeswletterList(processedData));
+        dispatch(setnoteList(data));
         dispatch(setShowEditor(false));
         dispatch(setselectedTab(tab));
 

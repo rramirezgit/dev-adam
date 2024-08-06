@@ -32,7 +32,7 @@ export default function PostSearch({ query, results, onSearch, hrefItem }: Props
 
   const distpach = useDispatch();
 
-  const noteList = useSelector((state: RootState) => state.note.neswletterList);
+  const noteList = useSelector((state: RootState) => state.note.noteList);
 
   const handleClick = (id: string) => {
     const selectNote = noteList.filter((post) => post.id === id)[0];

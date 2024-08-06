@@ -7,6 +7,7 @@ import {
   setcurrentNota,
   setcurrentNotaID,
   setCoverImage,
+  setcurrentNotaDescription,
 } from 'src/store/slices/noteStore';
 
 export default function CreateNotaButton() {
@@ -21,6 +22,7 @@ export default function CreateNotaButton() {
             dispatch(setShowEditor(true));
             dispatch(setCoverImage(''));
             dispatch(setSubject('ADAC News'));
+            dispatch(setcurrentNotaDescription(''));
             dispatch(setMenu({ type: 'add-template' }));
           }}
           variant="contained"

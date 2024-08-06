@@ -13,6 +13,9 @@ export default async function register(req: NextApiRequest, res: NextApiResponse
           client_id: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
           email,
           password,
+          audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+          scope: 'openid profile email',
+          client_secret: process.env.AUTH0_CLIENT_SECRET,
           connection: 'Username-Password-Authentication',
         }
       );

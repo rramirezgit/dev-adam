@@ -17,9 +17,9 @@ import { setUrlNgrok, setpromptIa } from 'src/store/slices/noteStore';
 import NoteDialog from './modal/CreateAi';
 import TrenddingDialog, { Data } from './modal/trending';
 import DialogAlert from './modal/DialogAlert';
-import useNotes from './useNotes';
 import { useSnackbar } from 'notistack';
 import { endpoints_adam } from 'src/utils/endpoints';
+import useNotes from 'src/utils/useNotes';
 
 const emailsReviewError = ['97.rramirez@gmail.com', 'jolcusuario1@gmail.com'];
 

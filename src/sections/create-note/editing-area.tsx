@@ -2,9 +2,12 @@
 import { Box } from '@mui/material';
 import { useResponsive } from 'src/hooks/use-responsive';
 import NotaBody from './Nota-body';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 export default function NotaEditingArea() {
   const smUp = useResponsive('up', 'sm');
+
   return (
     <Box
       sx={(theme) => ({
@@ -12,7 +15,6 @@ export default function NotaEditingArea() {
         flexDirection: 'column',
         height: `calc(100vh - ${40 * 2.6}px)`,
         alignItems: 'center',
-        border: !smUp ? 'none' : `1px solid ${theme.palette.divider}`,
         transition: theme.transitions.create('all', {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.standard,

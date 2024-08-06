@@ -1,8 +1,9 @@
 /* eslint-disable no-nested-ternary */
-import { Button, ListItemText, MenuItem, SxProps } from '@mui/material';
-import React from 'react';
-import { CustomPopover, usePopover } from './custom-popover';
+import { Box, Button, ListItemText, MenuItem, SxProps, Popover } from '@mui/material';
+import React, { useState } from 'react';
 import { Iconify } from './iconify';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 interface Props {
   Nota: any;
@@ -11,7 +12,20 @@ interface Props {
 }
 
 const StateBtn = ({ Nota, onChange, sx }: Props) => {
-  const popover = usePopover();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   const disabledItemMenu = (item: string) => {
     if (Nota) {
@@ -35,19 +49,19 @@ const StateBtn = ({ Nota, onChange, sx }: Props) => {
           return false;
         }
       }
+    } else if (item === 'REVIEW') {
+      return false;
     }
     return true;
   };
+
   return (
     <>
       <Button
-        onClick={async (e) => {
-          popover.onOpen(e);
-        }}
-        disabled={!Nota?.status}
+        onClick={handleClick}
         endIcon={
           <Iconify
-            icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+            icon={open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
             width={15}
             height={15}
           />
@@ -63,20 +77,53 @@ const StateBtn = ({ Nota, onChange, sx }: Props) => {
       >
         {Nota?.status ? (Nota.status === 'PUBLISHED' ? 'PUBLISHED' : Nota.status) : 'Draft'}
       </Button>
-      <CustomPopover open={popover.open} onClose={popover.onClose}>
-        <MenuItem onClick={() => onChange('DRAFT')} disabled={disabledItemMenu('DRAFT')}>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            onChange('DRAFT');
+            handleClose();
+          }}
+          disabled={disabledItemMenu('DRAFT')}
+        >
           <ListItemText>DRAFT</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => onChange('REVIEW')} disabled={disabledItemMenu('REVIEW')}>
+        <MenuItem
+          onClick={() => {
+            onChange('REVIEW');
+            handleClose();
+          }}
+          disabled={disabledItemMenu('REVIEW')}
+        >
           <ListItemText>REVIEW</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => onChange('APPROVED')} disabled={disabledItemMenu('APPROVED')}>
+        <MenuItem
+          onClick={() => {
+            onChange('APPROVED');
+            handleClose();
+          }}
+          disabled={disabledItemMenu('APPROVED')}
+        >
           <ListItemText>APPROVED</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => onChange('PUBLISHED')} disabled={disabledItemMenu('PUBLISHED')}>
+        <MenuItem
+          onClick={() => {
+            onChange('PUBLISHED');
+            handleClose();
+          }}
+          disabled={disabledItemMenu('PUBLISHED')}
+        >
           <ListItemText>PUBLISHED</ListItemText>
         </MenuItem>
-      </CustomPopover>
+      </Popover>
     </>
   );
 };

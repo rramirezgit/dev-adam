@@ -37,12 +37,12 @@ export default function CreateNewsletter() {
 
   const { NewsletterId } = router;
 
-  const neswletterList = useSelector((state: RootState) => state.newsletter.neswletterList);
+  const newsletterList = useSelector((state: RootState) => state.newsletter.newsletterList);
   const currentNewsletterId = useSelector(
     (state: RootState) => state.newsletter.currentNewsletterId
   );
 
-  const newsletter: any = neswletterList.find((item) => item.id === currentNewsletterId);
+  const newsletter: any = newsletterList.find((item) => item.id === currentNewsletterId);
 
   const subject = useSelector((state: RootState) => state.newsletter.subject);
 
@@ -66,7 +66,7 @@ export default function CreateNewsletter() {
     } else {
       setShowAprove(false);
     }
-  }, [currentNewsletterId, neswletterList]);
+  }, [currentNewsletterId, newsletterList]);
 
   const handleClicAprove = async () => {
     await axiosInstance

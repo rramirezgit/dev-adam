@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { useCallback, useEffect, useState } from 'react';
-import { Box, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
+import { Box, CircularProgress, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setcurrentNewsletter, setHeader, setMenu } from 'src/store/slices/newsletterStore';
 import { NEWSLETTERS_TEMPLATES_LIST_MENU } from 'src/const/neswletter/templates';
@@ -19,6 +19,8 @@ export default function AddTemplateMenu() {
   const axiosInstance = useAxios();
   const currentNewsletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);
   const haveHeader = useSelector((state: RootState) => state.newsletter.header);
+
+  const [loading, setLoading] = useState(false);
 
   const handleClickTemplate = (name: INewslettersNames) => {
     if (name === 'Header') {
@@ -44,19 +46,14 @@ export default function AddTemplateMenu() {
 
   const getNotes = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await axiosInstance.get('/posts');
+      setLoading(false);
 
       const { data } = response;
-      const processedData = data
-        .map((item: any) => ({
-          ...item,
-          objData:
-            item.objData.length > 0 && item.objData[0] === '{'
-              ? JSON.parse(item.objData)
-              : item.objData,
-        }))
-        .filter((item: any) => item.status === 'PUBLISHED' || item.status === 'APPROVED');
-      console.log('processedData', processedData);
+      const processedData = data.filter(
+        (item: any) => item.status === 'PUBLISHED' || item.status === 'APPROVED'
+      );
       setNotes(processedData);
     } catch (error) {
       console.error('Failed to fetch notes:', error);
@@ -64,17 +61,32 @@ export default function AddTemplateMenu() {
   }, [axiosInstance]);
 
   useEffect(() => {
-    if (currentTab === 'saved') {
+    if (currentTab === 'saved' || currentTab === 'AI') {
       getNotes();
     }
   }, [currentTab, getNotes]);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Grid container spacing={2}>
       <Tabs value={currentTab} onChange={handleChangeTab} sx={{ mb: 2, width: 1, paddingLeft: 2 }}>
         <Tab value="create" label="Crear template" />
-        <Tab value="saved" label="Notas guardadas" />
-        <Tab value="ia" label="Notas AI" />
+        <Tab value="saved" label="Notas" />
+        <Tab value="AI" label="Notas AI 🤖" />
       </Tabs>
       {currentTab === 'create' && (
         <>
@@ -113,6 +125,7 @@ export default function AddTemplateMenu() {
           })}
         </>
       )}
+
       {currentTab === 'saved' && (
         <>
           {notes.map((item: any, index: number) => {
@@ -127,7 +140,7 @@ export default function AddTemplateMenu() {
         </>
       )}
 
-      {currentTab === 'ia' && (
+      {currentTab === 'AI' && (
         <>
           {notes.map((item: any, index: number) => {
             if (item.origin !== 'AI') return null;

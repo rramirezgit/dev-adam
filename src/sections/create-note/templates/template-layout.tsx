@@ -18,7 +18,7 @@ import { m } from 'framer-motion';
 import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import { SvgColor } from 'src/components/svg-color';
 
-export const COLORS_Nota_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', 'black'];
+export const COLORS_Nota_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', '#000000'];
 export const COLORS_BG_Nota_TEMPLATES = ['#FFFFFF', '#FEFAEF', '#F5FCFC', '#F4F5F6', '#F9BB19'];
 
 interface ILayoutTemplate {

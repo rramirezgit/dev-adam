@@ -27,6 +27,11 @@ import type { ContactsPopoverProps } from '../components/contacts-popover';
 import type { LanguagePopoverProps } from '../components/language-popover';
 import type { WorkspacesPopoverProps } from '../components/workspaces-popover';
 import type { NotificationsDrawerProps } from '../components/notifications-drawer';
+import { IconButton, Typography } from '@mui/material';
+import { Iconify } from 'src/components/iconify';
+import { RootState } from 'src/store';
+import { useSelector } from 'react-redux';
+import ButtonBackEditors from 'src/components/ButtonBackEditors';
 
 // ----------------------------------------------------------------------
 
@@ -74,6 +79,7 @@ export type HeaderBaseProps = HeaderSectionProps & {
     };
   };
   slotsDisplay?: {
+    back?: boolean;
     signIn?: boolean;
     account?: boolean;
     helpLink?: boolean;
@@ -96,6 +102,7 @@ export function HeaderBase({
   onOpenNav,
   layoutQuery,
   slotsDisplay: {
+    back = false,
     signIn = true,
     account = true,
     helpLink = true,
@@ -112,6 +119,9 @@ export function HeaderBase({
 }: HeaderBaseProps) {
   const theme = useTheme();
 
+  const { showEditor } = useSelector((state: RootState) => state.newsletter);
+  const { showEditor: showEditorNote } = useSelector((state: RootState) => state.note);
+
   return (
     <HeaderSection
       sx={sx}
@@ -122,6 +132,9 @@ export function HeaderBase({
         leftArea: (
           <>
             {slots?.leftAreaStart}
+
+            {/* -- Back button -- */}
+            {back && (showEditor || showEditorNote) && <ButtonBackEditors />}
 
             {/* -- Menu button -- */}
             {menuButton && (
