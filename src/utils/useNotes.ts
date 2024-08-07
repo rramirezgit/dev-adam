@@ -1,19 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/dot-notation */
+import type { RootState, AppDispatch } from 'src/store';
+import type { NewslettersFilterValue } from 'src/types/newsletter';
+
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { useRouter } from 'src/routes/hooks';
+
 import {
   setFilters,
   setLoading,
-  setselectedTab,
-  setShowEditor,
   fetchNotes,
   createNote,
-  updateNote,
   deleteNote,
+  setShowEditor,
+  setselectedTab,
 } from 'src/store/slices/noteStore';
-import { useRouter } from 'src/routes/hooks';
-import { useCallback } from 'react';
-import { AppDispatch, RootState } from 'src/store';
-import { NewslettersFilterValue } from 'src/types/newsletter';
 
 const useNotes = () => {
   const dispatch = useDispatch<AppDispatch>();

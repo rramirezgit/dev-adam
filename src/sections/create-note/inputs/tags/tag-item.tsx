@@ -1,18 +1,18 @@
+import type { RootState } from 'src/store';
+
 import { useState } from 'react';
-import { Iconify } from 'src/components/iconify';
-import { alpha, useTheme } from '@mui/material';
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTagNota, setErrors } from 'src/store/slices/noteStore';
+
+import { alpha, useTheme } from '@mui/material';
+
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+import { setErrors, deleteTagNota } from 'src/store/slices/noteStore';
+
+import { Iconify } from 'src/components/iconify';
+
 import TextBubble from '../bubbles/bubble';
 
-interface ItemProps {
-  color?: string;
-  [key: string]: any;
-}
-
-export default function TagItem({ color = DEFAULT_COLOR_NESWLETTER, ...props }: ItemProps) {
+export default function TagItem({ color = DEFAULT_COLOR_NESWLETTER, ...props }: any) {
   const [opacity, setOpacity] = useState(0);
 
   const theme = useTheme();

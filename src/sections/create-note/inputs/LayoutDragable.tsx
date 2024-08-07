@@ -1,10 +1,16 @@
-import React, { useState, useCallback } from 'react';
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
-import { alpha, Box, useTheme } from '@mui/material';
-import { Iconify } from 'src/components/iconify';
+/* eslint-disable react-hooks/exhaustive-deps */
+import type { DropResult } from '@hello-pangea/dnd';
+
 import { m } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-import { deleteInputNota, reorderInputNota, setDeleteItem } from 'src/store/slices/noteStore';
+import React, { useState, useCallback } from 'react';
+import { Droppable, DragDropContext } from '@hello-pangea/dnd';
+
+import { Box, useTheme } from '@mui/material';
+
+import { setDeleteItem, deleteInputNota, reorderInputNota } from 'src/store/slices/noteStore';
+
+import { Iconify } from 'src/components/iconify';
 
 interface LayoutDragableProps {
   templateId: string;

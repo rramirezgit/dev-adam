@@ -1,6 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
 import axios from 'axios';
-import { RootState } from '..';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import type { RootState } from '..';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -57,6 +60,7 @@ export const register = createAsyncThunk(
       family_name,
     }: { email: string; password: string; given_name: string; family_name: string },
     { rejectWithValue }
+    // eslint-disable-next-line consistent-return
   ) => {
     try {
       await axios.post('/api/register', { email, password, given_name, family_name });
@@ -110,7 +114,6 @@ export const fetchUserAuth0 = createAsyncThunk(
       const localAccessToken = localStorage.getItem('accessToken');
 
       if (!accessToken && !localAccessToken) throw new Error('No access token available');
-
       const response = await axios.get('/api/fetchUser', {
         headers: { Authorization: `Bearer ${localAccessToken}` },
       });

@@ -1,11 +1,16 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material';
-import { NEWSLETTERS_TEMPLATES_LIST_MENU } from 'src/const/neswletter/templates';
+import type { RootState } from 'src/store';
+import type { INotaNames } from 'src/types/Nota';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { setcurrentNota, setHeader, setMenu } from 'src/store/slices/noteStore';
+
+import { Box, Grid, useTheme, Typography } from '@mui/material';
+
 import uuidv4 from 'src/utils/uuidv4';
-import { RootState } from 'src/store';
+
+import { setMenu, setHeader, setcurrentNota } from 'src/store/slices/noteStore';
+import { NEWSLETTERS_TEMPLATES_LIST_MENU } from 'src/const/neswletter/templates';
+
 import { TEMPLATES_WITH_CONTENT } from '../../templates';
-import { INotaNames } from 'src/types/Nota';
 
 export default function AddTemplateMenu() {
   const theme = useTheme();

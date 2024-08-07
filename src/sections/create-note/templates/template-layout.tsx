@@ -1,22 +1,24 @@
-/* eslint-disable @next/next/no-img-element */
-import { Box, Checkbox, IconButton, Menu, MenuItem, Stack, alpha, useTheme } from '@mui/material';
-import { MouseEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
-import { RootState } from 'src/store';
-import {
-  changeBGColorNotatemplate,
-  changeColorNotatemplate,
-  deleteNotaTemplate,
-  moveTemplateNota,
-  setHeader,
-} from 'src/store/slices/noteStore';
-import { ArrowDown2, ArrowUp2, BrushSquare, Trash } from 'iconsax-react';
-import { useResponsive } from 'src/hooks/use-responsive';
-import { Iconify } from 'src/components/iconify';
+import type { RootState } from 'src/store';
+
 import { m } from 'framer-motion';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ArrowUp2, ArrowDown2, BrushSquare } from 'iconsax-react';
+
+import { Box, Stack, alpha, useTheme, IconButton } from '@mui/material';
+
+import { useResponsive } from 'src/hooks/use-responsive';
+
+import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
+import {
+  moveTemplateNota,
+  changeColorNotatemplate,
+  changeBGColorNotatemplate,
+} from 'src/store/slices/noteStore';
+
+import { Iconify } from 'src/components/iconify';
 import { SvgColor } from 'src/components/svg-color';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 export const COLORS_Nota_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', '#000000'];
 export const COLORS_BG_Nota_TEMPLATES = ['#FFFFFF', '#FEFAEF', '#F5FCFC', '#F4F5F6', '#F9BB19'];
@@ -167,13 +169,6 @@ const TooltipNewletter = ({
   const currentNota = useSelector((state: RootState) => state.note.currentNota);
 
   const theme = useTheme();
-
-  const handleClickdeleteNotaTemplate = () => {
-    if (name === TEMPLATESNAMES.Header) {
-      dispatch(setHeader(false));
-    }
-    dispatch(deleteNotaTemplate(templateId));
-  };
 
   const handleClickMoveNota = (direction: string) => {
     dispatch(moveTemplateNota({ templateId, direction }));

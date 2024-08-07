@@ -1,13 +1,11 @@
-import { useSelector } from "react-redux";
-import { RootState } from "src/store";
-import UploadImage from "./upload-image";
+import type { RootState } from 'src/store';
 
-/* eslint-disable @next/next/no-img-element */
+import { useSelector } from 'react-redux';
 
-export default function UploadImageLogoSponsor({ ...props }) {
-  const currentNotaId = useSelector(
-    (state: RootState) => state.note.currentNotaId
-  );
+import UploadImage from './upload-image';
+
+export default function UploadImageLogoSponsor({ ...props }: any) {
+  const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
   return (
     <table
       width="100%"
@@ -15,7 +13,7 @@ export default function UploadImageLogoSponsor({ ...props }) {
       cellPadding="0"
       style={{
         maxWidth: 650,
-        margin: "0 auto 26px auto",
+        margin: '0 auto 26px auto',
       }}
     >
       <tbody>
@@ -25,15 +23,15 @@ export default function UploadImageLogoSponsor({ ...props }) {
               cellSpacing="0"
               cellPadding="0"
               style={{
-                width: "100%",
-                borderCollapse: "collapse",
+                width: '100%',
+                borderCollapse: 'collapse',
               }}
             >
               <tbody>
                 <tr>
                   <td
                     style={{
-                      fontSize: "12px",
+                      fontSize: '12px',
                     }}
                   >
                     <a
@@ -41,16 +39,16 @@ export default function UploadImageLogoSponsor({ ...props }) {
                       target="_blank"
                       rel="noreferrer"
                       style={{
-                        color: "#000000",
-                        fontWeight: "bold",
-                        textDecoration: "none",
+                        color: '#000000',
+                        fontWeight: 'bold',
+                        textDecoration: 'none',
                       }}
                     >
                       View Online
                     </a>
                     <span
                       style={{
-                        margin: "0 10px",
+                        margin: '0 10px',
                       }}
                     >
                       |
@@ -60,10 +58,10 @@ export default function UploadImageLogoSponsor({ ...props }) {
                       target="_blank"
                       rel="noreferrer"
                       style={{
-                        color: "#000000",
-                        fontWeight: "bold",
+                        color: '#000000',
+                        fontWeight: 'bold',
 
-                        textDecoration: "none",
+                        textDecoration: 'none',
                       }}
                     >
                       Sign Up
@@ -82,7 +80,7 @@ export default function UploadImageLogoSponsor({ ...props }) {
               height={91}
               alt="logo"
               loading="lazy"
-              style={{ display: "block", marginTop: "25px" }}
+              style={{ display: 'block', marginTop: '25px' }}
             />
           </td>
           <td align="right">
@@ -91,8 +89,8 @@ export default function UploadImageLogoSponsor({ ...props }) {
                 <td>
                   <div
                     style={{
-                      textAlign: "start",
-                      fontSize: "14px",
+                      textAlign: 'start',
+                      fontSize: '14px',
                     }}
                   >
                     Juntos con:

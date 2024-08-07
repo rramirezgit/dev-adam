@@ -1,21 +1,26 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable @next/next/no-img-element */
-import { Box, alpha, useTheme } from '@mui/material';
+
+import type { RootState } from 'src/store';
+
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { Iconify } from 'src/components/iconify';
+
+import { Box, alpha, useTheme } from '@mui/material';
+
 import {
-  setDataImageCrop,
-  setDataImageCroped,
-  setImagesSaved,
   setMenu,
   setObjectFit,
+  setImagesSaved,
+  setDataImageCrop,
+  setDataImageCroped,
   updateImageDataNota,
-  updateValueInputNota,
 } from 'src/store/slices/noteStore';
-import { RootState } from 'src/store';
-import { ILayout, ImageInput } from '../types';
+
+import { Iconify } from 'src/components/iconify';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import type { ILayout, ImageInput } from '../types';
 
 export interface Props extends ImageInput {
   placeholder?: string;

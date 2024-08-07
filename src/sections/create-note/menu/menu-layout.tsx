@@ -1,32 +1,34 @@
+import type { RootState } from 'src/store';
+/* eslint-disable prefer-arrow-callback */
+import type { TransitionProps } from '@mui/material/transitions';
+
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect, forwardRef } from 'react';
+
 import {
-  AppBar,
   Box,
-  Dialog,
-  IconButton,
-  Typography,
-  useTheme,
-  Button,
-  Toolbar,
   Slide,
   Stack,
+  Dialog,
+  Button,
+  useTheme,
+  IconButton,
+  Typography,
   DialogTitle,
 } from '@mui/material';
-import React, { forwardRef, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Iconify } from 'src/components/iconify';
+
+import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
-import { RootState } from 'src/store';
+
 import {
+  setMenu,
+  setImagesSaved,
   setDataImageCrop,
   setDataImageCroped,
-  setImagesSaved,
-  setMenu,
-  setcurrentNota,
   updateValueInputNota,
 } from 'src/store/slices/noteStore';
-/* eslint-disable prefer-arrow-callback */
-import { TransitionProps } from '@mui/material/transitions';
-import { useBoolean } from 'src/hooks/use-boolean';
+
+import { Iconify } from 'src/components/iconify';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {

@@ -1,28 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prefer-spread */
-/* eslint-disable @next/next/no-img-element */
-import { DependencyList, useEffect, useRef, useState } from 'react';
-import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+
+import type { RootState } from 'src/store';
+import type { DependencyList } from 'react';
+import type { Crop, PixelCrop } from 'react-image-crop';
+
+import { m } from 'framer-motion';
+import ReactCrop from 'react-image-crop';
+import { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { Box, Checkbox, IconButton, Slider, Stack, Typography } from '@mui/material';
+
+import { LoadingButton } from '@mui/lab';
+import { Box, Stack, Slider, Checkbox, IconButton, Typography } from '@mui/material';
+
 // import { setDataImageCroped, setOpenModalPreviewMobile } from 'src/store/slices/post';
 import {
-  setDataImageCrop,
-  setDataImageCroped,
+  setMenu,
   setErrors,
   setImagesSaved,
-  setMenu,
   setcurrentNota,
+  setDataImageCrop,
+  setDataImageCroped,
   updateImageDataNota,
   updateValueInputNota,
 } from 'src/store/slices/noteStore';
-import ColorPicker from 'src/components/colorPicker';
-import 'react-image-crop/dist/ReactCrop.css';
+
 import { Iconify } from 'src/components/iconify';
-import { m } from 'framer-motion';
-import { LoadingButton } from '@mui/lab';
 import { varFade } from 'src/components/animate';
+import ColorPicker from 'src/components/colorPicker';
+
 import { imgPreview } from './imgPreview';
 import useGetInputValue from '../../inputs/getValue';
 import { useProcessImagesS3 } from './proccesImageS3';

@@ -1,13 +1,17 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-
-import { createAxiosInstance } from '../axiosInstance';
-import {
+/* eslint-disable import/no-cycle */
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { imageCrop, Tmenudata } from 'src/types/newsletter';
+import type {
   TagInput,
   TypeTemplateContent,
   valueImageNeswletter,
 } from 'src/sections/create-newsletter/inputs/types';
-import { imageCrop, Tmenudata } from 'src/types/newsletter';
+
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+
+import { createAxiosInstance } from '../axiosInstance';
 
 export type statusNota = 'DRAFT' | 'REVIEW' | 'APPROVED' | 'REJECTED' | 'PUBLISHED';
 

@@ -1,8 +1,12 @@
 /* eslint-disable no-nested-ternary */
-import { Button, ListItemText, MenuItem, SxProps } from '@mui/material';
+import type { SxProps } from '@mui/material';
+
 import React from 'react';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+
+import { Button, MenuItem, ListItemText } from '@mui/material';
+
 import { Iconify } from 'src/components/iconify';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 interface Props {
   Nota: any;

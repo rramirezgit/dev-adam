@@ -1,8 +1,11 @@
 /* eslint-disable no-plusplus */
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { RootState } from 'src/store';
+
 import { setCurrentNotaImagesList } from 'src/store/slices/noteStore';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
 
 export const useProcessImagesS3 = () => {
   const currentNota = useSelector((state: RootState) => state.note.currentNota);

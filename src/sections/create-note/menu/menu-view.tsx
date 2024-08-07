@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { TDrawers } from 'src/store/slices/types';
-import { RootState } from 'src/store';
+import type { RootState } from 'src/store';
+import type { TDrawers } from 'src/types/newsletter';
+
 import { useEffect } from 'react';
-import { setMenu } from 'src/store/slices/noteStore';
-import { Button, Dialog, DialogTitle, Typography, useTheme } from '@mui/material';
-import { Stack } from '@mui/system';
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useSelector } from 'react-redux';
+
 import MenuLayout from './menu-layout';
 import CropSection from './crop-section';
 import AddTemplateMenu from './add-template/add-templates';

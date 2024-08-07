@@ -1,24 +1,33 @@
+import type { RootState } from 'src/store';
+
+import axios from 'axios';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
+import { green } from '@mui/material/colors';
 import SpeedDial from '@mui/material/SpeedDial';
+import BuildIcon from '@mui/icons-material/Build';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { CircularProgress, SpeedDialIcon, Tooltip } from '@mui/material';
-import BuildIcon from '@mui/icons-material/Build';
-import { green } from '@mui/material/colors';
-import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import axios from 'axios';
-import { setUrlNgrok, setpromptIa } from 'src/store/slices/noteStore';
-import NoteDialog from './modal/CreateAi';
-import TrenddingDialog, { Data } from './modal/trending';
-import DialogAlert from './modal/DialogAlert';
-import { toast } from 'src/components/snackbar';
-import { endpoints_adam } from 'src/utils/endpoints';
+import { Tooltip, SpeedDialIcon, CircularProgress } from '@mui/material';
+
 import useNotes from 'src/utils/useNotes';
+import { endpoints_adam } from 'src/utils/endpoints';
+
+import { setUrlNgrok, setpromptIa } from 'src/store/slices/noteStore';
+
+import { toast } from 'src/components/snackbar';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import NoteDialog from './modal/CreateAi';
+import DialogAlert from './modal/DialogAlert';
+import TrenddingDialog from './modal/trending';
+
+import type { Data } from './modal/trending';
 
 const emailsReviewError = ['97.rramirez@gmail.com', 'jolcusuario1@gmail.com'];
 

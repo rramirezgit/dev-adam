@@ -2,11 +2,7 @@ import AddTags from './add-tag';
 import TagItem from './tag-item';
 import { COLORS_Nota_TEMPLATES } from '../../templates/template-layout';
 
-interface TagsLayoutProps {
-  [key: string]: any;
-}
-
-function TagsLayout({ children, ...props }: TagsLayoutProps) {
+function TagsLayout({ children, ...props }: any) {
   return (
     <table
       cellSpacing="2"
@@ -21,7 +17,7 @@ function TagsLayout({ children, ...props }: TagsLayoutProps) {
   );
 }
 
-export default function Tags({ ...props }) {
+export default function Tags({ ...props }: any) {
   return (
     <TagsLayout {...props}>
       {props.variant === 'tags' &&
