@@ -21,6 +21,8 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
+
+import { useRouter } from 'src/routes/hooks';
 import {
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
@@ -78,6 +80,8 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
   const axiosInstance = useAxios();
 
   const { loadNotes } = useNotes();
+
+  const router = useRouter();
 
   const tab = useSelector((state: RootState) => state.note.selectedTab);
 
@@ -183,8 +187,7 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
   };
 
   const handleNewsletterButtonClick = (id: string) => {
-    console.log(`Handle newsletter button click for article with id: ${id}`);
-    // Aquí puedes agregar la lógica que deseas ejecutar cuando se hace clic en el botón del newsletterId
+    router.push(`/dashboard/create-newsletter/${id}/view`);
   };
 
   const filteredArticles = articles.filter((article) => {
@@ -392,10 +395,10 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
                         variant="contained"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleNewsletterButtonClick(article.id);
+                          handleNewsletterButtonClick(article.newsletterId);
                         }}
                       >
-                        newsletter
+                        ir al newsletter
                       </Button>
                     )}
                   </TableCell>

@@ -56,6 +56,14 @@ export default function CreateNewsletterHome() {
       dispatch(setcurrentNewsletter(dataNews));
       dispatch(setcurrentNewsletterID(NewsletterId));
       dispatch(setShowEditor(true));
+    } else if (neswletterListData.length > 0 && NewsletterId && action === 'view') {
+      const newCurrentNewsletter = neswletterListData.find((news) => news.id === NewsletterId);
+      if (!newCurrentNewsletter) return;
+
+      const dataNews = parseObjData(newCurrentNewsletter.objData);
+      dispatch(setcurrentNewsletter(dataNews));
+      dispatch(setcurrentNewsletterID(NewsletterId));
+      dispatch(setShowEditor(true));
     }
   }, [neswletterListData, NewsletterId, action]);
 
