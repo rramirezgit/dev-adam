@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------
 
 export type DateRangePickerProps = {
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: any;
+  endDate: any;
   onChangeStartDate: (newValue: Date | null) => void;
   onChangeEndDate: (newValue: Date | null) => void;
   //
