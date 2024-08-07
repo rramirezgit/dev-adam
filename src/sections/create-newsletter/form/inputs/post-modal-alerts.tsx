@@ -1,7 +1,10 @@
-import { Alert, Box, Button } from '@mui/material';
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Box, Alert, Button } from '@mui/material';
+
 import { useLocales } from 'src/locales';
-import { RootState } from 'src/store';
 import { setSocialNetworksConnected } from 'src/store/slices/post';
 
 export default function AlertMessages() {

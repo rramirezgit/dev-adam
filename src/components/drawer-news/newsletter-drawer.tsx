@@ -1,23 +1,26 @@
 'use client';
 
+import type { RootState } from 'src/store';
+import type { Theme, SxProps } from '@mui/material/styles';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
+import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
-import { useTheme } from '@mui/material/styles';
 
 import { paper, varAlpha } from 'src/theme/styles';
-import { FullScreenButton } from './fullscreen-button';
+import { setOpenNewsletterDrawer } from 'src/store/slices/newsletterStore';
 
-import type { Theme, SxProps } from '@mui/material/styles';
+import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
+
 import { Iconify } from '../iconify';
 import { Scrollbar } from '../scrollbar';
-import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOpenNewsletterDrawer } from 'src/store/slices/newsletterStore';
-import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
+import { FullScreenButton } from './fullscreen-button';
 import { NewsletterDraweOptions } from './newsletter-nav-options';
 
 export type NewsletterDrawerProps = {

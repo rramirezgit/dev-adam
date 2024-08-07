@@ -1,29 +1,30 @@
 'use client';
 
+import type { RootState } from 'src/store';
+import type { Theme, SxProps } from '@mui/material/styles';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
+import { Tooltip } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
-import { useTheme, useColorScheme } from '@mui/material/styles';
+
+import useNotes from 'src/utils/useNotes';
 
 import { paper, varAlpha } from 'src/theme/styles';
+import { setOpenNewsDrawer } from 'src/store/slices/noteStore';
 
-import { NavOptions } from './nav-options';
-import { FullScreenButton } from './fullscreen-button';
+import { useAxios } from 'src/auth/axios/axios-provider';
 
-import type { Theme, SxProps } from '@mui/material/styles';
-import { useSettingsContext } from '../settings';
+import StateBtn from '../StateBtn';
 import { Iconify } from '../iconify';
 import { Scrollbar } from '../scrollbar';
-import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOpenNewsDrawer } from 'src/store/slices/noteStore';
-import StateBtn from '../StateBtn';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import useNotes from 'src/utils/useNotes';
-import { Tooltip } from '@mui/material';
+import { NavOptions } from './nav-options';
+import { FullScreenButton } from './fullscreen-button';
 
 export type NewsDrawerProps = {
   sx?: SxProps<Theme>;

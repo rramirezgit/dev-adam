@@ -1,6 +1,8 @@
 /* eslint-disable no-unneeded-ternary */
-import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useField } from 'formik';
+
+import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
+
 import { useLocales } from 'src/locales';
 
 interface IPublishRadioButtons {

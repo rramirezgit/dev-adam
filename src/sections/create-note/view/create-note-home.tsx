@@ -2,31 +2,34 @@
 
 /* eslint-disable arrow-body-style */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-import { useCallback, useEffect, useMemo, useState } from 'react';
-// @mui
-import Stack from '@mui/material/Stack';
-import { Box, FormControlLabel, Switch, Tab, Tabs } from '@mui/material';
-// types
-import EmptyContent from 'src/components/empty-content/empty-content';
+import type { RootState, AppDispatch } from 'src/store';
+
 //
 import { useDispatch, useSelector } from 'react-redux';
+/* eslint-disable no-nested-ternary */
+import { useMemo, useState, useEffect, useCallback } from 'react';
+
+// @mui
+import Stack from '@mui/material/Stack';
+import { Box, Tab, Tabs, Switch, FormControlLabel } from '@mui/material';
+
+import useNotes from 'src/utils/useNotes';
+
+import { DashboardContent } from 'src/layouts/dashboard';
 import {
   fetchNotes,
-  setShowEditor,
-  setcurrentNota,
-  setcurrentNotaID,
   setselectedTab,
 } from 'src/store/slices/noteStore';
+
 import { SplashScreen } from 'src/components/loading-screen';
-import { AppDispatch, RootState } from 'src/store';
-import CreateNotaButton from './create-note-btn';
-import CreateNota from './create-note';
+// types
+import EmptyContent from 'src/components/empty-content/empty-content';
+
 import NotaList from '../Nota-list';
-import OptionsCreateNota from './OptionsCreateNota';
+import CreateNota from './create-note';
 import ArticlesTable from './view-table';
-import { DashboardContent } from 'src/layouts/dashboard';
-import useNotes from 'src/utils/useNotes';
+import CreateNotaButton from './create-note-btn';
+import OptionsCreateNota from './OptionsCreateNota';
 
 const whiteList = [
   '97.rramirez@gmail.com',

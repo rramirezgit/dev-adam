@@ -1,5 +1,6 @@
-import { Box, styled } from '@mui/material';
 import { ErrorMessage } from 'formik';
+
+import { Box, styled } from '@mui/material';
 
 interface IErrorForm {
   name: string;

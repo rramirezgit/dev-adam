@@ -1,10 +1,10 @@
 'use client';
 
-import { Box, Button, Link, Stack, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { useResponsive } from 'src/hooks/use-responsive';
-import { setOpenModalPreviewMobile } from 'src/store/slices/post';
+
+import { Box, Link, Stack, Typography } from '@mui/material';
+
 import { useLocales } from 'src/locales';
+
 import PostModalSocialButtons from './inputs/post-modal-social-buttons';
 
 interface IPosModalFormLayout {

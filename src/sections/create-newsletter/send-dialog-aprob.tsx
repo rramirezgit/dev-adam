@@ -1,23 +1,25 @@
-import * as Yup from 'yup';
+import type { RootState } from 'src/store';
+
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { LoadingButton } from '@mui/lab';
 import {
   Box,
   Button,
-  Checkbox,
   Dialog,
+  Checkbox,
+  useTheme,
+  FormGroup,
+  DialogTitle,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   FormControlLabel,
-  FormGroup,
-  TextField,
-  useTheme,
+  DialogContentText,
 } from '@mui/material';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { setEmails } from 'src/store/slices/newsletterStore';
-import { LoadingButton } from '@mui/lab';
-import { RootState } from 'src/store';
+
 import { Iconify } from 'src/components/iconify';
 
 interface Props {

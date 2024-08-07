@@ -1,16 +1,18 @@
 'use client';
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { headerContent } from 'src/sections/create-newsletter/templates/header/header-content';
-import {
-  TypeTemplateContent,
+import type { imageCrop, Tmenudata, NeswletterState, newsletterItemList } from 'src/types/newsletter';
+import type {
   TagInput,
+  TypeTemplateContent,
   valueImageNeswletter,
 } from 'src/sections/create-newsletter/inputs/types';
+
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import { headerContent } from 'src/sections/create-newsletter/templates/header/header-content';
 import { FooterContent } from 'src/sections/create-newsletter/templates/footer/footer-content';
-import { imageCrop, NeswletterState, newsletterItemList, Tmenudata } from 'src/types/newsletter';
-import axios from 'axios';
+
 import { createAxiosInstance } from '../axiosInstance';
 
 const initialState: NeswletterState = {

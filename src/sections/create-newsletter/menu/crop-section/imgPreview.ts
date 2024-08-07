@@ -1,4 +1,5 @@
-import { PixelCrop } from 'react-image-crop';
+import type { PixelCrop } from 'react-image-crop';
+
 import { canvasPreview } from './canvasPreview';
 
 export function imgPreview(image: HTMLImageElement, crop: PixelCrop, scale = 1, rotate = 0) {

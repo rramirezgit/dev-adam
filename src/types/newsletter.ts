@@ -1,4 +1,4 @@
-import { TypeTemplateContent } from 'src/sections/create-newsletter/inputs/types';
+import type { TypeTemplateContent } from 'src/sections/create-newsletter/inputs/types';
 
 export type NewslettersFilterValue = string | string[] | Date | null | undefined;
 

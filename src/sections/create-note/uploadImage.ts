@@ -1,4 +1,4 @@
-import { ImageInput } from './inputs/types';
+import type { ImageInput } from './inputs/types';
 
 export default function updaloadAllImages(uploadImage: any, currentNota: any[]) {
   const inputsImage = currentNota

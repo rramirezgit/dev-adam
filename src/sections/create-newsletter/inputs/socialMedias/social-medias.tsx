@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-import { alpha } from '@mui/system';
+import type { RootState } from 'src/store';
+
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+
+import { alpha } from '@mui/material';
 
 const socialMedia = [
   {
@@ -32,7 +32,7 @@ const socialMedia = [
   },
 ];
 
-export default function SocialMedias({ ...props }) {
+export default function SocialMedias({ ...props }: any) {
   return (
     <table
       style={{

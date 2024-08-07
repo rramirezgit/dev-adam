@@ -1,7 +1,6 @@
 // axiosInstance.ts
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '.';
+
 
 export const createAxiosInstance = () => {
   const accessToken = localStorage.getItem('accessToken');

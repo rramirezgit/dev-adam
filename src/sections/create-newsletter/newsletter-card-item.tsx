@@ -1,37 +1,43 @@
 /* eslint-disable no-nested-ternary */
+import type { newsletterItemList } from 'src/types/newsletter';
+
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import Card from '@mui/material/Card';
+import { LoadingButton } from '@mui/lab';
+import { alpha } from '@mui/material/styles';
 // @mui
 import {
-  Button,
-  CardActionArea,
-  CardContent,
-  Dialog,
-  DialogTitle,
-  IconButton,
+  Box,
   Stack,
+  Button,
+  Dialog,
   Tooltip,
-  Typography,
   useTheme,
+  IconButton,
+  Typography,
+  CardContent,
+  DialogTitle,
 } from '@mui/material';
-import Card from '@mui/material/Card';
-import { Box } from '@mui/system';
-import { useDispatch } from 'react-redux';
-import { alpha } from '@mui/material/styles';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
+import { fDate } from 'src/utils/format-time';
+
 import {
   setDeleted,
-  setNeswletterList,
-  setShowEditor,
   setSubject,
+  setShowEditor,
+  setNeswletterList,
   setcurrentNewsletter,
   setcurrentNewsletterID,
 } from 'src/store/slices/newsletterStore';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { LoadingButton } from '@mui/lab';
-import { useState } from 'react';
-import { newsletterItemList } from 'src/types/newsletter';
-import { useAxios } from 'src/auth/axios/axios-provider';
+
 import { Iconify } from 'src/components/iconify';
-import { fDate } from 'src/utils/format-time';
-import dayjs from 'dayjs';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -244,7 +250,7 @@ export default function NewsletterCardItem(props: Props) {
                   await axiosInstance.delete(`/newsletters/${newsletter.id}`).then(async (res) => {
                     dispatch(setDeleted(true));
                     showPopupDelete.onFalse();
-                    const data = await axiosInstance.get('/newsletters').then((res) => res.data);
+                    const data = await axiosInstance.get('/newsletters').then((res1) => res1.data);
                     setLoading(false);
 
                     dispatch(setNeswletterList(data));

@@ -1,12 +1,15 @@
 import { useDropzone } from 'react-dropzone';
+
+import Box from '@mui/material/Box';
 // @mui
 import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import { CircularProgress, Stack, Typography } from '@mui/material';
+import { Stack, Typography, CircularProgress } from '@mui/material';
+
 //
-//
-import { UploadProps } from './types';
 import { Iconify } from '../iconify';
+
+//
+import type { UploadProps } from './types';
 
 // ----------------------------------------------------------------------
 

@@ -1,18 +1,17 @@
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { alpha } from '@mui/system';
+
 import { useTheme } from '@mui/material';
-import { RootState } from 'src/store';
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import { addTagNewsletter, setErrors } from 'src/store/slices/newsletterStore';
+
 import uuidv4 from 'src/utils/uuidv4';
+
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+import { setErrors, addTagNewsletter } from 'src/store/slices/newsletterStore';
+
 import { Iconify } from 'src/components/iconify';
 
-interface ItemProps {
-  color?: string;
-  [key: string]: any;
-}
-
-export default function AddTags({ color = DEFAULT_COLOR_NESWLETTER, ...props }: ItemProps) {
+export default function AddTags({ color = DEFAULT_COLOR_NESWLETTER, ...props }: any) {
   const dispatch = useDispatch();
 
   const theme = useTheme();

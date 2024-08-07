@@ -1,19 +1,23 @@
 import { useDropzone } from 'react-dropzone';
-// @mui
-import { alpha } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+// @mui
+import { alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+
 // assets
 import { UploadIllustration } from 'src/assets/illustrations';
+
 //
-//
-import { UploadProps } from './types';
+import { Iconify } from '../iconify';
 import RejectionFiles from './errors-rejection-files';
 import SingleFilePreview from './preview-single-file';
-import { Iconify } from '../iconify';
+
+//
+import type { UploadProps } from './types';
 
 // ----------------------------------------------------------------------
 
@@ -94,8 +98,7 @@ export default function Upload({
   );
 
   const renderMultiPreview = hasFiles && (
-    <>
-      <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
+    <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
         {onRemoveAll && (
           <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>
             Remove All
@@ -113,7 +116,6 @@ export default function Upload({
           </Button>
         )}
       </Stack>
-    </>
   );
 
   return (

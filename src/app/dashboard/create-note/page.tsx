@@ -1,4 +1,3 @@
-import { CONFIG } from 'src/config-global';
 import { CreateNoteHome } from 'src/sections/create-note/view';
 
 // ----------------------------------------------------------------------

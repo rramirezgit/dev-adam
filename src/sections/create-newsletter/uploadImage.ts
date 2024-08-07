@@ -1,5 +1,6 @@
-import { newsletterseccions } from 'src/store/slices/types';
-import { ImageInput } from './inputs/types';
+import type { newsletterseccions } from 'src/store/slices/types';
+
+import type { ImageInput } from './inputs/types';
 
 export default function updaloadAllImages(
   uploadImage: any,

@@ -1,42 +1,36 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  IconButton,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import React, { useState } from 'react';
-import { Iconify } from '../iconify';
+import type { RootState } from 'src/store';
+
+import React from 'react';
 import { usePathname } from 'next/navigation';
-import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import useEqualNewsletter from 'src/sections/create-newsletter/useEquealNewsletter';
-import { useBoolean } from 'src/hooks/use-boolean';
+
+import { Box, IconButton, Typography } from '@mui/material';
+
 import { useRouter } from 'src/routes/hooks';
+
 import {
-  setErrors as setErrorsNewsletter,
-  setShowEditor as setShowEditorNewsletter,
-  setMenu as setMenuNewsletter,
-  setcurrentNewsletter as setCurrentNewsletterNewsletter,
-  setcurrentNewsletterID as setCurrentNewsletterIdNewsletter,
-} from 'src/store/slices/newsletterStore';
-import {
+  setMenu,
   setErrors,
   setShowEditor,
-  setMenu,
   setcurrentNota,
   setcurrentNotaID,
   setcurrentNotaDescription,
-  setShowSaved,
 } from 'src/store/slices/noteStore';
-import { LoadingButton } from '@mui/lab';
+import {
+  setMenu as setMenuNewsletter,
+  setErrors as setErrorsNewsletter,
+  setShowEditor as setShowEditorNewsletter,
+  setcurrentNewsletter as setCurrentNewsletterNewsletter,
+  setcurrentNewsletterID as setCurrentNewsletterIdNewsletter,
+} from 'src/store/slices/newsletterStore';
+
 import useSaveDialogNota from 'src/sections/create-note/dialog-save';
 import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
+import useEqualNewsletter from 'src/sections/create-newsletter/useEquealNewsletter';
+
+import { Iconify } from '../iconify';
 
 const ButtonBackEditors = () => {
   const pathname = usePathname();
@@ -46,10 +40,6 @@ const ButtonBackEditors = () => {
   const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
 
   const NotaSaved = NotaList.find((news: any) => news.id === currentNotaId);
-
-  const [loading, setLoading] = useState(false);
-
-  const Theme = useTheme();
 
   const newsletterList = useSelector((state: RootState) => state.newsletter.newsletterList);
   const currentNewsletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);

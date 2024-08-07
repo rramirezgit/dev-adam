@@ -1,49 +1,54 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import {
-  Box,
-  Button,
-  Checkbox,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Toolbar,
-  Typography,
-  TablePagination,
-  TextField,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
+import type { RootState } from 'src/store';
 
-import { useRouter } from 'src/routes/hooks';
+import { format } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
+  Clear as ClearIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
-  Clear as ClearIcon,
 } from '@mui/icons-material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux'; // Asegúrate de importar useDispatch de react-redux
 import {
-  setCoverImage,
-  setcurrentNota,
-  setcurrentNotaDescription,
-  setcurrentNotaID,
+  Box,
+  Table,
+  Button,
+  Select,
+  Toolbar,
+  Checkbox,
+  TableRow,
+  MenuItem,
+  TableBody,
+  TableCell,
+  TableHead,
+  TextField,
+  IconButton,
+  Typography,
+  InputLabel,
+  FormControl,
+  TableContainer,
+  TablePagination,
+} from '@mui/material';
+
+import { useRouter } from 'src/routes/hooks'; // Asegúrate de importar useDispatch de react-redux
+import useNotes from 'src/utils/useNotes';
+
+import {
   setMenu,
-  setShowEditor,
   setSubject,
+  setCoverImage,
+  setShowEditor,
+  setcurrentNota,
+  setcurrentNotaID,
+  setcurrentNotaDescription,
 } from 'src/store/slices/noteStore';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
 import StateBtn from './StateBtn';
 import SendDialog from '../send-dialog';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import useNotes from 'src/utils/useNotes';
 
 type Article = {
   id: string;
@@ -380,7 +385,6 @@ const ArticlesTable: React.FC<Props> = ({ articles }) => {
                   <TableCell>{article.status}</TableCell>
                   <TableCell>
                     {article.coverImageUrl && (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={article.coverImageUrl}
                         alt={article.title}

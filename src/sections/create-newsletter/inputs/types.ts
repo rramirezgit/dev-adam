@@ -1,4 +1,4 @@
-import { textVariantsNewsletters } from 'src/sections/create-newsletter/inputs/bubbles/variants';
+import type { textVariantsNewsletters } from 'src/sections/create-newsletter/inputs/bubbles/variants';
 
 export type IinputsTypes =
   | 'text'

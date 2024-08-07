@@ -1,28 +1,35 @@
-import { Button, Dialog, DialogTitle, Stack, Typography, useTheme } from '@mui/material';
+import type { RootState, AppDispatch} from 'src/store';
+
+import { useState, useEffect } from 'react';
 import { renderToString } from 'react-dom/server';
-import { usePopover } from 'src/components/custom-popover';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+import { LoadingButton } from '@mui/lab';
+import { Stack, Button, Dialog, useTheme, Typography, DialogTitle } from '@mui/material';
+
+import { useRouter } from 'src/routes/hooks';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
+import useNotes from 'src/utils/useNotes';
+
+import { store } from 'src/store';
+import { CONFIG } from 'src/config-global';
+import { ThemeProvider } from 'src/theme/theme-provider';
 import {
   setErrors,
-  setnoteList,
-  setShowEditor,
-  setcurrentNotaID,
-  fetchNotes,
   createNote,
   updateNote,
   deleteNote,
+  setShowEditor,
+  setcurrentNotaID,
 } from 'src/store/slices/noteStore';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { LoadingButton } from '@mui/lab';
-import { useEffect, useState } from 'react';
-import { AppDispatch, RootState, store } from 'src/store';
-import { useRouter } from 'src/routes/hooks';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { htmlWrap } from './htmlWrap';
+
+import { usePopover } from 'src/components/custom-popover';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
+
 import NotaBody from './Nota-body';
-import { ThemeProvider } from 'src/theme/theme-provider';
-import { CONFIG } from 'src/config-global';
-import { SettingsProvider, defaultSettings } from 'src/components/settings';
-import useNotes from 'src/utils/useNotes';
+import { htmlWrap } from './htmlWrap';
 
 const useSaveDialogNota = () => {
   const Theme = useTheme();

@@ -2,14 +2,15 @@
 
 'use client';
 
-import { useContext, useMemo } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import axios, { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
+import type { RootState } from 'src/store';
+
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useMemo, useContext } from 'react';
+
 // config
 import { AxiosContext } from './axios-context';
-import auth0Store from 'src/store/slices/auth0Store';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 //
 
 // ----------------------------------------------------------------------
@@ -41,6 +42,7 @@ function AxiosProviderWrapper({ children }: Props) {
     );
 
     return instance;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
   return <AxiosContext.Provider value={{ axiosInstance }}>{children}</AxiosContext.Provider>;
 }

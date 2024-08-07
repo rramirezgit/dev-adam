@@ -1,18 +1,17 @@
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import { Iconify } from 'src/components/iconify';
-import { addTagNota, setErrors } from 'src/store/slices/noteStore';
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import uuidv4 from 'src/utils/uuidv4';
-import { alpha } from '@mui/system';
+
 import { useTheme } from '@mui/material';
 
-interface ItemProps {
-  color?: string;
-  [key: string]: any;
-}
+import uuidv4 from 'src/utils/uuidv4';
 
-export default function AddTags({ color = DEFAULT_COLOR_NESWLETTER, ...props }: ItemProps) {
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+import { setErrors, addTagNota } from 'src/store/slices/noteStore';
+
+import { Iconify } from 'src/components/iconify';
+
+export default function AddTags({ color = DEFAULT_COLOR_NESWLETTER, ...props }: any) {
   const dispatch = useDispatch();
 
   const theme = useTheme();

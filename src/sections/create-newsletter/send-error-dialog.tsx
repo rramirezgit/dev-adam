@@ -2,12 +2,13 @@ import {
   Box,
   Button,
   Dialog,
+  useTheme,
+  DialogTitle,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  useTheme,
 } from '@mui/material';
+
 import { Iconify } from 'src/components/iconify';
 
 interface Props {

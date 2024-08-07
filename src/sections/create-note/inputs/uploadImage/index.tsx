@@ -1,6 +1,7 @@
-import { ImageInput } from '../types';
 import UploadHorizontalImage from './upload-image';
 import UploadImageLogoSponsor from './upload-image-logo-sponsor';
+
+import type { ImageInput } from '../types';
 
 export interface Props extends ImageInput {
   placeholder?: string;

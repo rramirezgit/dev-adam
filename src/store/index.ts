@@ -1,7 +1,8 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+
+import NoteReducer from './slices/noteStore';
 import authReducer from './slices/auth0Store';
 import NewsletterReducer from './slices/newsletterStore';
-import NoteReducer from './slices/noteStore';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -9,7 +10,7 @@ const rootReducer = combineReducers({
   note: NoteReducer,
 });
 
-export const store = configureStore({
+const store = configureStore({
   reducer: rootReducer,
 });
 

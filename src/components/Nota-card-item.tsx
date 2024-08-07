@@ -1,43 +1,51 @@
 /* eslint-disable no-nested-ternary */
+import type { RootState } from 'src/store';
+import type { NotaItemList } from 'src/store/slices/noteStore';
+
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Check from 'public/assets/icons/dashboard/create-note/check.svg';
+
+import Card from '@mui/material/Card';
+import { LoadingButton } from '@mui/lab';
+import { alpha } from '@mui/material/styles';
 // @mui
 import {
+  Box,
+  Stack,
   Button,
   Dialog,
-  DialogTitle,
-  IconButton,
-  Stack,
   Tooltip,
-  Typography,
   useTheme,
+  IconButton,
+  Typography,
+  DialogTitle,
 } from '@mui/material';
-import Card from '@mui/material/Card';
-import { Box } from '@mui/system';
-import { useDispatch, useSelector } from 'react-redux';
-import { alpha } from '@mui/material/styles';
-import Check from 'public/assets/icons/dashboard/create-note/check.svg';
-import {
-  NotaItemList,
-  setCoverImage,
-  setDeleted,
-  setMenu,
-  setShowEditor,
-  setSubject,
-  setcurrentNota,
-  setcurrentNotaDescription,
-  setcurrentNotaID,
-} from 'src/store/slices/noteStore';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { LoadingButton } from '@mui/lab';
-import { useState } from 'react';
+
 import { useRouter } from 'src/routes/hooks';
-import { setcurrentNewsletter } from 'src/store/slices/newsletterStore';
-import { RootState } from 'src/store';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import useNotes from 'src/utils/useNotes';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { Iconify } from './iconify';
-import StateBtn from './StateBtn';
 import { fDate } from 'src/utils/format-time';
+
+import { setcurrentNewsletter } from 'src/store/slices/newsletterStore';
+import {
+  setMenu,
+  setDeleted,
+  setSubject,
+  setCoverImage,
+  setShowEditor,
+  setcurrentNota,
+  setcurrentNotaID,
+  setcurrentNotaDescription,
+} from 'src/store/slices/noteStore';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import StateBtn from './StateBtn';
 import Image from './image/image';
+import { Iconify } from './iconify';
 
 // ----------------------------------------------------------------------
 

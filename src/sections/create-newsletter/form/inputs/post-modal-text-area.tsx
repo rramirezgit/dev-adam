@@ -2,14 +2,21 @@
 
 /* eslint-disable prefer-template */
 
-import { Box, IconButton, Menu, Theme, styled, useTheme } from '@mui/material';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import type { Theme} from '@mui/material';
+import type { RootState } from 'src/store';
+import type { EmojiClickData } from 'emoji-picker-react';
+
 import { useField } from 'formik';
-import { useEffect, useState } from 'react';
-import { Iconify } from 'src/components/iconify';
-import { useLocales } from 'src/locales';
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useState, useEffect } from 'react';
+import EmojiPicker from 'emoji-picker-react';
+
+import { Box, Menu, styled, useTheme, IconButton } from '@mui/material';
+
+import { useLocales } from 'src/locales';
+
+import { Iconify } from 'src/components/iconify';
+
 import ErrorForm from '../error-form';
 
 const TextArea = styled('textarea')(({ theme }) => ({

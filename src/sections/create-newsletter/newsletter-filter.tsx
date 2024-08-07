@@ -9,12 +9,13 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // types
 
+import type { INewslettersFilters, NewslettersFilterValue } from 'src/types/newsletter';
+
 // components
 import { useCallback } from 'react';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { INewslettersFilters, NewslettersFilterValue } from 'src/types/newsletter';
 
 // ----------------------------------------------------------------------
 

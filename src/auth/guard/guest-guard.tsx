@@ -1,5 +1,8 @@
 'use client';
 
+import type { RootState } from 'src/store';
+
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 import { useRouter } from 'src/routes/hooks';
@@ -7,8 +10,6 @@ import { useRouter } from 'src/routes/hooks';
 import { CONFIG } from 'src/config-global';
 
 import { SplashScreen } from 'src/components/loading-screen';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 
 // ----------------------------------------------------------------------
 

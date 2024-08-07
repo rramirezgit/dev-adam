@@ -1,30 +1,36 @@
 'use client';
 
+import type { RootState, AppDispatch } from 'src/store';
+import type {
+  newsletterItemList,
+  INewslettersFilters,
+  NewslettersFilterValue,
+} from 'src/types/newsletter';
+
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-import { useCallback, useEffect, useState } from 'react';
-import { Box, Tab, Tabs, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+/* eslint-disable no-nested-ternary */
+import { useState, useEffect, useCallback } from 'react';
+
+import { Box, Tab, Tabs, Stack } from '@mui/material';
+
+import { useParams } from 'src/routes/hooks';
+
+import { DashboardContent } from 'src/layouts/dashboard';
 import {
-  fetchNewsletters,
   setDeleted,
   setShowEditor,
+  fetchNewsletters,
   setcurrentNewsletter,
   setcurrentNewsletterID,
 } from 'src/store/slices/newsletterStore';
-import { useParams } from 'src/routes/hooks';
+
 import { SplashScreen } from 'src/components/loading-screen';
-import CreateNewsletterButton from './create-Newsletter-btn';
+import EmptyContent from 'src/components/empty-content/empty-content';
+
 import NewsletterList from '../newsletter-list';
 import CreateNewsletter from './create-newsletter';
-import {
-  INewslettersFilters,
-  newsletterItemList,
-  NewslettersFilterValue,
-} from 'src/types/newsletter';
-import { AppDispatch, RootState } from 'src/store';
-import EmptyContent from 'src/components/empty-content/empty-content';
-import { DashboardContent } from 'src/layouts/dashboard';
+import CreateNewsletterButton from './create-Newsletter-btn';
 
 const defaultFilters: INewslettersFilters = {
   creationDate: null,

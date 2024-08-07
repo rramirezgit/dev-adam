@@ -1,14 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Box, Divider, Icon, IconButton, Tooltip, useTheme } from '@mui/material';
-import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { m } from 'framer-motion';
-import { Category, Image, Tag, Text } from 'iconsax-react';
-import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import { Iconify } from 'src/components/iconify';
 import { useDispatch } from 'react-redux';
-import { addNewInputNota } from 'src/store/slices/noteStore';
+import { Tag, Text, Image } from 'iconsax-react';
+
+import { Stack, Divider, Tooltip, IconButton } from '@mui/material';
+
 import uuidv4 from 'src/utils/uuidv4';
+
+import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+import { addNewInputNota } from 'src/store/slices/noteStore';
+
+import { Iconify } from 'src/components/iconify';
 import { SvgColor } from 'src/components/svg-color';
 
 interface AddInputProps {

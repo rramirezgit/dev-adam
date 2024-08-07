@@ -1,6 +1,8 @@
 /* eslint-disable no-return-assign */
 import { Box } from '@mui/material';
+
 import { useResponsive } from 'src/hooks/use-responsive';
+
 import NewsletterBody from './newsletter-body';
 
 export default function NewsletterEditingArea() {

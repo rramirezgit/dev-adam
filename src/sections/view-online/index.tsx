@@ -2,10 +2,13 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+
+import { Container } from '@mui/material';
+
 import { SplashScreen } from 'src/components/loading-screen';
-import { Container } from '@mui/system';
+
 import { useAxios } from 'src/auth/axios/axios-provider';
 
 export default function ViewOnline() {

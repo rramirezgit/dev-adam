@@ -1,10 +1,10 @@
+import type { RootState } from 'src/store';
+
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+
 import UploadImage from './upload-image';
 
-/* eslint-disable @next/next/no-img-element */
-
-export default function UploadImageLogoSponsor({ ...props }) {
+export default function UploadImageLogoSponsor({ ...props }: any) {
   const currentNewsletterId = useSelector(
     (state: RootState) => state.newsletter.currentNewsletterId
   );

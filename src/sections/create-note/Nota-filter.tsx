@@ -9,14 +9,17 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // types
 
+import type { INotasFilters } from 'src/types/Nota';
+import type { NewslettersFilterValue } from 'src/types/newsletter';
+
+import { useCallback } from 'react';
+
+import { ButtonBase } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 // components
 import { Iconify } from 'src/components/iconify';
-import { ButtonBase } from '@mui/material';
-import { useCallback } from 'react';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { INotasFilters } from 'src/types/Nota';
 import { Scrollbar } from 'src/components/scrollbar';
-import { NewslettersFilterValue } from 'src/types/newsletter';
 
 // ----------------------------------------------------------------------
 

@@ -1,9 +1,10 @@
 /* eslint-disable no-return-assign */
+
 import { Box } from '@mui/material';
+
 import { useResponsive } from 'src/hooks/use-responsive';
+
 import NotaBody from './Nota-body';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 
 export default function NotaEditingArea() {
   const smUp = useResponsive('up', 'sm');

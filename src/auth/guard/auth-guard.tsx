@@ -1,13 +1,17 @@
 'use client';
 
+import type { RootState, AppDispatch } from 'src/store';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useCallback } from 'react';
+
 import { paths } from 'src/routes/paths';
 import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
+
 import { CONFIG } from 'src/config-global';
-import { SplashScreen } from 'src/components/loading-screen';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from 'src/store';
 import { fetchUserAuth0 } from 'src/store/slices/auth0Store';
+
+import { SplashScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 

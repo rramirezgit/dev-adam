@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import type { AppDispatch } from 'src/store';
 import type { ButtonProps } from '@mui/material/Button';
 import type { Theme, SxProps } from '@mui/material/styles';
 
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Button from '@mui/material/Button';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { AppDispatch, RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'src/store/slices/auth0Store';
 
 // ----------------------------------------------------------------------

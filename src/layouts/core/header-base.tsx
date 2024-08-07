@@ -1,4 +1,7 @@
+import type { RootState } from 'src/store';
 import type { NavSectionProps } from 'src/components/nav-section';
+
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -9,6 +12,7 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { Logo } from 'src/components/logo';
+import ButtonBackEditors from 'src/components/ButtonBackEditors';
 
 import { HeaderSection } from './header-section';
 import { Searchbar } from '../components/searchbar';
@@ -27,11 +31,6 @@ import type { ContactsPopoverProps } from '../components/contacts-popover';
 import type { LanguagePopoverProps } from '../components/language-popover';
 import type { WorkspacesPopoverProps } from '../components/workspaces-popover';
 import type { NotificationsDrawerProps } from '../components/notifications-drawer';
-import { IconButton, Typography } from '@mui/material';
-import { Iconify } from 'src/components/iconify';
-import { RootState } from 'src/store';
-import { useSelector } from 'react-redux';
-import ButtonBackEditors from 'src/components/ButtonBackEditors';
 
 // ----------------------------------------------------------------------
 

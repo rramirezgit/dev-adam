@@ -1,7 +1,10 @@
-import { Box } from "@mui/system";
-import { RootState } from "src/store";
-import { useSelector } from "react-redux";
-import { TextInput } from "../types";
+import type { RootState } from 'src/store';
+
+import { useSelector } from 'react-redux';
+
+import { Box } from '@mui/material';
+
+import type { TextInput } from '../types';
 
 interface ReadingTimeProps {
   templateId: string;
@@ -19,10 +22,8 @@ export default function ReadingTime({
   const currentNota = useSelector((state: RootState) => state.note.currentNota);
 
   const currentInput = currentNota
-    .find(item => item.templateId === templateId)
-    ?.inputs.find(
-      item => item.inputId === inputIdtext && item.type === "text"
-    ) as TextInput;
+    .find((item) => item.templateId === templateId)
+    ?.inputs.find((item) => item.inputId === inputIdtext && item.type === 'text') as TextInput;
 
   type ingTimeProps = {
     text: string;
@@ -30,7 +31,7 @@ export default function ReadingTime({
   };
 
   const calculateingTime = ({ text, wordsPerMinute }: ingTimeProps) => {
-    const words = text.split(/\s+/).filter(word => word !== "");
+    const words = text.split(/\s+/).filter((word) => word !== '');
 
     const wordCount = words.length;
 
@@ -43,17 +44,17 @@ export default function ReadingTime({
     return (
       <div
         style={{
-          color: "#595959",
-          fontSize: "10px",
+          color: '#595959',
+          fontSize: '10px',
         }}
       >
         {`-${calculateingTime({
           text: currentInput.value,
           wordsPerMinute: 250,
-        }).toFixed(2)} min lectura - ${new Date().toLocaleDateString("es-ES", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
+        }).toFixed(2)} min lectura - ${new Date().toLocaleDateString('es-ES', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
         })}`}
       </div>
     );
@@ -64,10 +65,10 @@ export default function ReadingTime({
       {`- ${calculateingTime({
         text: currentInput.value,
         wordsPerMinute: 250,
-      }).toFixed(2)} min lectura - ${new Date().toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
+      }).toFixed(2)} min lectura - ${new Date().toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
       })}`}
     </Box>
   );

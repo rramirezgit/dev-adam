@@ -1,10 +1,13 @@
 // @mui
-import Box from '@mui/material/Box';
-import Pagination, { paginationClasses } from '@mui/material/Pagination';
+import type { NotaItemList } from 'src/store/slices/noteStore';
+
 // routes
 import { useState } from 'react';
+
+import Box from '@mui/material/Box';
+import Pagination, { paginationClasses } from '@mui/material/Pagination';
+
 import NotaCardItem from 'src/components/Nota-card-item';
-import { NotaItemList } from 'src/store/slices/noteStore';
 //
 
 // ----------------------------------------------------------------------

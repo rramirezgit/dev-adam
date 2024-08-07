@@ -1,33 +1,31 @@
+import type { RootState } from 'src/store';
+
+import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   Box,
-  IconButton,
   Paper,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
   useTheme,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+
+import { useRouter } from 'src/routes/hooks';
+
 import { useResponsive } from 'src/hooks/use-responsive';
-import { useDispatch, useSelector } from 'react-redux';
+
 import {
   setOpenNewsletterDrawer,
-  setShowEditor,
-  setSubject,
 } from 'src/store/slices/newsletterStore';
-import { useParams } from 'next/navigation';
-import dayjs from 'dayjs';
-import { useRouter } from 'src/routes/hooks';
-import NewsletterEditingArea from '../editing-area';
-import SendNewsletter from '../header-editing';
-import MenuNeswletter from '../menu/menu-view';
-import { RootState } from 'src/store';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { Iconify } from 'src/components/iconify';
+
 import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
-import useSendNewsletter from '../header-editing';
 import { NewsletterDrawer } from 'src/components/drawer-news/newsletter-drawer';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import MenuNeswletter from '../menu/menu-view';
+import useSendNewsletter from '../header-editing';
+import NewsletterEditingArea from '../editing-area';
 
 export default function CreateNewsletter() {
   const Theme = useTheme();
@@ -95,7 +93,7 @@ export default function CreateNewsletter() {
       {!smUp ? (
         renderBody
       ) : (
-        <Box position={'relative'}>
+        <Box position="relative">
           <ButtonOption
             iconSrc="/assets/icons/dashboard/create-note/save.svg"
             title="Guardar Newsletter"

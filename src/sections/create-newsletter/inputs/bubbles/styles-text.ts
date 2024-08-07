@@ -2,11 +2,6 @@ export const useStylesText: any = () => {
   const FontFamily =
     '-apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif';
 
-  const fontSizeTitle = '34px !important';
-  const fontSizeSubtitle = '24px !important';
-  const fontSizeParagraph = '18px !important';
-  const fontSizeTags = '14px !important';
-
   return {
     /* HEADER */
     Header_title: {

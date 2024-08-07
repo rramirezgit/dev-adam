@@ -1,15 +1,22 @@
 /* eslint-disable arrow-body-style */
-import { useCallback, useEffect, useState } from 'react';
-import { Box, CircularProgress, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
+import type { RootState } from 'src/store';
+import type { INewslettersNames } from 'src/types/newsletter';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { setcurrentNewsletter, setHeader, setMenu } from 'src/store/slices/newsletterStore';
-import { NEWSLETTERS_TEMPLATES_LIST_MENU } from 'src/const/neswletter/templates';
-import { TEMPLATES_WITH_CONTENT } from '../../templates';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { RootState } from 'src/store';
-import { INewslettersNames } from 'src/types/newsletter';
-import NotaCardItem from 'src/components/Nota-card-item';
+import { useState, useEffect, useCallback } from 'react';
+
+import { Box, Tab, Grid, Tabs, useTheme, Typography, CircularProgress } from '@mui/material';
+
 import uuidv4 from 'src/utils/uuidv4';
+
+import { NEWSLETTERS_TEMPLATES_LIST_MENU } from 'src/const/neswletter/templates';
+import { setMenu, setHeader, setcurrentNewsletter } from 'src/store/slices/newsletterStore';
+
+import NotaCardItem from 'src/components/Nota-card-item';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import { TEMPLATES_WITH_CONTENT } from '../../templates';
 
 export default function AddTemplateMenu() {
   const theme = useTheme();

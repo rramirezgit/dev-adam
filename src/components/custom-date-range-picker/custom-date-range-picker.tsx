@@ -1,6 +1,4 @@
 // @mui
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -9,10 +7,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import FormHelperText from '@mui/material/FormHelperText';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
+
 //
-import { DateRangePickerProps } from './types';
+import type { DateRangePickerProps } from './types';
 
 // ----------------------------------------------------------------------
 

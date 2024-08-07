@@ -1,15 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Box, Divider, Icon, IconButton, Tooltip, useTheme } from '@mui/material';
-import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { m } from 'framer-motion';
-import { Category, Image, Tag, Text } from 'iconsax-react';
 import { useDispatch } from 'react-redux';
+import { Tag, Text, Image } from 'iconsax-react';
+
+import { Stack, Divider, Tooltip, IconButton } from '@mui/material';
+
 import uuidv4 from 'src/utils/uuidv4';
-import { addNewInputNewsletter } from 'src/store/slices/newsletterStore';
-import { SvgColor } from 'src/components/svg-color';
-import { Iconify } from 'src/components/iconify';
+
 import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
+import { addNewInputNewsletter } from 'src/store/slices/newsletterStore';
+
+import { Iconify } from 'src/components/iconify';
+import { SvgColor } from 'src/components/svg-color';
 
 interface AddInputProps {
   isEmail?: boolean;

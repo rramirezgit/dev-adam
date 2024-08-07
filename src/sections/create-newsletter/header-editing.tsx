@@ -1,45 +1,52 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import type { RootState } from 'src/store';
+
+import { useState, useCallback } from 'react';
 import { renderToString } from 'react-dom/server';
+import { SmsSearch, SmsTracking } from 'iconsax-react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
+import { LoadingButton } from '@mui/lab';
 import {
-  Dialog,
-  DialogTitle,
   Stack,
-  Typography,
-  useTheme,
+  Dialog,
   Button,
-  Box,
+  useTheme,
   MenuItem,
+  Typography,
+  DialogTitle,
   ListItemText,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { SmsSearch, SmsTracking } from 'iconsax-react';
+
 import { useRouter } from 'src/routes/hooks';
+
 import { useBoolean } from 'src/hooks/use-boolean';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+
+import store from 'src/store';
+import { CONFIG } from 'src/config-global';
+import { ThemeProvider } from 'src/theme/theme-provider';
 import {
   setErrors,
-  setNeswletterList,
   setShowEditor,
-  setcurrentNewsletter,
+  setNeswletterList,
   setcurrentNewsletterID,
 } from 'src/store/slices/newsletterStore';
-import store, { RootState } from 'src/store';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { defaultSettings, SettingsProvider } from 'src/components/settings';
-import { ThemeProvider } from 'src/theme/theme-provider';
-import { CONFIG } from 'src/config-global';
+
 import { Iconify } from 'src/components/iconify';
-import useEqualNewsletter from './useEquealNewsletter';
-import NewsletterBody from './newsletter-body';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import { htmlWrap } from './htmlWrap';
 import SendDialog from './send-dialog';
-import SendErrorDialog from './send-error-dialog';
-import SendDialogAprob from './send-dialog-aprob';
+import NewsletterBody from './newsletter-body';
 import ScheduleDialog from './schedule-dialog';
 import SendDialogSubs from './send-dialog-subs';
-import { htmlWrap } from './htmlWrap';
+import SendErrorDialog from './send-error-dialog';
+import SendDialogAprob from './send-dialog-aprob';
+import useEqualNewsletter from './useEquealNewsletter';
 
 const useSendNewsletter = () => {
   const Theme = useTheme();
@@ -374,6 +381,7 @@ const useSendNewsletter = () => {
             if (response.status === 200 || response.status === 201) {
               return true;
             }
+            return false;
           })
           .catch((err) => {
             console.log(err);
@@ -435,11 +443,10 @@ const useSendNewsletter = () => {
 
       await axiosInstance.post('/newsletters', postData).then(async (res) => {
         if (res.status === 200 || res.status === 201) {
-          await axiosInstance.patch(`/newsletters/${res.data.id}`, pathData).then((res) => {
-            if (res.status === 200 || res.status === 201) {
+          await axiosInstance.patch(`/newsletters/${res.data.id}`, pathData).then((res1) => {
+            if (res1.status === 200 || res1.status === 201) {
               dispatch(setcurrentNewsletterID(res.data.id));
-              dispatch(setNeswletterList([...newsletterList, res.data]));
-
+              dispatch(setNeswletterList([...newsletterList, res1.data]));
               callbackFunction({ exitEditor });
             }
           });
@@ -616,109 +623,107 @@ const useSendNewsletter = () => {
     </Dialog>
   );
 
-  const SendButtonJSX = () => {
-    return (
-      <>
-        <Button
-          onClick={async (e) => {
-            setAnchorEl(e.currentTarget);
-            handleClickSendButton(e).then((res) => {
-              if (res.length === 0) {
-                setOpenPopove(true);
-              }
-            });
-          }}
-          endIcon={
-            <Iconify
-              icon={
-                saving
-                  ? ''
-                  : openPopover
-                    ? 'eva:arrow-ios-upward-fill'
-                    : 'eva:arrow-ios-downward-fill'
-              }
-              width={15}
-              height={15}
-            />
-          }
-          variant="contained"
-          color="info"
-          sx={{
-            mb: Theme.spacing(2),
-            height: '48px',
-            padding: '0 20px',
-          }}
-        >
-          Enviar
-        </Button>
-        <CustomPopover
-          open={openPopover}
-          onClose={() => setOpenPopove(false)}
-          anchorEl={anchorEl}
-          slotProps={
-            {
-              arrow: {
-                placement: 'top-left',
-              },
-            } as any
-          }
-        >
-          <MenuItem disabled={disableOption('Prueba')} onClick={() => setOpenSendDialog(true)}>
-            <SmsTracking size="24" />
-            <ListItemText>Prueba</ListItemText>
-          </MenuItem>
-          <MenuItem disabled={disableOption('Aprobacion')} onClick={() => setOpenAprob(true)}>
-            <SmsSearch size="24" />
-            <ListItemText>Aprobacion</ListItemText>
-          </MenuItem>
-          <MenuItem disabled={disableOption('schedule')} onClick={() => setOpenSchedule(true)}>
-            <Iconify icon="material-symbols:schedule-outline" width={24} height={24} />
-            <ListItemText>Programar</ListItemText>
-          </MenuItem>
-          <MenuItem disabled={disableOption('Subscriptores')} onClick={() => setOpenSendSubs(true)}>
-            <Iconify icon="fluent-mdl2:group" width={24} height={24} />
-            <ListItemText>Enviar ahora</ListItemText>
-          </MenuItem>
-        </CustomPopover>
+  const SendButtonJSX = () => (
+    <>
+      <Button
+        onClick={async (e) => {
+          setAnchorEl(e.currentTarget);
+          handleClickSendButton(e).then((res) => {
+            if (res.length === 0) {
+              setOpenPopove(true);
+            }
+          });
+        }}
+        endIcon={
+          <Iconify
+            icon={
+              saving
+                ? ''
+                : openPopover
+                  ? 'eva:arrow-ios-upward-fill'
+                  : 'eva:arrow-ios-downward-fill'
+            }
+            width={15}
+            height={15}
+          />
+        }
+        variant="contained"
+        color="info"
+        sx={{
+          mb: Theme.spacing(2),
+          height: '48px',
+          padding: '0 20px',
+        }}
+      >
+        Enviar
+      </Button>
+      <CustomPopover
+        open={openPopover}
+        onClose={() => setOpenPopove(false)}
+        anchorEl={anchorEl}
+        slotProps={
+          {
+            arrow: {
+              placement: 'top-left',
+            },
+          } as any
+        }
+      >
+        <MenuItem disabled={disableOption('Prueba')} onClick={() => setOpenSendDialog(true)}>
+          <SmsTracking size="24" />
+          <ListItemText>Prueba</ListItemText>
+        </MenuItem>
+        <MenuItem disabled={disableOption('Aprobacion')} onClick={() => setOpenAprob(true)}>
+          <SmsSearch size="24" />
+          <ListItemText>Aprobacion</ListItemText>
+        </MenuItem>
+        <MenuItem disabled={disableOption('schedule')} onClick={() => setOpenSchedule(true)}>
+          <Iconify icon="material-symbols:schedule-outline" width={24} height={24} />
+          <ListItemText>Programar</ListItemText>
+        </MenuItem>
+        <MenuItem disabled={disableOption('Subscriptores')} onClick={() => setOpenSendSubs(true)}>
+          <Iconify icon="fluent-mdl2:group" width={24} height={24} />
+          <ListItemText>Enviar ahora</ListItemText>
+        </MenuItem>
+      </CustomPopover>
 
-        <SendDialogSubs
-          open={openSendSubs}
-          setOpen={setOpenSendSubs}
-          sendEmail={async () => {
-            popover.onClose();
-            await sendEmailPost('subscriptores');
-          }}
-        />
+      <SendDialogSubs
+        open={openSendSubs}
+        setOpen={setOpenSendSubs}
+        sendEmail={async () => {
+          popover.onClose();
+          await sendEmailPost('subscriptores');
+        }}
+      />
 
-        <SendErrorDialog open={openError} setOpen={setOpenError} />
+      <SendErrorDialog open={openError} setOpen={setOpenError} />
 
-        <ScheduleDialog
-          handleClickSchedule={handleClickSchedule}
-          open={openSchedule}
-          onClose={() => setOpenSchedule(false)}
-          sendEmail={sendEmailPost}
-        />
+      <ScheduleDialog
+        handleClickSchedule={handleClickSchedule}
+        open={openSchedule}
+        onClose={() => setOpenSchedule(false)}
+        sendEmail={sendEmailPost}
+      />
 
-        <SendDialogAprob
-          open={openAprob}
-          setOpen={setOpenAprob}
-          handleclickRevision={async () => {
-            popover.onClose();
-            await sendEmailPost('aprobar');
-          }}
-        />
+      <SendDialogAprob
+        open={openAprob}
+        setOpen={setOpenAprob}
+        handleclickRevision={async () => {
+          popover.onClose();
+          await sendEmailPost('aprobar');
+        }}
+      />
 
-        <SendDialog
-          open={openSendDialog}
-          setOpen={setOpenSendDialog}
-          handleclickRevision={async () => {
-            popover.onClose();
-            await sendEmailPost();
-          }}
-        />
-      </>
-    );
-  };
+      <SendDialog
+        open={openSendDialog}
+        setOpen={setOpenSendDialog}
+        handleclickRevision={async () => {
+          popover.onClose();
+          await sendEmailPost();
+        }}
+      />
+    </>
+  );
 
   const CustomPopoverJSX = <></>;
 

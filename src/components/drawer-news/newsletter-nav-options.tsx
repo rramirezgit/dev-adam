@@ -1,21 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import type { RootState, AppDispatch } from 'src/store';
+
+import dayjs from 'dayjs';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import { Slider, Tooltip, TextField, IconButton, Typography } from '@mui/material';
 
-import { varAlpha } from 'src/theme/styles';
-
-import { Block } from './styles';
-import { IconButton, Slider, TextField, Tooltip, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSubject, setZoomScaleNewsletter } from 'src/store/slices/newsletterStore';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { AppDispatch, RootState } from 'src/store';
-import { Iconify } from '../iconify';
-import { useEffect, useState } from 'react';
-import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
-import dayjs from 'dayjs';
 import { useRouter } from 'src/routes/hooks';
 
-import { setShowEditor } from 'src/store/slices/newsletterStore';
+import { varAlpha } from 'src/theme/styles';
+import {
+  setSubject,
+  setShowEditor,
+  setZoomScaleNewsletter,
+} from 'src/store/slices/newsletterStore';
+
+import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import { Block } from './styles';
+import { Iconify } from '../iconify';
 
 export function NewsletterDraweOptions() {
   const theme = useTheme();

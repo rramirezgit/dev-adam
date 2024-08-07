@@ -1,4 +1,4 @@
-import { INewsletter, INewslettersNames } from 'src/types/newsletter';
+import type { INewsletter, INewslettersNames } from 'src/types/newsletter';
 
 export const TEMPLATESNAMES: { [key in INewslettersNames]: INewslettersNames } = {
   Header: 'Header',

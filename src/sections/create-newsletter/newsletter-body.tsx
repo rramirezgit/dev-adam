@@ -1,11 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react/self-closing-comp */
-import { Button, useTheme } from '@mui/material';
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { Box } from '@mui/system';
+
+/* eslint-disable react/self-closing-comp */
+import { Box, Button, useTheme } from '@mui/material';
+
 import { setMenu } from 'src/store/slices/newsletterStore';
+
 import TemplateView from './templates/template-view';
-import { RootState } from 'src/store';
 
 export default function NewsletterBody({ isEmail }: { isEmail?: boolean }) {
   const currentNesletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);

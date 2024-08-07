@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+
 import {
+  Tab,
+  Box,
+  Tabs,
+  Link,
   Button,
   Dialog,
+  Typography,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
-  Tabs,
-  Tab,
-  Typography,
-  Box,
-  Link,
 } from '@mui/material';
 
 interface Article {

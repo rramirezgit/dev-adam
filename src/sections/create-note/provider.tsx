@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import React, { createContext, useContext } from 'react';
+import React, { useContext, createContext } from 'react';
 
 const AWSContext = createContext({});
 
@@ -26,4 +26,4 @@ const useAWS = () => {
   return context;
 };
 
-export { AWSProvider, useAWS };
+export { useAWS, AWSProvider };

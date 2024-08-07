@@ -1,11 +1,15 @@
-import { Tabs, styled, Tab, Checkbox, Box, useTheme, alpha, Tooltip } from '@mui/material';
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Tab, Box, Tabs, alpha, styled, Tooltip, Checkbox, useTheme } from '@mui/material';
+
+import { useLocales } from 'src/locales';
+import { SOCIALNETWORKS, SOCIALNETWORKSNAMES } from 'src/const/post/redes';
+import { setTabSelected, setSocialNetworksToPublish } from 'src/store/slices/post';
+
 import Image from 'src/components/image/image';
 import SvgColor from 'src/components/svg-color';
-import { SOCIALNETWORKS, SOCIALNETWORKSNAMES } from 'src/const/post/redes';
-import { useLocales } from 'src/locales';
-import { RootState } from 'src/store';
-import { setSocialNetworksToPublish, setTabSelected } from 'src/store/slices/post';
 
 const StyledTabs = styled(Tab)(({ theme }) => ({
   '&.MuiTab-root': {

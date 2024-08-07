@@ -1,25 +1,29 @@
+import type { RootState, AppDispatch } from 'src/store';
+
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
+import { LoadingButton } from '@mui/lab';
 import { useTheme } from '@mui/material/styles';
+import { Slider, TextField, IconButton } from '@mui/material';
+
+import useNotes from 'src/utils/useNotes';
 
 import { varAlpha } from 'src/theme/styles';
+import {
+  setSubject,
+  setCoverImage,
+  setZoomScaleNota,
+  setcurrentNotaDescription,
+} from 'src/store/slices/noteStore';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
 
 import { Block } from './styles';
-import { IconButton, Slider, TextField } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setCoverImage,
-  setcurrentNotaDescription,
-  setSubject,
-  setZoomScaleNota,
-} from 'src/store/slices/noteStore';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { AppDispatch, RootState } from 'src/store';
+import Image from '../image/image';
 import { Iconify } from '../iconify';
 import { UploadBox } from '../upload';
-import { useState } from 'react';
-import Image from '../image/image';
-import { LoadingButton } from '@mui/lab';
-import useNotes from 'src/utils/useNotes';
 
 export function NavOptions() {
   const theme = useTheme();

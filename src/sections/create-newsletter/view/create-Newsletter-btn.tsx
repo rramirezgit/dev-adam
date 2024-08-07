@@ -1,11 +1,14 @@
-import { Box, Button, Stack } from '@mui/material';
 import { useDispatch } from 'react-redux';
+
+import { Box, Stack, Button } from '@mui/material';
+
 import {
-  setShowEditor,
   setSubject,
+  setShowEditor,
   setcurrentNewsletter,
   setcurrentNewsletterID,
 } from 'src/store/slices/newsletterStore';
+
 import { headerContent } from '../templates/header/header-content';
 import { FooterContent } from '../templates/footer/footer-content';
 

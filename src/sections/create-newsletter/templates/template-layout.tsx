@@ -1,23 +1,28 @@
-/* eslint-disable @next/next/no-img-element */
-import { Box, Checkbox, IconButton, Menu, MenuItem, Stack, alpha, useTheme } from '@mui/material';
-import { MouseEvent, useEffect, useState } from 'react';
+import type { RootState } from 'src/store';
+
+import { m } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Trash, ArrowUp2, ArrowDown2, BrushSquare } from 'iconsax-react';
+
+import { Box, Stack, alpha, useTheme, IconButton } from '@mui/material';
+
+import { useResponsive } from 'src/hooks/use-responsive';
+
 import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
 import {
-  changeBGColorNewslettertemplate,
-  changeColorNewslettertemplate,
-  deleteNewsletterTemplate,
-  moveTemplateNewsletter,
   setHeader,
+  moveTemplateNewsletter,
+  deleteNewsletterTemplate,
+  changeColorNewslettertemplate,
+  changeBGColorNewslettertemplate,
 } from 'src/store/slices/newsletterStore';
-import { ArrowDown2, ArrowUp2, BrushSquare, Trash } from 'iconsax-react';
-import { useResponsive } from 'src/hooks/use-responsive';
-import { m } from 'framer-motion';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
-import { RootState } from 'src/store';
-import { SvgColor } from 'src/components/svg-color';
+
 import { Iconify } from 'src/components/iconify';
+import { SvgColor } from 'src/components/svg-color';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
 
 export const COLORS_NEWSLETTER_TEMPLATES = ['#F0BE46', '#00C3C3', '#2C394B', '#000'];
 export const COLORS_BG_NEWSLETTER_TEMPLATES = [

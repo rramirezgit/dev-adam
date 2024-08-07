@@ -1,8 +1,11 @@
-import { Button, useTheme } from '@mui/material';
 import React from 'react';
-import { SvgColor } from '../svg-color';
 import { useDispatch } from 'react-redux';
+
+import { Button, useTheme } from '@mui/material';
+
 import { setShowSaved } from 'src/store/slices/noteStore';
+
+import { SvgColor } from '../svg-color';
 
 function ButtonOption({
   onClick,

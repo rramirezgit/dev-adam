@@ -1,5 +1,9 @@
-import { Box, Theme, Typography, styled, useTheme } from '@mui/material';
+import type { Theme} from '@mui/material';
+
 import { useField } from 'formik';
+
+import { Box, styled, useTheme, Typography } from '@mui/material';
+
 import { useLocales } from 'src/locales';
 
 type TexAreaContainerProps = {

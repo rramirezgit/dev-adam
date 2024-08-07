@@ -1,21 +1,25 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable @next/next/no-img-element */
-import { Box, alpha, useTheme } from '@mui/material';
+import type { RootState } from 'src/store';
+
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Box, alpha, useTheme } from '@mui/material';
+
 import {
-  setDataImageCrop,
-  setDataImageCroped,
-  setImagesSaved,
   setMenu,
   setObjectFit,
+  setImagesSaved,
+  setDataImageCrop,
+  setDataImageCroped,
   updateImageDataNewsletter,
-  updateValueInputNewsletter,
 } from 'src/store/slices/newsletterStore';
-import { ILayout, ImageInput } from '../types';
-import { RootState } from 'src/store';
-import { useAxios } from 'src/auth/axios/axios-provider';
+
 import { Iconify } from 'src/components/iconify';
+
+import { useAxios } from 'src/auth/axios/axios-provider';
+
+import type { ILayout, ImageInput } from '../types';
 
 export interface Props extends ImageInput {
   placeholder?: string;
@@ -261,6 +265,7 @@ export default function UploadHorizontalImage({
               ...style,
             }}
             target="_blank"
+            rel="noreferrer"
           >
             <img
               alt="img"

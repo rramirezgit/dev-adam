@@ -1,7 +1,9 @@
 /* eslint-disable no-unneeded-ternary */
-/* eslint-disable no-nested-ternary */
-import { Box, FormControlLabel, Radio, RadioGroup, Typography, useTheme } from '@mui/material';
 import { useField } from 'formik';
+
+/* eslint-disable no-nested-ternary */
+import { Box, Radio, useTheme, RadioGroup, Typography, FormControlLabel } from '@mui/material';
+
 import { useLocales } from 'src/locales';
 
 interface IPostTypeInstagram {

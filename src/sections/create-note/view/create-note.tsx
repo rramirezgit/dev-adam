@@ -1,13 +1,19 @@
-import { Box, keyframes, useTheme } from '@mui/material';
-import { useResponsive } from 'src/hooks/use-responsive';
+import type { RootState } from 'src/store';
+
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Box, useTheme, keyframes } from '@mui/material';
+
+import { useResponsive } from 'src/hooks/use-responsive';
+
 import { setOpenNewsDrawer } from 'src/store/slices/noteStore';
-import { RootState } from 'src/store';
+
+import { NewsDrawer } from 'src/components/drawer-news';
+import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
+
 import NotaEditingArea from '../editing-area';
 import MenuNeswletter from '../menu/menu-view';
-import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
 import useSaveDialogNota from '../dialog-save';
-import { NewsDrawer } from 'src/components/drawer-news';
 
 export default function CreateNota() {
   const theme = useTheme();
@@ -38,7 +44,7 @@ export default function CreateNota() {
       {!smUp ? (
         renderBody
       ) : (
-        <Box position={'relative'}>
+        <Box position="relative">
           <ButtonOption
             iconSrc="/assets/icons/dashboard/create-note/save.svg"
             title="Guardar Nota"

@@ -1,18 +1,19 @@
-import * as Yup from 'yup';
+import { useState } from 'react';
+
+import { LoadingButton } from '@mui/lab';
 import {
   Box,
+  Stack,
   Button,
   Dialog,
+  useTheme,
+  Typography,
+  DialogTitle,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  Stack,
-  Typography,
-  useTheme,
 } from '@mui/material';
-import { useState } from 'react';
-import { LoadingButton } from '@mui/lab';
+
 import { Iconify } from 'src/components/iconify';
 
 interface Props {

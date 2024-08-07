@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 import UploadImage from '../../uploadImage';
 
-export default function TwoImg({ ...props }) {
+export default function TwoImg({ ...props }: any) {
   const [imageLeft, setImageLeft] = useState<any>(props.inputs[0]);
   const [imageRight, setImageRight] = useState<any>(props.inputs[1]);
 

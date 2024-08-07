@@ -1,26 +1,28 @@
 /* eslint-disable no-nested-ternary */
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+
 // @mui
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 // routes
 // import { useRouter } from 'src/routes/hooks';
+import type { RootState } from 'src/store';
+import type { newsletterItemList } from 'src/store/slices/types';
+
 // types
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useLocales } from 'src/locales';
+import { setShowEditor, setcurrentNewsletter } from 'src/store/slices/newsletterStore';
+
 // components
 import { Iconify } from 'src/components/iconify';
 import SearchNotFound from 'src/components/search-not-found';
-import { IPost } from 'src/types/post';
-import { useLocales } from 'src/locales';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOpenDrawer } from 'src/store/slices/post';
-import { newsletterItemList } from 'src/store/slices/types';
-import { RootState } from 'src/store';
-import { setShowEditor, setcurrentNewsletter } from 'src/store/slices/newsletterStore';
+
 
 // ----------------------------------------------------------------------
 

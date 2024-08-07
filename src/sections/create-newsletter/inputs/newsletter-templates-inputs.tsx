@@ -1,12 +1,13 @@
 import TextBubble from 'src/sections/create-newsletter/inputs/bubbles/bubble';
-import UploadImage from './uploadImage';
+
 import Tags from './tags/input-tags';
+import LayoutsInputs from './layouts';
+import UploadImage from './uploadImage';
+import AddInputs from './addInput/add-inputs';
+import { INPUTS_TYPES_NEWSLETTER } from './types';
 import ReadingTime from './readingTime/reading-time';
 import SocialMedias from './socialMedias/social-medias';
-import { INPUTS_TYPES_NEWSLETTER } from './types';
 import VerticalDivisor from './divisor/vertical-divisor';
-import AddInputs from './addInput/add-inputs';
-import LayoutsInputs from './layouts';
 
 export default function TemplateInputs({ ...props }: any) {
   if (props.type === INPUTS_TYPES_NEWSLETTER.text) {

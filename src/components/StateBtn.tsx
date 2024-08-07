@@ -1,9 +1,13 @@
 /* eslint-disable no-nested-ternary */
-import { Box, Button, ListItemText, MenuItem, SxProps, Popover } from '@mui/material';
+import type { RootState } from 'src/store';
+import type { SxProps} from '@mui/material';
+
 import React, { useState } from 'react';
-import { Iconify } from './iconify';
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+
+import { Button, Popover, MenuItem, ListItemText } from '@mui/material';
+
+import { Iconify } from './iconify';
 
 interface Props {
   Nota: any;

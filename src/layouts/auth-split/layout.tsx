@@ -3,15 +3,13 @@
 import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
 import Alert from '@mui/material/Alert';
+import { Box, Card, keyframes } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { Section } from './section';
 import { Main, Content } from './main';
 import { HeaderBase } from '../core/header-base';
 import { LayoutSection } from '../core/layout-section';
-import { Box, Card, keyframes } from '@mui/material';
-import { Logo } from 'src/components/logo';
 
 // ----------------------------------------------------------------------
 

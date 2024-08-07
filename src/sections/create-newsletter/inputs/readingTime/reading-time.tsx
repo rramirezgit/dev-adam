@@ -1,7 +1,10 @@
-import { Box } from '@mui/system';
-import { RootState } from 'src/store';
+import type { RootState } from 'src/store';
+
 import { useSelector } from 'react-redux';
-import { TextInput } from '../types';
+
+import { Box } from '@mui/material';
+
+import type { TextInput } from '../types';
 
 interface ReadingTimeProps {
   templateId: string;

@@ -1,8 +1,9 @@
 'use client';
 
-import { createContext } from 'react';
 //
-import { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
+
+import { createContext } from 'react';
 
 // ----------------------------------------------------------------------
 

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import TextBubble from '../../bubbles/bubble';
-import UploadImage from '../../uploadImage';
 
-export default function ImgText({ ...props }) {
+import UploadImage from '../../uploadImage';
+import TextBubble from '../../bubbles/bubble';
+
+export default function ImgText({ ...props }: any) {
   const [image] = useState<any>(props.inputs.find((input: any) => input.type === 'image'));
   const [title] = useState<any>(
     props.inputs.find((input: any) => input.type === 'text' && input.variant === 'title')

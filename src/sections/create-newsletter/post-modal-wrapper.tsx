@@ -1,21 +1,26 @@
 /* eslint-disable prefer-arrow-callback */
-import {
-  AppBar,
-  Box,
-  Dialog,
-  DialogContent,
-  IconButton,
-  Slide,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
+import type { RootState } from 'src/store';
+import type { TransitionProps } from '@mui/material/transitions';
+
 import { forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Iconify } from 'src/components/iconify';
+
+import {
+  Box,
+  Slide,
+  AppBar,
+  Dialog,
+  Toolbar,
+  IconButton,
+  Typography,
+  DialogContent,
+} from '@mui/material';
+
 import { useResponsive } from 'src/hooks/use-responsive';
-import { RootState } from 'src/store';
+
 import { setOpenDrawer } from 'src/store/slices/post';
+
+import { Iconify } from 'src/components/iconify';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {

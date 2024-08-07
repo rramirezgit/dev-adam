@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { setErrors, updateValueInputNota } from 'src/store/slices/noteStore';
+import type { RootState } from 'src/store';
+
 import * as Yup from 'yup';
-import { TagsInput } from '../types';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setErrors, updateValueInputNota } from 'src/store/slices/noteStore';
+
+import type { TagsInput } from '../types';
 
 interface IuseValidate {
   maxLength?: number;

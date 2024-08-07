@@ -43,6 +43,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-exports': 1,
     '@typescript-eslint/consistent-type-imports': 1,
     '@typescript-eslint/no-unused-vars': [1, { args: 'none' }],
+
     // react
     'react/no-children-prop': 0,
     'react/react-in-jsx-scope': 0,
@@ -53,6 +54,7 @@ module.exports = {
     'react/jsx-no-useless-fragment': [1, { allowExpressions: true }],
     'react/no-unstable-nested-components': [1, { allowAsProps: true }],
     'react/jsx-no-duplicate-props': [1, { ignoreCase: false }],
+    'react-hooks/exhaustive-deps': 0,
     // jsx-a11y
     'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/control-has-associated-label': 0,

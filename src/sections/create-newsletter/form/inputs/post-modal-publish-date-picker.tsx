@@ -1,5 +1,6 @@
-import { DatePicker } from '@mui/x-date-pickers';
 import { useField } from 'formik';
+
+import { DatePicker } from '@mui/x-date-pickers';
 
 interface IPublishDatePicker {
   name: string;
@@ -10,7 +11,7 @@ export default function PublishDatePicker({ name }: IPublishDatePicker) {
     <DatePicker
       value={field.value}
       onChange={(value) => helpers.setValue(value)}
-      label={'Publish Date'}
+      label="Publish Date"
       sx={{
         width: '50%',
       }}

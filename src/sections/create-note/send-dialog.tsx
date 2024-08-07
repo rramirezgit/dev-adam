@@ -1,20 +1,19 @@
-import * as Yup from 'yup';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { LoadingButton } from '@mui/lab';
 import {
   Box,
   Button,
   Dialog,
+  useTheme,
+  DialogTitle,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  TextField,
-  useTheme,
 } from '@mui/material';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setEmails } from 'src/store/slices/noteStore';
+
 import { Iconify } from 'src/components/iconify';
-import { LoadingButton } from '@mui/lab';
 
 interface Props {
   open: boolean;

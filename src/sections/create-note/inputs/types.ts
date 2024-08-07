@@ -1,4 +1,4 @@
-import { textVariantsNotas } from './bubbles/variants';
+import type { textVariantsNotas } from './bubbles/variants';
 
 export type IinputsTypes =
   | 'text'

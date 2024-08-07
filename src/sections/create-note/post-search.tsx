@@ -1,21 +1,25 @@
 /* eslint-disable no-nested-ternary */
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+
 // @mui
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 // routes
 // import { useRouter } from 'src/routes/hooks';
+import type { RootState } from 'src/store';
+import type { NotaItemList} from 'src/store/slices/noteStore';
+
 // types
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setShowEditor, setcurrentNota } from 'src/store/slices/noteStore';
+
 // components
 import { Iconify } from 'src/components/iconify';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { NotaItemList, setShowEditor, setcurrentNota } from 'src/store/slices/noteStore';
 import { SearchNotFound } from 'src/components/search-not-found';
 
 // ----------------------------------------------------------------------
@@ -87,7 +91,7 @@ export default function PostSearch({ query, results, onSearch, hrefItem }: Props
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder={`Search post`}
+          placeholder="Search post"
           onKeyUp={handleKeyUp}
           InputProps={{
             ...params.InputProps,

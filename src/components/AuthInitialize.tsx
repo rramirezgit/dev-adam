@@ -1,11 +1,13 @@
 'use client';
 
+import type { RootState, AppDispatch } from 'src/store';
+
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { initializeAuth } from 'src/store/slices/auth0Store';
 
 import { SplashScreen } from './loading-screen';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'src/store';
-import { initializeAuth } from 'src/store/slices/auth0Store';
 
 interface Props {
   children: React.ReactNode;
@@ -18,6 +20,7 @@ const AuthInitialize = ({ children }: Props) => {
 
   useEffect(() => {
     dispatch(initializeAuth());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {

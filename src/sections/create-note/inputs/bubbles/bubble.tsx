@@ -1,14 +1,19 @@
 /* eslint-disable react/no-danger */
+import './styles-bubble.css';
+
+import type { RootState } from 'src/store';
+
 import { useRef } from 'react';
 import ReactQuill from 'react-quill';
-import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
+
 import { Box } from '@mui/material';
-import { useStylesText } from './styles-text';
+
 import useValidate from './useValidate';
-import './styles-bubble.css';
-import { TagsInput, TextInput } from '../types';
+import { useStylesText } from './styles-text';
 import { COLORS_Nota_TEMPLATES } from '../../templates/template-layout';
+
+import type { TagsInput, TextInput } from '../types';
 
 interface props extends TextInput {
   parentId?: string;

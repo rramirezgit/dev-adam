@@ -1,13 +1,19 @@
-import { Draggable } from '@hello-pangea/dnd';
-import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
+import type { RootState } from 'src/store';
+
 import { useSelector } from 'react-redux';
+import { Draggable } from '@hello-pangea/dnd';
+
 import { Box } from '@mui/material';
-import TemplateInputs from '../inputs/newsletter-templates-inputs';
-import LayoutTemplate from './template-layout';
-import { TypeTemplateContent } from '../inputs/types';
-import LayoutDragable from '../inputs/LayoutDragable';
-import { RootState } from 'src/store';
+
+import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
+
 import { Iconify } from 'src/components/iconify';
+
+import LayoutTemplate from './template-layout';
+import LayoutDragable from '../inputs/LayoutDragable';
+import TemplateInputs from '../inputs/newsletter-templates-inputs';
+
+import type { TypeTemplateContent } from '../inputs/types';
 
 const RenderInput = ({ isEmail, item, index, qtyInputs }: any) => {
   const isLast = qtyInputs && index === qtyInputs - 1;

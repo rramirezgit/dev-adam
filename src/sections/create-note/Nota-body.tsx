@@ -1,7 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
+import type { RootState } from 'src/store';
+
 /* eslint-disable react/self-closing-comp */
 import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+
 import TemplateView from './templates/template-view';
 
 export default function NotaBody({ isEmail }: { isEmail?: boolean }) {

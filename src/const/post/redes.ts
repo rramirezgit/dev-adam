@@ -1,4 +1,4 @@
-import { ISocialNetworksNames, ISocialnetworks } from 'src/types/post';
+import type { ISocialnetworks, ISocialNetworksNames } from 'src/types/post';
 
 export const SOCIALNETWORKSNAMES: { [key in ISocialNetworksNames]: ISocialNetworksNames } = {
   facebook: 'facebook',

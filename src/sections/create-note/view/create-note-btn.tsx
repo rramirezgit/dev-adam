@@ -1,12 +1,14 @@
-import { Box, Button, Stack } from '@mui/material';
 import { useDispatch } from 'react-redux';
+
+import { Box, Stack, Button } from '@mui/material';
+
 import {
   setMenu,
-  setShowEditor,
   setSubject,
+  setShowEditor,
+  setCoverImage,
   setcurrentNota,
   setcurrentNotaID,
-  setCoverImage,
   setcurrentNotaDescription,
 } from 'src/store/slices/noteStore';
 

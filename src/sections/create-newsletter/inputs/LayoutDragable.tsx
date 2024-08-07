@@ -1,11 +1,16 @@
-import React, { useState, useCallback } from 'react';
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
-import { Box, useTheme } from '@mui/material';
+import type { DropResult } from '@hello-pangea/dnd';
+
 import { m } from 'framer-motion';
 import { useDispatch } from 'react-redux';
+import React, { useState, useCallback } from 'react';
+import { Droppable, DragDropContext } from '@hello-pangea/dnd';
+
+import { Box, useTheme } from '@mui/material';
+
+import { deleteInputNewsletter, reorderInputNewsletter } from 'src/store/slices/newsletterStore';
+
 // import { setDeleteItem } from 'src/store/slices/noteStore';
 import { Iconify } from 'src/components/iconify';
-import { deleteInputNewsletter, reorderInputNewsletter } from 'src/store/slices/newsletterStore';
 
 interface LayoutDragableProps {
   templateId: string;
@@ -70,9 +75,9 @@ export default function LayoutDragable({ templateId, name, children }: LayoutDra
             }}
           >
             <Droppable droppableId="bin">
-              {(provided, snapshot) => {
+              {(provided, snapshot) => 
                 // dispatch(setDeleteItem(snapshot.isDraggingOver));
-                return (
+                 (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
@@ -92,8 +97,8 @@ export default function LayoutDragable({ templateId, name, children }: LayoutDra
                       <Iconify icon="iconoir:trash" color="white" />
                     </div>
                   </div>
-                );
-              }}
+                )
+              }
             </Droppable>
           </div>
         </m.div>

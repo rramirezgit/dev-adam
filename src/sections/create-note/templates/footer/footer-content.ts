@@ -1,7 +1,9 @@
-import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
 import uuidv4 from 'src/utils/uuidv4';
+
 import { DEFAULT_COLOR_NESWLETTER } from 'src/theme/palette';
-import { TypeTemplateContent } from '../../inputs/types';
+import { TEMPLATESNAMES } from 'src/const/neswletter/templates';
+
+import type { TypeTemplateContent } from '../../inputs/types';
 
 const NAME = { name: TEMPLATESNAMES.Footer };
 
