@@ -25,9 +25,6 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { AnimateAvatar } from 'src/components/animate';
 
-import { useMockedUser } from 'src/auth/hooks';
-
-import { UpgradeBlock } from './nav-upgrade';
 import { AccountButton } from './account-button';
 import { SignOutButton } from './sign-out-button';
 import { RootState } from 'src/store';
@@ -49,8 +46,9 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
 
   const router = useRouter();
 
-  const { userAuth0 } = useSelector((state: RootState) => state.auth);
+  const pathname = usePathname();
 
+  const { userAuth0 } = useSelector((state: RootState) => state.auth);
   const [open, setOpen] = useState(false);
 
   const handleOpenDrawer = useCallback(() => {
@@ -68,6 +66,8 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
     },
     [handleCloseDrawer, router]
   );
+
+  console.log('userAuth0', userAuth0);
 
   const renderAvatar = (
     <AnimateAvatar
@@ -123,45 +123,50 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
             </Typography>
           </Stack>
 
-          {/* <Stack
-            sx={{
-              py: 3,
-              px: 2.5,
-              borderTop: `dashed 1px ${theme.vars.palette.divider}`,
-              borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
-            }}
-          >
-            {data.map((option) => {
-              const rootLabel = pathname.includes('/dashboard') ? 'Home' : 'Dashboard';
+          {userAuth0?.email === 'general@adac.mx' && (
+            <Stack
+              sx={{
+                mt: 5,
+                py: 3,
+                px: 2.5,
+                borderTop: `dashed 1px ${theme.vars.palette.divider}`,
+                borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
+              }}
+            >
+              {data.map((option) => {
+                const rootLabel = pathname?.includes('/dashboard') ? 'Home' : 'Dashboard';
 
-              const rootHref = pathname.includes('/dashboard') ? '/' : paths.dashboard.root;
+                const rootHref = pathname?.includes('/dashboard') ? '/' : paths.dashboard.root;
 
-              return (
-                <MenuItem
-                  key={option.label}
-                  onClick={() => handleClickItem(option.label === 'Home' ? rootHref : option.href)}
-                  sx={{
-                    py: 1,
-                    color: 'text.secondary',
-                    '& svg': { width: 24, height: 24 },
-                    '&:hover': { color: 'text.primary' },
-                  }}
-                >
-                  {option.icon}
+                return (
+                  <MenuItem
+                    key={option.label}
+                    onClick={() =>
+                      handleClickItem(option.label === 'Home' ? rootHref : option.href)
+                    }
+                    sx={{
+                      py: 1,
+                      color: 'text.secondary',
+                      '& svg': { width: 24, height: 24 },
+                      '&:hover': { color: 'text.primary' },
+                    }}
+                  >
+                    {option.icon}
 
-                  <Box component="span" sx={{ ml: 2 }}>
-                    {option.label === 'Home' ? rootLabel : option.label}
-                  </Box>
+                    <Box component="span" sx={{ ml: 2 }}>
+                      {option.label === 'Home' ? rootLabel : option.label}
+                    </Box>
 
-                  {option.info && (
-                    <Label color="error" sx={{ ml: 1 }}>
-                      {option.info}
-                    </Label>
-                  )}
-                </MenuItem>
-              );
-            })}
-          </Stack> */}
+                    {option.info && (
+                      <Label color="error" sx={{ ml: 1 }}>
+                        {option.info}
+                      </Label>
+                    )}
+                  </MenuItem>
+                );
+              })}
+            </Stack>
+          )}
         </Scrollbar>
 
         <Box sx={{ p: 2.5 }}>

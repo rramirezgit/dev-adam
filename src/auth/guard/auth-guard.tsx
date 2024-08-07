@@ -1,15 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-
 import { paths } from 'src/routes/paths';
 import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
-
 import { CONFIG } from 'src/config-global';
-
 import { SplashScreen } from 'src/components/loading-screen';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from 'src/store';
+import { fetchUserAuth0 } from 'src/store/slices/auth0Store';
 
 // ----------------------------------------------------------------------
 
@@ -19,12 +17,11 @@ type Props = {
 
 export function AuthGuard({ children }: Props) {
   const router = useRouter();
-
   const pathname = usePathname();
-
   const searchParams = useSearchParams();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, isLoading, userAuth0 } = useSelector((state: RootState) => state.auth);
 
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
@@ -32,7 +29,6 @@ export function AuthGuard({ children }: Props) {
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams?.toString() || '');
       params.set(name, value);
-
       return params.toString();
     },
     [searchParams]
@@ -55,9 +51,12 @@ export function AuthGuard({ children }: Props) {
       }[method];
 
       const href = `${signInPath}?${createQueryString('returnTo', pathname || '/')}`;
-
       router.replace(href);
       return;
+    }
+
+    if (isAuthenticated && !userAuth0) {
+      await dispatch(fetchUserAuth0());
     }
 
     setIsChecking(false);

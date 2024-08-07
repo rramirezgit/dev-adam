@@ -77,17 +77,7 @@ export function AuthOSignInView() {
 
   const renderHead = (
     <Stack spacing={1.5} sx={{ mb: 5 }}>
-      <Typography variant="h5">Sign in to your account</Typography>
-
-      {/* <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {`Don't have an account?`}
-        </Typography>
-
-        <Link component={RouterLink} href={paths.auth.auth0.signUp} variant="subtitle2">
-          Get started
-        </Link>
-      </Stack> */}
+      <Typography variant="h5">Inicio de sesión</Typography>
     </Stack>
   );
 
@@ -96,16 +86,6 @@ export function AuthOSignInView() {
       <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
 
       <Stack spacing={1.5}>
-        {/* <Link
-          component={RouterLink}
-          href="#"
-          variant="body2"
-          color="inherit"
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Forgot password?
-        </Link> */}
-
         <Field.Text
           name="password"
           label="Password"
@@ -133,7 +113,7 @@ export function AuthOSignInView() {
         loading={isSubmitting}
         loadingIndicator="Sign in..."
       >
-        Sign in
+        Iniciar sesión
       </LoadingButton>
     </Stack>
   );

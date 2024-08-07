@@ -96,7 +96,7 @@ const ButtonBackEditors = () => {
           showPopupNewsletterSave.onTrue();
         } else {
           cleanStateNewsletter();
-          router.push(pathname);
+          router.push('/dashboard/create-newsletter');
         }
       } else {
         showPopupNewsletterSave.onTrue();
@@ -111,7 +111,7 @@ const ButtonBackEditors = () => {
           showPopup.onTrue();
         } else {
           cleanStateNote();
-          router.push(pathname);
+          router.push('/dashboard/create-note');
         }
       } else {
         showPopup.onTrue();

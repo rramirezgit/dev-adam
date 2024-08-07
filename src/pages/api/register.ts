@@ -1,10 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
 import axios from 'axios';
 
 export default async function register(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { email, password } = req.body;
+    const { email, password, given_name, family_name } = req.body;
 
     try {
       const response = await axios.post(
@@ -17,6 +16,10 @@ export default async function register(req: NextApiRequest, res: NextApiResponse
           scope: 'openid profile email',
           client_secret: process.env.AUTH0_CLIENT_SECRET,
           connection: 'Username-Password-Authentication',
+          user_metadata: {
+            given_name,
+            family_name,
+          },
         }
       );
 

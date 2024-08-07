@@ -11,6 +11,9 @@ export default function NewsletterBody({ isEmail }: { isEmail?: boolean }) {
   const currentNesletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);
 
   const haveHeader = useSelector((state: RootState) => state.newsletter.header);
+  const zoomScaleNewsletter = useSelector(
+    (state: RootState) => state.newsletter.zoomScaleNewsletter
+  );
 
   const lastIndex = currentNesletter.length - 1;
 
@@ -34,6 +37,12 @@ export default function NewsletterBody({ isEmail }: { isEmail?: boolean }) {
         textDecoration: 'none',
         transition: 'all 0.3s ease',
         minWidth: '520px',
+        ...(!isEmail && {
+          transform: `scale(${zoomScaleNewsletter})`,
+          position: 'relative',
+          marginTop: '50px',
+          top: `${zoomScaleNewsletter > 1 ? zoomScaleNewsletter * 14 : 0}%`,
+        }),
       }}
     >
       <tbody>
