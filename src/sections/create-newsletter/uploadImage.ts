@@ -1,4 +1,4 @@
-import type { newsletterseccions } from 'src/store/slices/types';
+import type { newsletterseccions } from 'src/types/newsletter';
 
 import type { ImageInput } from './inputs/types';
 

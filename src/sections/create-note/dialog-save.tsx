@@ -1,4 +1,4 @@
-import type { RootState, AppDispatch} from 'src/store';
+import type { RootState, AppDispatch } from 'src/store';
 
 import { useState, useEffect } from 'react';
 import { renderToString } from 'react-dom/server';
@@ -13,7 +13,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import useNotes from 'src/utils/useNotes';
 
-import { store } from 'src/store';
+import store from 'src/store';
 import { CONFIG } from 'src/config-global';
 import { ThemeProvider } from 'src/theme/theme-provider';
 import {

@@ -1,5 +1,5 @@
 import type { RootState } from 'src/store';
-import type { TDrawers } from 'src/store/slices/types';
+import type { TDrawers } from 'src/types/newsletter';
 
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';

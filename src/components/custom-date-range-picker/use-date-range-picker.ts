@@ -6,13 +6,9 @@ import { fDate } from 'src/utils/format-time';
 //
 import { shortDateLabel } from './utils';
 
-import type { DateRangePickerProps } from './types';
-
 // ----------------------------------------------------------------------
 
-type ReturnType = DateRangePickerProps;
-
-export default function useDateRangePicker(start: Date | null, end: Date | null): ReturnType {
+export default function useDateRangePicker(start: any, end: any): any {
   const [open, setOpen] = useState(false);
 
   const [endDate, setEndDate] = useState(end);
