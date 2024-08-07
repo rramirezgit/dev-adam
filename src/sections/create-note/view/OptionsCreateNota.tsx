@@ -12,12 +12,11 @@ import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAxios } from 'src/auth/axios/axios-provider';
 import axios from 'axios';
-import { setNeswletterList } from 'src/store/slices/newsletterStore';
 import { setUrlNgrok, setpromptIa } from 'src/store/slices/noteStore';
 import NoteDialog from './modal/CreateAi';
 import TrenddingDialog, { Data } from './modal/trending';
 import DialogAlert from './modal/DialogAlert';
-import { useSnackbar } from 'notistack';
+import { toast } from 'src/components/snackbar';
 import { endpoints_adam } from 'src/utils/endpoints';
 import useNotes from 'src/utils/useNotes';
 
@@ -35,8 +34,6 @@ const OptionsCreateNota: React.FC = () => {
     usa: { title: '', topics: [] },
     reddit: { title: '', topics: [] },
   });
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const promptIa = useSelector((state: RootState) => state.note.promptIa);
   const urlngrok = useSelector((state: RootState) => state.note.urlngrok);
@@ -74,15 +71,15 @@ const OptionsCreateNota: React.FC = () => {
 
       if (response.data.statusCode === 200) {
         if (response.data.data.length === 0) {
-          enqueueSnackbar(`No se encontraron noticias con el término de búsqueda: "${value}"`, {
-            variant: 'error',
-            persist: true,
+          toast.error(`No se encontraron noticias con el término de búsqueda: "${value}"`, {
+            duration: 5000,
           });
+
           return;
         }
       }
 
-      enqueueSnackbar('Notas creadas con éxito', { variant: 'success', persist: true });
+      toast.success('Notas creadas con éxito', { duration: 5000 });
       loadNotes({ tab: 0 });
       dispatch(setpromptIa('')); // Limpiar promptIa después de la ejecución
     } catch (error: any) {
@@ -119,7 +116,7 @@ const OptionsCreateNota: React.FC = () => {
           'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, PATCH, OPTIONS',
         },
       });
-      enqueueSnackbar('Borradores eliminados con éxito', { variant: 'success', persist: true });
+      toast.success('Borradores eliminados con éxito', { duration: 5000 });
     } catch (error: any) {
       handleError(
         'Error al eliminar borradores',
@@ -138,7 +135,7 @@ const OptionsCreateNota: React.FC = () => {
     content?: string,
     emails?: string[]
   ) => {
-    enqueueSnackbar(message, { variant: 'error', persist: true });
+    toast.error(message, { duration: 5000 });
 
     if (subject && content && emails) {
       const data = { subject, content, emails };
@@ -165,7 +162,7 @@ const OptionsCreateNota: React.FC = () => {
       }
 
       await axiosinstance.patch(`${endpoints_adam.ngrok}/${ngrokId}`, { url: value });
-      enqueueSnackbar('Url ngrok cambiada con éxito', { variant: 'success', persist: true });
+      toast.success('Url ngrok cambiada con éxito', { duration: 5000 });
     } catch (error: any) {
       handleError('Error al cambiar url ngrok');
     } finally {
@@ -209,9 +206,6 @@ const OptionsCreateNota: React.FC = () => {
       setLoading(false);
     }
   };
-
-  const promptIaExecuted = React.useRef(false);
-  const urlngrokExecuted = React.useRef(false);
 
   React.useEffect(() => {}, [promptIa, urlngrok]);
 

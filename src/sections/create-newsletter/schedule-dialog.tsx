@@ -35,11 +35,8 @@ export default function ScheduleDialog({
 }: ScheduleDialogProps) {
   const [openSucces, setOpenSucces] = useState(false);
   const [openSend, setOpenSend] = useState(false);
-  const [selectedH, setSelectedH] = useState<any>(
-    // sumano dos minutos
-    new Date(dayjs().add(3, 'minute').format('YYYY-MM-DDTHH:mm:ss'))
-  );
-  const [value, setValue] = useState<any>(new Date());
+  const [selectedH, setSelectedH] = useState<any>();
+  const [value, setValue] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [errorDate, setErrorDate] = useState<string | null>(null);
 

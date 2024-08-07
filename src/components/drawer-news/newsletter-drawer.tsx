@@ -2,48 +2,36 @@
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
-import { useTheme, useColorScheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 import { paper, varAlpha } from 'src/theme/styles';
-
-import { NavOptions } from './nav-options';
 import { FullScreenButton } from './fullscreen-button';
 
 import type { Theme, SxProps } from '@mui/material/styles';
-import { useSettingsContext } from '../settings';
 import { Iconify } from '../iconify';
 import { Scrollbar } from '../scrollbar';
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenNewsDrawer } from 'src/store/slices/noteStore';
-import StateBtn from '../StateBtn';
-import { useAxios } from 'src/auth/axios/axios-provider';
-import useNotes from 'src/utils/useNotes';
-import { Tooltip } from '@mui/material';
+import { setOpenNewsletterDrawer } from 'src/store/slices/newsletterStore';
+import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
+import { NewsletterDraweOptions } from './newsletter-nav-options';
 
-export type NewsDrawerProps = {
+export type NewsletterDrawerProps = {
   sx?: SxProps<Theme>;
 };
 
 // ----------------------------------------------------------------------
 
-export function NewsDrawer({ sx }: NewsDrawerProps) {
+export function NewsletterDrawer({ sx }: NewsletterDrawerProps) {
   const theme = useTheme();
 
-  const { openNewsDrawer } = useSelector((state: RootState) => state.note);
+  const { SendButtonJSX, CustomPopoverJSX } = useSendNewsletter();
 
-  const newsletterList = useSelector((state: RootState) => state.note.noteList);
-  const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
-
-  const nota = newsletterList.find((item: any) => item.id === currentNotaId);
-
-  const { loadNotes } = useNotes();
-
-  const axiosInstance = useAxios();
+  const { openNewsletterDrawer } = useSelector((state: RootState) => state.newsletter);
 
   const distpach = useDispatch();
 
@@ -56,32 +44,20 @@ export function NewsDrawer({ sx }: NewsDrawerProps) {
       <FullScreenButton />
 
       <Tooltip title="Close">
-        <IconButton onClick={() => distpach(setOpenNewsDrawer(false))}>
+        <IconButton onClick={() => distpach(setOpenNewsletterDrawer(false))}>
           <Iconify icon="mingcute:close-line" />
         </IconButton>
       </Tooltip>
     </Box>
   );
 
-  const renderNav = <NavOptions />;
-
-  const changeStatusNote = async (status: string) => {
-    await axiosInstance.patch(`posts/${currentNotaId}/status/${status}`);
-
-    const tabMapping: Record<string, number> = {
-      REVIEW: 1,
-      APPROVED: 2,
-      PUBLISHED: 3,
-      ADAC: 4,
-    };
-    loadNotes({ tab: tabMapping[status] || 0 });
-  };
+  const renderNav = <NewsletterDraweOptions />;
 
   return (
     <Drawer
       anchor="right"
-      open={openNewsDrawer}
-      onClose={() => distpach(setOpenNewsDrawer(false))}
+      open={openNewsletterDrawer}
+      onClose={() => distpach(setOpenNewsletterDrawer(false))}
       slotProps={{ backdrop: { invisible: true } }}
       sx={{
         [`& .${drawerClasses.paper}`]: {
@@ -98,7 +74,8 @@ export function NewsDrawer({ sx }: NewsDrawerProps) {
 
       <Scrollbar>
         <Stack spacing={6} sx={{ px: 2.5, pb: 5 }}>
-          <StateBtn Nota={nota} onChange={changeStatusNote} />
+          {SendButtonJSX()}
+          {CustomPopoverJSX}
 
           {renderNav}
         </Stack>

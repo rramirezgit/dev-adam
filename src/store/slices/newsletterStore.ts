@@ -46,6 +46,8 @@ const initialState: NeswletterState = {
   error: null,
 
   openNewsletterDrawer: false,
+
+  zoomScaleNewsletter: 1,
 };
 
 // Thunks
@@ -464,6 +466,9 @@ export const NewsletterSlice = createSlice({
         return item;
       });
     },
+    setZoomScaleNewsletter: (state, action: PayloadAction<number>) => {
+      state.zoomScaleNewsletter = action.payload;
+    },
     setEmails: (state, action: PayloadAction<string[]>) => {
       state.emails = action.payload;
     },
@@ -571,6 +576,7 @@ export const {
   setShowAprove,
   setImagesSaved,
   setObjectFit,
+  setZoomScaleNewsletter,
 } = NewsletterSlice.actions;
 
 export default NewsletterSlice.reducer;

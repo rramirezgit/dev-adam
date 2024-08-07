@@ -124,6 +124,16 @@ export default function TextBubble({
     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
   ];
 
+  let currentText = currentInput?.value as string;
+
+  if (currentInput) {
+    currentText = currentText?.replaceAll(/<p><br><\/p><p><br><\/p>/g, '');
+    currentText = currentText?.replaceAll(
+      /<p class="ql-align-justify"><br><\/p><p class="ql-align-justify"><br><\/p>/g,
+      ''
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -148,7 +158,7 @@ export default function TextBubble({
           ...style,
         }}
         className={`quill-${variant}-${name}`}
-        value={currentInput?.value as string}
+        value={currentText as string}
         onChange={handleChange}
       />
     </Box>

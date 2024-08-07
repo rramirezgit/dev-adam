@@ -7,8 +7,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 // @mui
 import Stack from '@mui/material/Stack';
 import { Box, FormControlLabel, Switch, Tab, Tabs } from '@mui/material';
-// utils
-import { useResponsive } from 'src/hooks/use-responsive';
 // types
 import EmptyContent from 'src/components/empty-content/empty-content';
 //
@@ -21,13 +19,11 @@ import {
   setselectedTab,
 } from 'src/store/slices/noteStore';
 import { SplashScreen } from 'src/components/loading-screen';
-import { useParams } from 'next/navigation';
 import { AppDispatch, RootState } from 'src/store';
 import CreateNotaButton from './create-note-btn';
 import CreateNota from './create-note';
 import NotaList from '../Nota-list';
 import OptionsCreateNota from './OptionsCreateNota';
-import NotaFiltersResult from '../Nota-filters-result';
 import ArticlesTable from './view-table';
 import { DashboardContent } from 'src/layouts/dashboard';
 import useNotes from 'src/utils/useNotes';

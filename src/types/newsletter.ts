@@ -117,4 +117,6 @@ export interface NeswletterState {
   error: string | null;
 
   openNewsletterDrawer: boolean;
+
+  zoomScaleNewsletter: number;
 }

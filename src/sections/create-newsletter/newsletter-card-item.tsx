@@ -31,6 +31,7 @@ import { newsletterItemList } from 'src/types/newsletter';
 import { useAxios } from 'src/auth/axios/axios-provider';
 import { Iconify } from 'src/components/iconify';
 import { fDate } from 'src/utils/format-time';
+import dayjs from 'dayjs';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -189,7 +190,7 @@ export default function NewsletterCardItem(props: Props) {
 
           {newsletter.status === 'SCHEDULED' ? (
             <Typography sx={{ fontSize: '12px', fontWeight: '400' }} color="primary.main">
-              {`Programado el ${fDate(newsletter.scheduleDate)}`}
+              {`Programado el ${dayjs(newsletter.scheduleDate).format('ddd DD MMM, hh:mm a')}`}
             </Typography>
           ) : (
             <Typography sx={{ fontSize: '11px', fontWeight: '400' }} color="text.secondary">

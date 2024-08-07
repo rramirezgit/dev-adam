@@ -27,11 +27,19 @@ export const initializeAuth = createAsyncThunk('auth/initializeAuth', async (_, 
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+  async (
+    { email, password }: { email: string; password: string },
+    { dispatch, rejectWithValue }
+  ) => {
     try {
       const response = await axios.post('/api/login', { email, password });
       const { accessToken } = response.data;
       localStorage.setItem('accessToken', accessToken);
+
+      // Dispatch the action to fetch user data after successful login
+      dispatch(setAuthState({ isAuthenticated: true, accessToken }));
+      await dispatch(fetchUserAuth0());
+
       return { accessToken };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);

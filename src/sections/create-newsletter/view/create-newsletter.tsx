@@ -27,6 +27,7 @@ import { useAxios } from 'src/auth/axios/axios-provider';
 import { Iconify } from 'src/components/iconify';
 import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
 import useSendNewsletter from '../header-editing';
+import { NewsletterDrawer } from 'src/components/drawer-news/newsletter-drawer';
 
 export default function CreateNewsletter() {
   const Theme = useTheme();
@@ -76,30 +77,6 @@ export default function CreateNewsletter() {
     }
   }, [currentNewsletterId, newsletterList]);
 
-  const handleClicAprove = async () => {
-    await axiosInstance
-      .patch(`newsletters/${NewsletterId || currentNewsletterId}/review`, {
-        approved: true,
-      })
-      .then(() => {
-        navegate.push('/dashboard/create-newsletter');
-        setShowAprove(false);
-        dispatch(setShowEditor(false));
-      });
-  };
-
-  const handleClicRechazar = async () => {
-    await axiosInstance
-      .patch(`newsletters/${NewsletterId || currentNewsletterId}/review`, {
-        approved: false,
-      })
-      .then(() => {
-        navegate.push('/dashboard/create-newsletter');
-        setShowAprove(false);
-        dispatch(setShowEditor(false));
-      });
-  };
-
   const renderBody = (
     <Box
       sx={{
@@ -129,7 +106,7 @@ export default function CreateNewsletter() {
           />
           <ButtonOption
             iconSrc="/assets/icons/dashboard/create-note/options.svg"
-            title="Opciones de nota"
+            title="Opciones"
             sx={{
               opacity: currentNewsletterId ? 1 : 0,
             }}
@@ -244,6 +221,7 @@ export default function CreateNewsletter() {
             {renderBody}
           </Paper>
           {DialogSaveNewsletter({ exitEditor: false })}
+          <NewsletterDrawer />
         </Box>
       )}
     </>

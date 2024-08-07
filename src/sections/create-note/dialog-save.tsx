@@ -153,7 +153,12 @@ const useSaveDialogNota = () => {
             }}
           >
             <Button
-              onClick={showPopup.onFalse}
+              onClick={() => {
+                router.push('/dashboard/create-note');
+                dispatch(setErrors([]));
+                dispatch(setShowEditor(false));
+                showPopup.onFalse();
+              }}
               variant="outlined"
               color="primary"
               sx={{

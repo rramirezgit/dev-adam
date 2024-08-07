@@ -39,7 +39,7 @@ export function SignOutButton({ onClose, ...other }: Props) {
 
   return (
     <Button fullWidth variant="soft" size="large" color="error" onClick={handleLogout} {...other}>
-      Logout
+      Cerrar sesión
     </Button>
   );
 }

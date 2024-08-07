@@ -21,6 +21,7 @@ import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/component
 import { ReduxProvider } from 'src/store/Provider';
 import { AxiosProvider } from 'src/auth/axios/axios-provider';
 import { LocalizationProvider } from 'src/utils/localization-provider';
+import { Snackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +50,7 @@ export default async function RootLayout({ children }: Props) {
             >
               <ThemeProvider>
                 <MotionLazy>
+                  <Snackbar />
                   <ProgressBar />
                   <SettingsDrawer />
                   <AxiosProvider>

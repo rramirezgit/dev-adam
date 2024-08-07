@@ -107,17 +107,22 @@ export default function NotaCardItem(props: Props) {
 
     if (dataItem === null) return;
     dataItem[0].NotaId = Nota.id;
-    await axiosInstance.patch(`/posts/${Nota.id}/used/newsletter/`, {
-      newsletterId: currentNewsletterId,
-    });
+    await axiosInstance
+      .patch(`/posts/${Nota.id}/used/newsletter/`, {
+        newsletterId: currentNewsletterId,
+      })
+      .then((res) => {
+        const newNewsletter = [
+          ...currentNewsletter.slice(0, indexFooter),
+          dataItem[0],
+          ...currentNewsletter.slice(indexFooter),
+        ];
 
-    const newNewsletter = [
-      ...currentNewsletter.slice(0, indexFooter),
-      dataItem[0],
-      ...currentNewsletter.slice(indexFooter),
-    ];
-
-    dispatch(setcurrentNewsletter(newNewsletter));
+        dispatch(setcurrentNewsletter(newNewsletter));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
