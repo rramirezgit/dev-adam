@@ -725,8 +725,6 @@ const useSendNewsletter = () => {
     </>
   );
 
-  const CustomPopoverJSX = <></>;
-
   const DeleteButtonJSX = (
     <LoadingButton
       onClick={handleclickDeleteNewsletter}
@@ -756,7 +754,6 @@ const useSendNewsletter = () => {
     disableOption,
     DialogSaveNewsletter,
     SendButtonJSX,
-    CustomPopoverJSX,
     DeleteButtonJSX,
     showPopupNewsletterSave,
     popover,

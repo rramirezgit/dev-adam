@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import React, { useState, useCallback } from 'react';
 import { Droppable, DragDropContext } from '@hello-pangea/dnd';
 
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { deleteInputNewsletter, reorderInputNewsletter } from 'src/store/slices/newsletterStore';
 
@@ -20,8 +20,6 @@ interface LayoutDragableProps {
 
 export default function LayoutDragable({ templateId, name, children }: LayoutDragableProps) {
   const [isShowingBin, setIsShowingBin] = useState(false);
-
-  const theme = useTheme();
 
   const dispatch = useDispatch();
 
@@ -75,30 +73,28 @@ export default function LayoutDragable({ templateId, name, children }: LayoutDra
             }}
           >
             <Droppable droppableId="bin">
-              {(provided, snapshot) => 
+              {(provided, snapshot) => (
                 // dispatch(setDeleteItem(snapshot.isDraggingOver));
-                 (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    height: '100%',
+                  }}
+                >
                   <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
                     style={{
+                      width: 65,
                       height: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
-                    <div
-                      style={{
-                        width: 65,
-                        height: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Iconify icon="iconoir:trash" color="white" />
-                    </div>
+                    <Iconify icon="iconoir:trash" color="white" />
                   </div>
-                )
-              }
+                </div>
+              )}
             </Droppable>
           </div>
         </m.div>

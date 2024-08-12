@@ -1,33 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* eslint-disable perfectionist/sort-imports */
 import styled from '@emotion/styled';
 
 import { TextField } from '@mui/material';

@@ -76,7 +76,7 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
       setPosition('initial');
       setTimeout(() => {
         setopacityMenu(1);
-        setdisplayMenu('block');
+        setdisplayMenu('sticky');
       }, 200);
     }
   }, [menu]);
@@ -88,7 +88,6 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        position,
         overflowY: 'auto',
         gap: Theme.spacing(5),
         height: drawerHeight,
@@ -101,6 +100,8 @@ export default function MenuLayout({ children, title }: IMenuLayout) {
         }),
         width: open ? drawerWidth : 0,
         backgroundColor: Theme.palette.background.neutral,
+        top: '10px',
+        position: 'sticky',
       }}
     >
       <Box

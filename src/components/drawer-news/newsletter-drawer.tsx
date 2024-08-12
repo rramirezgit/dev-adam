@@ -32,7 +32,7 @@ export type NewsletterDrawerProps = {
 export function NewsletterDrawer({ sx }: NewsletterDrawerProps) {
   const theme = useTheme();
 
-  const { SendButtonJSX, CustomPopoverJSX } = useSendNewsletter();
+  const { SendButtonJSX } = useSendNewsletter();
 
   const { openNewsletterDrawer } = useSelector((state: RootState) => state.newsletter);
 
@@ -78,7 +78,6 @@ export function NewsletterDrawer({ sx }: NewsletterDrawerProps) {
       <Scrollbar>
         <Stack spacing={6} sx={{ px: 2.5, pb: 5 }}>
           {SendButtonJSX()}
-          {CustomPopoverJSX}
 
           {renderNav}
         </Stack>

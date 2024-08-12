@@ -58,7 +58,6 @@ export function AuthGuard({ children }: Props) {
       router.replace(href);
       return;
     }
-
     if (isAuthenticated && !userAuth0) {
       await dispatch(fetchUserAuth0());
     }

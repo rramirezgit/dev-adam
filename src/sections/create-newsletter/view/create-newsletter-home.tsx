@@ -169,6 +169,7 @@ export default function CreateNewsletterHome() {
       sx={{
         pb: !showEditor ? { xs: 10, md: 15 } : 0,
         minWidth: '565px',
+        overflowX: 'hidden',
       }}
     >
       <Box

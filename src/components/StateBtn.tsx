@@ -1,9 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import type { RootState } from 'src/store';
-import type { SxProps} from '@mui/material';
+import type { SxProps } from '@mui/material';
 
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Button, Popover, MenuItem, ListItemText } from '@mui/material';
 
@@ -17,8 +15,6 @@ interface Props {
 
 const StateBtn = ({ Nota, onChange, sx }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

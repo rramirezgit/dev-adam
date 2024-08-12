@@ -53,10 +53,11 @@ interface Props {
   Nota: NotaItemList;
   preview?: boolean;
   ChangeStatus?: boolean;
+  callback?: any;
 }
 
 export default function NotaCardItem(props: Props) {
-  const { Nota, preview, ChangeStatus } = props;
+  const { Nota, preview, ChangeStatus, callback } = props;
   const theme = useTheme();
   const dispatch = useDispatch();
   const routes = useRouter();
@@ -66,9 +67,6 @@ export default function NotaCardItem(props: Props) {
   const { loadNotes } = useNotes();
 
   const currentNewsletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);
-  const currentNewsletterId = useSelector(
-    (state: RootState) => state.newsletter.currentNewsletterId
-  );
 
   const axiosInstance = useAxios();
 
@@ -106,8 +104,9 @@ export default function NotaCardItem(props: Props) {
   };
 
   const handleClickNewsletter = async () => {
-    dispatch(setMenu({ type: 'none' }));
-
+    if (callback) {
+      callback();
+    }
     const indexFooter = currentNewsletter.findIndex((item) => item.templateId === 'footer');
 
     const dataItem =
@@ -115,22 +114,23 @@ export default function NotaCardItem(props: Props) {
 
     if (dataItem === null) return;
     dataItem[0].NotaId = Nota.id;
-    await axiosInstance
-      .patch(`/posts/${Nota.id}/used/newsletter/`, {
-        newsletterId: currentNewsletterId,
-      })
-      .then((res) => {
-        const newNewsletter = [
-          ...currentNewsletter.slice(0, indexFooter),
-          dataItem[0],
-          ...currentNewsletter.slice(indexFooter),
-        ];
+    // await axiosInstance
+    //   .patch(`/posts/${Nota.id}/used/newsletter/`, {
+    //     newsletterId: currentNewsletterId,
+    //   })
+    //   .then((res) => {
+    const newNewsletter = [
+      ...currentNewsletter.slice(0, indexFooter),
+      dataItem[0],
+      ...currentNewsletter.slice(indexFooter),
+    ];
 
-        dispatch(setcurrentNewsletter(newNewsletter));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    dispatch(setcurrentNewsletter(newNewsletter));
+    dispatch(setMenu({ type: 'none' }));
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
   };
 
   return (
@@ -138,9 +138,10 @@ export default function NotaCardItem(props: Props) {
       <Card
         sx={{
           borderRadius: '8px',
-          maxWidth: '352px',
+          maxWidth: '320px',
+          minWidth: !ChangeStatus ? '195px' : '250px',
+          width: '20%',
           position: 'relative',
-          width: '100%',
         }}
       >
         {/* {post.mediaUrls?.length ? renderSocialMini : null} */}
@@ -193,16 +194,17 @@ export default function NotaCardItem(props: Props) {
             },
           }}
         >
-          {Nota.origin === 'AI' && Nota.content.length === 0 ? (
-            <Image
-              src={Nota.coverImageUrl}
-              alt="post image"
-              style={{
-                objectFit: 'cover',
-                cursor: 'pointer',
-              }}
-            />
-          ) : (
+          {/* {Nota.origin === 'AI' && Nota.content.length === 0 ? ( */}
+          <Image
+            src={Nota.coverImageUrl || '#'}
+            alt="post image"
+            style={{
+              objectFit: 'cover',
+              width: '100%',
+              cursor: 'pointer',
+            }}
+          />
+          {/* ) : (
             <Box
               sx={{
                 transform: 'scale(0.4)',
@@ -214,7 +216,7 @@ export default function NotaCardItem(props: Props) {
                 __html: Nota.content,
               }}
             />
-          )}
+          )} */}
         </Box>
 
         <Box sx={{ padding: '20px' }}>

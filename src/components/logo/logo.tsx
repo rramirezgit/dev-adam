@@ -6,7 +6,6 @@ import { forwardRef } from 'react';
 
 import Box from '@mui/material/Box';
 import NoSsr from '@mui/material/NoSsr';
-import { useTheme } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
 
@@ -21,7 +20,7 @@ export type LogoProps = BoxProps & {
 
 export const Logo = forwardRef<HTMLDivElement, LogoProps>(
   ({ width = 40, height = 40, disableLink = false, className, href = '/', sx, ...other }, ref) => {
-    const theme = useTheme();
+    // const theme = useTheme();
 
     // const gradientId = useId();
 

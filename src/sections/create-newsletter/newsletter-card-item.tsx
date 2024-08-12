@@ -68,58 +68,22 @@ export default function NewsletterCardItem(props: Props) {
     dispatch(setShowEditor(true));
   };
 
-  // const renderSocialMini = (
-  //   <Stack
-  //     direction="row"
-  //     sx={{
-  //       position: 'absolute',
-  //       top: '10px',
-  //       right: '5px',
-  //       zIndex: '2',
-  //     }}
-  //   >
-  //     {newsletter.platforms.map((name, index) => (
-  //       <Box
-  //         key={index}
-  //         sx={{
-  //           width: '28px',
-  //           height: '28px',
-  //           borderRadius: '50%',
-  //           backgroundColor: name === 'twitter' ? theme.palette.background.default : '',
-  //           display: 'flex',
-  //           justifyContent: 'center',
-  //           alignItems: 'center',
-  //           marginRight: '5px',
-  //         }}
-  //       >
-  //         <Image
-  //           src={`/assets/icons/dashboard/post/${name}.svg`}
-  //           alt="post image"
-  //           width={28}
-  //           height={28}
-  //         />
-  //       </Box>
-  //     ))}
-  //   </Stack>
-  // );
-
   return (
     <>
       <Card
         onClick={handleClick}
         sx={{
           borderRadius: '8px',
-          maxWidth: '352px',
+          width: '20%',
+          minWidth: '300px',
+          maxWidth: '320px',
           position: 'relative',
-          width: '100%',
           '&:hover': {
             transform: 'scale(1.02)',
             transition: 'all 0.2s ease',
           },
         }}
       >
-        {/* {post.mediaUrls?.length ? renderSocialMini : null} */}
-
         {newsletter.status === 'DRAFT' &&
         newsletter.id !== '661ec73c3203221c8425c55b' &&
         newsletter.id !== '662c28f84ac5495cd6d60f8a' ? (

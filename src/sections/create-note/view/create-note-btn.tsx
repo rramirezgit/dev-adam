@@ -37,7 +37,7 @@ export default function CreateNotaButton() {
             },
           }}
         >
-          Crear Nueva
+          Crear Nota
         </Button>
       </Stack>
     </Box>

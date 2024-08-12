@@ -51,14 +51,6 @@ export default function CreateNota() {
             onClick={() => {
               showPopup.onTrue();
             }}
-            sx={{
-              ...(showSaved
-                ? {
-                    right: '-45px',
-                    animation: `${pulse} 1s ease-in-out infinite`,
-                  }
-                : { right: '-180px' }),
-            }}
             index={0}
           />
           <ButtonOption

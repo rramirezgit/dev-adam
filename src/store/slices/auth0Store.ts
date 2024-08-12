@@ -21,12 +21,23 @@ const initialState: AuthState = {
   isLoading: false,
 };
 
-export const initializeAuth = createAsyncThunk('auth/initializeAuth', async (_, { dispatch }) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    dispatch(setAuthState({ isAuthenticated: true, accessToken: token }));
+export const initializeAuth = createAsyncThunk(
+  'auth/initializeAuth',
+  async (_, { dispatch, rejectWithValue }) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      // Intentar autorizar el token
+      try {
+        const result = await dispatch(fetchUserAuth0()).unwrap(); // Unwrap para manejar errores
+        dispatch(setAuthState({ isAuthenticated: true, accessToken: token, userAuth0: result }));
+      } catch (error) {
+        // Si la autorización falla, desloguear y manejar el error
+        localStorage.removeItem('accessToken');
+        dispatch(logout());
+      }
+    }
   }
-});
+);
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -136,10 +147,15 @@ const authSlice = createSlice({
     },
     setAuthState(
       state,
-      action: PayloadAction<{ isAuthenticated: boolean; accessToken: string | null }>
+      action: PayloadAction<{
+        isAuthenticated: boolean;
+        accessToken: string | null;
+        userAuth0?: any | null;
+      }>
     ) {
       state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
+      state.userAuth0 = action.payload?.userAuth0 || null;
     },
   },
   extraReducers: (builder) => {

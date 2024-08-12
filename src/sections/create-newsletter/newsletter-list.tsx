@@ -25,15 +25,11 @@ export default function NewsletterList({ news }: Props) {
     <>
       <Box
         gap={3}
-        display="grid"
-        gridTemplateColumns={{
-          xs: 'repeat(2, 1fr)',
-          sm: 'repeat(3, 1fr)',
-          md: 'repeat(4, 1fr)',
-          lg: 'repeat(5, 1fr)',
-        }}
+        display="flex"
         sx={{
-          justifyItems: { xs: 'center', sm: 'stretch', md: 'stretch', lg: 'stretch' },
+          flexWrap: 'wrap',
+          width: '100%',
+          justifyContent: 'center',
         }}
       >
         {renderNews.map((n) => (

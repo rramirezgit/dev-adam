@@ -71,6 +71,9 @@ export default function AddTemplateMenu() {
     if (currentTab === 'saved' || currentTab === 'AI') {
       getNotes();
     }
+    return () => {
+      setNotes([]);
+    };
   }, [currentTab, getNotes]);
 
   if (loading) {
@@ -137,10 +140,11 @@ export default function AddTemplateMenu() {
         <>
           {notes.map((item: any, index: number) => {
             if (item.origin === 'AI') return null;
+            if (item?.newsletterId && item.newsletterId?.length > 0) return null;
 
             return (
               <Grid item xs={6} key={index}>
-                <NotaCardItem Nota={item} preview />
+                <NotaCardItem Nota={item} preview callback={getNotes} />
               </Grid>
             );
           })}
@@ -151,9 +155,11 @@ export default function AddTemplateMenu() {
         <>
           {notes.map((item: any, index: number) => {
             if (item.origin !== 'AI') return null;
+            if (item?.newsletterId && item.newsletterId?.length > 0) return null;
+
             return (
               <Grid item xs={6} key={index}>
-                <NotaCardItem Nota={item} preview />
+                <NotaCardItem Nota={item} preview callback={getNotes} />
               </Grid>
             );
           })}

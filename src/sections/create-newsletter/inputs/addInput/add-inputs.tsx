@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable jsx-a11y/alt-text */
 import { useState } from 'react';
 import { m } from 'framer-motion';

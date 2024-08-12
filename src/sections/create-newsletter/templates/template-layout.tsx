@@ -190,11 +190,11 @@ const TooltipNewletter = ({
 
     const currentTemplate = currentNewsletter.find((item) => item.templateId === templateId);
 
-    if (currentTemplate?.NotaId && currentTemplate?.NotaId !== '') {
-      await axiosInstance.patch(`/posts/${currentTemplate?.NotaId}/used/newsletter/`, {
-        newsletterId: '',
-      });
-    }
+    // if (currentTemplate?.NotaId && currentTemplate?.NotaId !== '') {
+    //   await axiosInstance.patch(`/posts/${currentTemplate?.NotaId}/used/newsletter/`, {
+    //     newsletterId: '',
+    //   });
+    // }
   };
 
   const handleClickMoveNewsletter = (direction: string) => {

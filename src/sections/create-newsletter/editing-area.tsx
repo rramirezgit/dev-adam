@@ -12,7 +12,6 @@ export default function NewsletterEditingArea() {
       sx={(theme) => ({
         display: 'flex',
         flexDirection: 'column',
-        height: `calc(100vh - ${40 * 2.6}px)`,
         alignItems: 'center',
         transition: theme.transitions.create('all', {
           easing: theme.transitions.easing.easeInOut,
