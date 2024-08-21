@@ -105,6 +105,7 @@ export interface NeswletterState {
   dataImageCrop: imageCrop | null;
   dataImageCroped: imageCrop | null;
   emails: string[];
+  emailsAprob: string[];
   deleted: boolean;
   header: boolean;
   subject: string;

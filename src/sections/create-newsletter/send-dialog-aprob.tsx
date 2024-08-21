@@ -1,7 +1,5 @@
-import type { RootState } from 'src/store';
-
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 
 import { LoadingButton } from '@mui/lab';
 import {
@@ -18,7 +16,7 @@ import {
   DialogContentText,
 } from '@mui/material';
 
-import { setEmails } from 'src/store/slices/newsletterStore';
+import { setEmailsAprob } from 'src/store/slices/newsletterStore';
 
 import { Iconify } from 'src/components/iconify';
 
@@ -34,8 +32,6 @@ export default function SendDialogAprob({ open, setOpen, handleclickRevision }: 
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const emails = useSelector((state: RootState) => state.newsletter.emails);
-
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -43,9 +39,12 @@ export default function SendDialogAprob({ open, setOpen, handleclickRevision }: 
   const handlechangeEmails = (e: any) => {
     const email = e.target.value;
 
-    dispatch(setEmails([...emails, email]));
-    setEmailsLocal([...emails, email]);
+    dispatch(setEmailsAprob([email]));
   };
+
+  useEffect(() => {
+    dispatch(setEmailsAprob(emailslocal));
+  }, []);
 
   return (
     <Dialog
@@ -72,17 +71,6 @@ export default function SendDialogAprob({ open, setOpen, handleclickRevision }: 
                 width: '80%',
               }}
             >
-              {/* <TextField
-                id="max-width"
-                type="email"
-                placeholder="test@gmail.com;prueba@gmail.com"
-                onChange={handlechangeEmails}
-                fullWidth
-                sx={{
-                  marginTop: '10px',
-                  width: '100%',
-                }}
-              /> */}
               <FormGroup onChangeCapture={handlechangeEmails}>
                 <FormControlLabel
                   control={<Checkbox value="rafamusi@adac.mx" />}
@@ -92,14 +80,14 @@ export default function SendDialogAprob({ open, setOpen, handleclickRevision }: 
                   control={<Checkbox value="leonchavez@adac.mx" />}
                   label="Leon Chavez"
                 />
-                {/* <FormControlLabel
+                <FormControlLabel
                   control={<Checkbox value="carolina.ruiz@adac.mx" />}
                   label="Carolina Ruiz"
-                /> */}
-                <FormControlLabel
+                />
+                {/* <FormControlLabel
                   control={<Checkbox value="97.rramirez@gmail.com" />}
                   label="Ricardo (Pruebas desarrollo)"
-                />
+                /> */}
               </FormGroup>
               <Box>
                 {errorsEmails.map((item) => (

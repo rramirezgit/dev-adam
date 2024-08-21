@@ -2,7 +2,7 @@ import type { RootState } from 'src/store';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, useTheme, keyframes } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
@@ -22,7 +22,6 @@ export default function CreateNota() {
   const dispatch = useDispatch();
 
   const currentNotaId = useSelector((state: RootState) => state.note.currentNotaId);
-  const showSaved = useSelector((state: RootState) => state.note.showSaved);
 
   const { showPopup, DialogosaveNota } = useSaveDialogNota();
 
@@ -32,12 +31,6 @@ export default function CreateNota() {
       <NotaEditingArea />
     </Box>
   );
-
-  const pulse = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-`;
 
   return (
     <>

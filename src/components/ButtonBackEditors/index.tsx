@@ -3,28 +3,15 @@
 import type { RootState } from 'src/store';
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, IconButton, Typography } from '@mui/material';
 
 import { useRouter } from 'src/routes/hooks';
 
-import {
-  setMenu,
-  setErrors,
-  setShowEditor,
-  setcurrentNota,
-  setcurrentNotaID,
-  setcurrentNotaDescription,
-} from 'src/store/slices/noteStore';
-import {
-  setMenu as setMenuNewsletter,
-  setErrors as setErrorsNewsletter,
-  setShowEditor as setShowEditorNewsletter,
-  setcurrentNewsletter as setCurrentNewsletterNewsletter,
-  setcurrentNewsletterID as setCurrentNewsletterIdNewsletter,
-} from 'src/store/slices/newsletterStore';
+import useCleanStateNote from 'src/store/cleanStore/note';
+import useCleanStateNewsletter from 'src/store/cleanStore/newsletter';
 
 import useSaveDialogNota from 'src/sections/create-note/dialog-save';
 import useSendNewsletter from 'src/sections/create-newsletter/header-editing';
@@ -51,30 +38,14 @@ const ButtonBackEditors = () => {
 
   const router = useRouter();
 
-  const dispatch = useDispatch();
-
   const { showPopup, DialogosaveNota } = useSaveDialogNota();
 
   const { showPopupNewsletterSave, DialogSaveNewsletter } = useSendNewsletter();
 
+  const cleanStateNote = useCleanStateNote();
+  const cleanStateNewsletter = useCleanStateNewsletter();
+
   const newsletterSaveed = newsletterList.find((news) => news.id === currentNewsletterId);
-
-  const cleanStateNote = () => {
-    dispatch(setErrors([]));
-    dispatch(setMenu({ type: 'none' }));
-    dispatch(setShowEditor(false));
-    dispatch(setcurrentNotaID(''));
-    dispatch(setcurrentNota(null));
-    dispatch(setcurrentNotaDescription(''));
-  };
-
-  const cleanStateNewsletter = () => {
-    dispatch(setErrorsNewsletter([]));
-    dispatch(setShowEditorNewsletter(false));
-    dispatch(setMenuNewsletter({ type: 'none' }));
-    dispatch(setCurrentNewsletterNewsletter(null));
-    dispatch(setCurrentNewsletterIdNewsletter(''));
-  };
 
   const backNewsletterList = () => {
     if (pathname?.includes('create-newsletter')) {
@@ -96,7 +67,6 @@ const ButtonBackEditors = () => {
         const objDataExist = JSON.parse(NotaSaved.objData);
         const objDataCurrent = currentNota;
         const notaEqual = deepEqual(objDataExist, objDataCurrent);
-
         if (!notaEqual) {
           showPopup.onTrue();
         } else {

@@ -22,8 +22,6 @@ import {
   DialogTitle,
 } from '@mui/material';
 
-import { useRouter } from 'src/routes/hooks';
-
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import useNotes from 'src/utils/useNotes';
@@ -60,13 +58,13 @@ export default function NotaCardItem(props: Props) {
   const { Nota, preview, ChangeStatus, callback } = props;
   const theme = useTheme();
   const dispatch = useDispatch();
-  const routes = useRouter();
   const [loading, setLoading] = useState(false);
   const showPopupDelete = useBoolean();
 
   const { loadNotes } = useNotes();
 
   const currentNewsletter = useSelector((state: RootState) => state.newsletter.currentNewsletter);
+  const selectedTab = useSelector((state: RootState) => state.note.selectedTab);
 
   const axiosInstance = useAxios();
 
@@ -320,7 +318,7 @@ export default function NotaCardItem(props: Props) {
                   axiosInstance.delete(`/posts/${Nota.id}`).then((res) => {
                     setLoading(false);
                     dispatch(setDeleted(true));
-                    routes.refresh();
+                    loadNotes({ tab: selectedTab });
                     showPopupDelete.onFalse();
                   });
                 }}

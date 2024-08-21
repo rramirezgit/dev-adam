@@ -83,6 +83,16 @@ export function NavOptions() {
   const renderLayout = (
     <div>
       <TextField
+        label="Link de la nota al publicar"
+        variant="filled"
+        color="primary"
+        fullWidth
+        multiline
+        value={`https://adac.mx/view-online/${currentNotaId}/`}
+        style={{ marginBottom: '20px' }}
+      />
+
+      <TextField
         disabled={!currentNotaId}
         label="Titulo de la nota"
         variant="outlined"

@@ -1,7 +1,12 @@
 'use client';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { imageCrop, Tmenudata, NeswletterState, newsletterItemList } from 'src/types/newsletter';
+import type {
+  imageCrop,
+  Tmenudata,
+  NeswletterState,
+  newsletterItemList,
+} from 'src/types/newsletter';
 import type {
   TagInput,
   TypeTemplateContent,
@@ -34,6 +39,7 @@ const initialState: NeswletterState = {
   dataImageCrop: null,
   dataImageCroped: null,
   emails: [],
+  emailsAprob: [],
   header: true,
   showEditor: false,
   deleted: false,
@@ -281,10 +287,10 @@ export const NewsletterSlice = createSlice({
     },
 
     /// Image crop
-    setDataImageCrop: (state, action: PayloadAction<imageCrop>) => {
+    setDataImageCrop: (state, action: PayloadAction<imageCrop | null>) => {
       state.dataImageCrop = action.payload;
     },
-    setDataImageCroped: (state, action: PayloadAction<imageCrop>) => {
+    setDataImageCroped: (state, action: PayloadAction<imageCrop | null>) => {
       state.dataImageCroped = action.payload;
     },
     updateImageDataNewsletter: (
@@ -474,6 +480,9 @@ export const NewsletterSlice = createSlice({
     setEmails: (state, action: PayloadAction<string[]>) => {
       state.emails = action.payload;
     },
+    setEmailsAprob: (state, action: PayloadAction<string[]>) => {
+      state.emailsAprob = action.payload;
+    },
     setDeleted: (state, action: PayloadAction<boolean>) => {
       state.deleted = action.payload;
     },
@@ -570,6 +579,7 @@ export const {
   changeColorNewslettertemplate,
   changeBGColorNewslettertemplate,
   setEmails,
+  setEmailsAprob,
   setDeleted,
   setHeader,
   setSubject,

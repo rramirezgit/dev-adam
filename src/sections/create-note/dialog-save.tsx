@@ -1,6 +1,6 @@
 import type { RootState, AppDispatch } from 'src/store';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
@@ -48,11 +48,7 @@ const useSaveDialogNota = () => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [NotaSaved, setNotaSaved] = useState<any>();
-
-  useEffect(() => {
-    setNotaSaved(NotaList.find((news: any) => news.id === currentNotaId));
-  }, [NotaList, currentNotaId]);
+  const NotaSaved: any = NotaList.find((news: any) => news.id === currentNotaId);
 
   const buildHtml = (option = '') => {
     const componenteComoString = renderToString(
@@ -106,6 +102,7 @@ const useSaveDialogNota = () => {
       content: buildHtml(),
       objData: JSON.stringify(currentNota),
     };
+
     let result = null;
 
     if (NotaSaved || (NotaSaved?.origin === 'AI' && !NotaSaved?.content)) {

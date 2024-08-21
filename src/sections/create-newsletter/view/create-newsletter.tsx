@@ -1,12 +1,9 @@
 import type { RootState } from 'src/store';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Paper, useTheme } from '@mui/material';
-
-import { useRouter } from 'src/routes/hooks';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
@@ -14,8 +11,6 @@ import { setOpenNewsletterDrawer } from 'src/store/slices/newsletterStore';
 
 import ButtonOption from 'src/components/drawer-news/buton-option-drawer';
 import { NewsletterDrawer } from 'src/components/drawer-news/newsletter-drawer';
-
-import { useAxios } from 'src/auth/axios/axios-provider';
 
 import MenuNeswletter from '../menu/menu-view';
 import useSendNewsletter from '../header-editing';
@@ -32,12 +27,6 @@ export default function CreateNewsletter() {
 
   const { showPopupNewsletterSave, DialogSaveNewsletter } = useSendNewsletter();
 
-  const router = useParams<any>();
-
-  const navegate = useRouter();
-
-  const { NewsletterId } = router;
-
   const newsletterList = useSelector((state: RootState) => state.newsletter.newsletterList);
   const currentNewsletterId = useSelector(
     (state: RootState) => state.newsletter.currentNewsletterId
@@ -45,11 +34,7 @@ export default function CreateNewsletter() {
 
   const newsletter: any = newsletterList.find((item) => item.id === currentNewsletterId);
 
-  const subject = useSelector((state: RootState) => state.newsletter.subject);
-
   const dispatch = useDispatch();
-
-  const axiosInstance = useAxios();
 
   useEffect(() => {
     if (newsletter) {

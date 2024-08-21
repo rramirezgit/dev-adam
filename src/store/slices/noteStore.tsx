@@ -330,10 +330,10 @@ export const NoteSlice = createSlice({
     setErrors: (state, action: PayloadAction<any>) => {
       state.errors = action.payload;
     },
-    setDataImageCrop: (state, action: PayloadAction<imageCrop>) => {
+    setDataImageCrop: (state, action: PayloadAction<imageCrop | null>) => {
       state.dataImageCrop = action.payload;
     },
-    setDataImageCroped: (state, action: PayloadAction<imageCrop>) => {
+    setDataImageCroped: (state, action: PayloadAction<imageCrop | null>) => {
       state.dataImageCroped = action.payload;
     },
     updateImageDataNota: (
@@ -586,6 +586,7 @@ export const NoteSlice = createSlice({
       })
       .addCase(createNote.fulfilled, (state, action: PayloadAction<NotaItemList>) => {
         state.loading = false;
+        state.currentNotaId = action.payload.id;
         state.noteList.push(action.payload);
       })
       .addCase(createNote.rejected, (state) => {

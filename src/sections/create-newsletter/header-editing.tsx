@@ -68,6 +68,7 @@ const useSendNewsletter = () => {
   const newsletterSaveed = newsletterList.find((news) => news.id === currentNewsletterId);
   const errors = useSelector((state: RootState) => state.newsletter.errors);
   const emails = useSelector((state: RootState) => state.newsletter.emails);
+  const emailsAprob = useSelector((state: RootState) => state.newsletter.emailsAprob);
 
   const [openPopover, setOpenPopove] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -123,7 +124,7 @@ const useSendNewsletter = () => {
           ? {
               subject: `${Subject}`,
               content: body,
-              approverEmails: emails,
+              approverEmails: emailsAprob,
             }
           : option === 'subscriptores'
             ? {
@@ -150,11 +151,7 @@ const useSendNewsletter = () => {
                   setOpenAprob(false);
                   setOpenSchedule(false);
                   setOpenSendSubs(false);
-                  // dispatch(setcurrentNewsletter([]));
-                  // dispatch(setcurrentNewsletterID(''));
                   dispatch(setErrors([]));
-                  // dispatch(setShowEditor(false));
-                  // router.push('/dashboard/create-newsletter');
                 }
               });
           }
@@ -317,20 +314,32 @@ const useSendNewsletter = () => {
               setSaving(true);
               await axiosInstance
                 .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletterPatch)
-                .then((res) => {
+                .then(async (res) => {
                   if (res.status === 200 || res.status === 201) {
-                    dispatch(setcurrentNewsletterID(res.data.id));
-                    dispatch(setNeswletterList([...newsletterList, res.data]));
-                    setSaving(false);
+                    await axiosInstance
+                      .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletterPost)
+                      .then(async (res2) => {
+                        if (res2.status === 200 || res2.status === 201) {
+                          dispatch(setcurrentNewsletterID(res.data.id));
+                          dispatch(setNeswletterList([...newsletterList, res.data]));
+                          setSaving(false);
+                        }
+                      });
                   }
                 });
             } else {
               setSaving(true);
-              await axiosInstance.post('/newsletters', postDataNewsletterPost).then((res) => {
+              await axiosInstance.post('/newsletters', postDataNewsletterPost).then(async (res) => {
                 if (res.status === 200 || res.status === 201) {
-                  dispatch(setcurrentNewsletterID(res.data.id));
-                  dispatch(setNeswletterList([...newsletterList, res.data]));
-                  setSaving(false);
+                  await axiosInstance
+                    .patch(`/newsletters/${res.data.id}`, postDataNewsletterPatch)
+                    .then(async (res2) => {
+                      if (res2.status === 200 || res2.status === 201) {
+                        dispatch(setcurrentNewsletterID(res.data.id));
+                        dispatch(setNeswletterList([...newsletterList, res.data]));
+                        setSaving(false);
+                      }
+                    });
                 }
               });
             }
@@ -459,9 +468,12 @@ const useSendNewsletter = () => {
   const handleclickAcept = useCallback(
     async ({ exitEditor }: { exitEditor: boolean }) => {
       setLoading(true);
-      const postDataNewsletter = {
+      const postDataNewsletterContent = {
         subject: Subject,
         content: await buildHtml(),
+      };
+
+      const postDataNewsletterObjData = {
         objData: JSON.stringify(currentNewsletter),
       };
 
@@ -472,22 +484,23 @@ const useSendNewsletter = () => {
         const newsleterEsqual = deepEqual(objDataExist, objDataCurrent);
         if (!newsleterEsqual) {
           await axiosInstance
-            .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletter)
-            .then((res) => {
-              if (res.status === 200 || res.status === 201) {
-                /// actualizar el newsletter
-
-                const newsletterIndex = newsletterList.findIndex(
-                  (item) => item.id === currentNewsletterId
-                );
-
-                const newNewsletterList = [...newsletterList];
-
-                newNewsletterList.splice(newsletterIndex, 1, res.data);
-
-                dispatch(setNeswletterList(newNewsletterList));
-
-                callbackFunction({ exitEditor });
+            .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletterContent)
+            .then(async (res1) => {
+              if (res1.status === 200 || res1.status === 201) {
+                await axiosInstance
+                  .patch(`/newsletters/${currentNewsletterId}`, postDataNewsletterObjData)
+                  .then((res) => {
+                    if (res.status === 200 || res.status === 201) {
+                      /// actualizar el newsletter
+                      const newsletterIndex = newsletterList.findIndex(
+                        (item) => item.id === currentNewsletterId
+                      );
+                      const newNewsletterList = [...newsletterList];
+                      newNewsletterList.splice(newsletterIndex, 1, res.data);
+                      dispatch(setNeswletterList(newNewsletterList));
+                      callbackFunction({ exitEditor });
+                    }
+                  });
               }
             });
 

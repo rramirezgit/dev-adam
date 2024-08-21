@@ -1,6 +1,8 @@
+import type { RootState } from 'src/store';
+
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { LoadingButton } from '@mui/lab';
 import {
@@ -32,6 +34,8 @@ export default function SendDialog({ open, setOpen, handleclickRevision }: Props
   const [loading, setLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+
+  const emailsAprob = useSelector((state: RootState) => state.newsletter.emailsAprob);
 
   const theme = useTheme();
 
